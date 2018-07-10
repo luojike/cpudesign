@@ -1,15 +1,69 @@
 #include <cstdint>
+//#include <cstdio>
 #include <iostream>
+
+using namespace std;
 
 // 演示指令
 #define AUIPC 0b0010111
-#define LHU 0b0000011
+
 #define FENCE 0b0001111
-#define EBREAK 0b1110011
-#define CSRRWI 0b1110011
+#define ECSR 0b1110011
+//#define CSRRWI 0b1110011
+
+// 已分配指令
+#define LUI //WANGYANG
+#define JAL
+#define JALR
+#define BEQ
+#define BNE
+#define BLT
+#define BGE//WANGYANG
+#define BLTU
+#define BGEU
+#define LB
+#define LH
+#define LW
+#define LBU//WANGYANG
+#define SB
+#define SH
+#define SW
+#define ADDI
+#define SLTI
+#define SLTIU//WANGYANG
+#define XORI
+#define ORI
+#define ANDI
+#define SLLI
+#define SRLI
+#define SRAI//WANGYANG
+#define ADD
+#define SUB
+#define SLL
+#define SLT
+#define SLTU
+
+// 丁增
+#define LHU 0b0000011
+#define XOR
+#define SRL
+
+// 罗松俄珠
+#define SRA
+#define OR
+#define AND
+
+// 未分配的指令
+
+#define FENCE_I
+#define ECALL
+#define CSRRW
+#define CSRRS
+#define CSRRC
+#define CSRRSI
+#define CSRRCI
 
 
-// 大家可以对主程序做修改
 
 // 内存模拟器
 // 内存模拟器有关数据
@@ -69,7 +123,7 @@ void writeWord(unsigned int address, uint32_t data) {
 // 这个函数直接写入要测试的指令
 void progMem() {
 	// 从地址0开始写入测试指令
-	writeWord(0, );
+	writeWord(0, (1 << 12) | (5 << 7) | (AUIPC));
 }
 
 
@@ -122,9 +176,14 @@ void showRegs() {
 int main(int argc, char const *argv[]) {
 	/* code */
 	allocMem(4096);
+	progMem();
+
 	PC = 0;
 
-	while(1) {
+	char c = 'Y';
+
+	while(c != 'n') {
+		cout << "执行当前指令之前寄存器的内容" << endl;
 		showRegs();
 
 		IR = readWord(PC);
@@ -135,6 +194,7 @@ int main(int argc, char const *argv[]) {
 		switch(opcode) {
 			case AUIPC:
 				cout << "Do AUIPC" << endl;
+				R[rd] = PC + (imm31_12u << 12);
 				break;
 			case LHU:
 				cout << "Do LHU" << endl;
@@ -142,14 +202,19 @@ int main(int argc, char const *argv[]) {
 			case FENCE:
 				cout << "Do FENCE" << endl;
 				break;
-			case EBREAK:
+			case ECSR:
 				cout << "Do EBREAK" << endl;
 				break;
-			case CSRRWI:
-				cout << "Do CSRRWI" << endl;
+			default:
+				cout << "Unkown instruction" << endl;
 				break;
 		}
 
+		cout << "执行当前指令之后寄存器的内容" << endl;
+		showRegs();
+
+		cout << "继续模拟？（Y/n)" << endl;
+		cin.get(c);
 	}
 
 	freeMem();
