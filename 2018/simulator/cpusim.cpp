@@ -5,10 +5,10 @@
 using namespace std;
 
 // 演示指令
-#define AUIPC 0b0010111
+#define AUIPC 0x17
 
-#define FENCE 0b0001111
-#define ECSR 0b1110011
+#define FENCE 0x0F
+#define ECSR 0x73
 //#define CSRRWI 0b1110011
 
 // 已分配指令
@@ -44,7 +44,7 @@ using namespace std;
 #define SLTU
 
 // 丁增
-#define LHU 0b0000011
+#define LHU 0x03
 #define XOR
 #define SRL
 
@@ -144,24 +144,24 @@ unsigned int imm20j, imm10_1j, imm11j, imm19_12j;
 
 // CPU模拟器有关函数
 void decode(uint32_t instruction) {
-	opcode = instruction & 0b01111111;
-	rd = (instruction & 0b0111110000000) >> 7;
-	rs1 = (instruction & 0b011111000000000000000) >> 15;
-	rs2 = (instruction & 0b01111100000000000000000000) >> 20;
-	funct3 = (instruction & 0b0111000000000000) >> 12;
+	opcode = instruction & 0x7F;
+	rd = (instruction & 0x0F80) >> 7;
+	rs1 = (instruction & 0xF8000) >> 15;
+	rs2 = (instruction & 0x1F00000) >> 20;
+	funct3 = (instruction & 0x7000) >> 12;
 	funct7 = instruction >> 25;
 	imm11_0i = instruction >> 20;
 	imm11_5s = instruction >> 25;
-	imm4_0s = (instruction & 0b0111110000000) >> 7;
+	imm4_0s = (instruction & 0x0F80) >> 7;
 	imm12b = instruction >> 31;
-	imm10_5b = (instruction >> 25) & 0b0111111;
-	imm4_1b = (instruction & 0b0111100000000) >> 8;
-	imm11b = (instruction & 0b010000000) >> 7;
+	imm10_5b = (instruction >> 25) & 0x3F;
+	imm4_1b = (instruction & 0x0F00) >> 8;
+	imm11b = (instruction & 0x080) >> 7;
 	imm31_12u = instruction >> 12;
 	imm20j = instruction >> 31;
-	imm10_1j = (instruction >> 21) & 0b01111111111;
+	imm10_1j = (instruction >> 21) & 0x3FF;
 	imm11j = (instruction >> 20) & 1;
-	imm19_12j = (instruction >> 12) & 0b011111111;
+	imm19_12j = (instruction >> 12) & 0x0FF;
 }
 
 void showRegs() {
