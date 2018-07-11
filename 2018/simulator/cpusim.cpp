@@ -225,7 +225,8 @@ int main(int argc, char const *argv[]) {
 
 		switch(opcode) {
 			case LUI:
-				//TODO: 补充指令模拟代码:
+				cout << "Do LUI" << endl;
+				R[rd] = imm31_12u << 12;
 				break;
 			case AUIPC:
 				cout << "Do AUIPC" << endl;
@@ -249,7 +250,9 @@ int main(int argc, char const *argv[]) {
 						//TODO: 补充指令模拟代码:
 						break;
 					case BGE:
-						//TODO: 补充指令模拟代码:
+						cout << "Do BGE" << endl;
+						if(rs1>=rs2)
+							PC = PC + ((imm12b << 12) | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1));
 						break;
 					case BLTU:
 						//TODO: 补充指令模拟代码:
@@ -273,7 +276,8 @@ int main(int argc, char const *argv[]) {
 						//TODO: 补充指令模拟代码:
 						break;
 					case LBU:
-						//TODO: 补充指令模拟代码:
+						cout << "Do LBU" << endl;
+						R[rd] = R[imm11_0i + rs1] & 0x07;
 						break;
 					case LHU:
 						//TODO: 补充指令模拟代码:
@@ -306,7 +310,11 @@ int main(int argc, char const *argv[]) {
 						//TODO: 补充指令模拟代码:
 						break;
 					case SLTIU:
-						//TODO: 补充指令模拟代码:
+						cout << "Do SLTIU" << endl;
+						if(rs1<imm11_0i)
+							R[rd] = 1;
+						else
+							R[rd] = 0;
 						break;
 					case XORI:
 						//TODO: 补充指令模拟代码:
@@ -326,8 +334,11 @@ int main(int argc, char const *argv[]) {
 								//TODO: 补充指令模拟代码:
 								break;
 							case SRAI:
-								//TODO: 补充指令模拟代码:
-								break;
+								cout << "Do SRAI" << endl;
+								R[rd] = (rs1 & 0x10) + (rs1 >> 1);
+								for(int i=1;i<(imm11_0i & 0x1F);i++){
+									R[rd] = (R[rd] & 0x10) | (R[rd] >> 1);
+								}break;
 							default:
 								cout << "ERROR: unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
 						}
