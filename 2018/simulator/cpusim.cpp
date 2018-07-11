@@ -7,61 +7,95 @@ using namespace std;
 // 演示指令
 #define AUIPC 0x17
 
-#define FENCE 0x0F
-#define ECALLBREAKCSRX 0x73
-//#define CSRRWI 0b1110011
+// 分支类型的指令，其中BRANCH用于表示共同的opcode
+#define BRANCH 0x63
+
+#define BEQ 0x0
+#define BNE 0x1
+#define BLT 0x4
+#define BGE 0x5
+#define BLTU 0x6
+#define BGEU 0x7
+
+
+// 装载类型的指令，其中LOAD用于表示共同的opcode
+#define LOAD 0x03
+
+#define LB 0x0
+#define LH 0x1
+#define LW 0x2
+#define LBU 0x4
+#define LHU 0x5
+
+
+// 保存类型的指令，其中STORE用于表示共同的opcode
+#define STORE 0x23
+
+#define SB 0x0
+#define SH 0x1
+#define SW 0x2
+
 
 // 已分配指令
-#define LUI //WANGYANG
-#define JAL
-#define JALR
-#define BEQ
-#define BNE
-#define BLT
-#define BGE//WANGYANG
-#define BLTU
-#define BGEU
-#define LB
-#define LH
-#define LW
-#define LBU//WANGYANG
-#define SB
-#define SH
-#define SW
-#define ADDI
-#define SLTI
-#define SLTIU//WANGYANG
-#define XORI
-#define ORI
-#define ANDI
-#define SLLI
-#define SRLI
-#define SRAI//WANGYANG
-#define ADD
-#define SUB
-#define SLL
-#define SLT
-#define SLTU
+#define LUI 0x37
+#define JAL 0x6F
+#define JALR 0x67
 
-// 丁增
-#define LHU 0x03
-#define XOR
-#define SRL
+// 有一个源操作数是立即数的算术逻辑运算指令，采用 ALUR1 作为共同的opcode符号
+#define ALUR1 0x13
 
-// 罗松俄珠
-#define SRA
-#define OR
-#define AND
+#define ADDI 0x0
+#define SLTI 0x2
+#define SLTIU 0x3
+#define XORI 0x4
+#define ORI 0x6
+#define ANDI 0x7
+#define SLLI 0x1
 
-// 未分配的指令
+#define SHR 0x5
 
-#define FENCE_I
-#define ECALL
-#define CSRRW
-#define CSRRS
-#define CSRRC
-#define CSRRSI
-#define CSRRCI
+#define SRLI 0x0
+#define SRAI 0x20
+
+
+// 源操作数都来自于寄存器的算术逻辑运算指令，采用 ALUR2 作为共同的opcode符号
+#define ALUR2 0x33
+
+#define ADDSUB 0x0
+#define ADD 0x0
+#define SUB 0x20
+
+#define SLL 0x1
+#define SLT 0x2
+#define SLTU 0x3
+#define XOR 0x4
+#define OR 0x6
+#define AND 0x7
+
+#define SRLA 0x5
+
+#define SRL 0x0
+#define SRA 0x20
+
+// 另外分配的指令
+
+#define FENCES 0x0F
+#define FENCE 0x0
+#define FENCE_I 0x1
+
+#define CSRX 0x73
+
+#define CALLBREAK 0x0
+#define ECALL 0x0
+#define EBREAK 0x1
+
+#define CSRRW 0x1
+#define CSRRS 0x2
+#define CSRRC 0x3
+#define CSRRWI 0x5
+#define CSRRSI 0x6
+#define CSRRCI 0x7
+
 
 
 
@@ -192,21 +226,216 @@ int main(int argc, char const *argv[]) {
 		decode(IR);
 
 		switch(opcode) {
+			case LUI:
+				//TODO: 补充指令模拟代码:
+				break;
 			case AUIPC:
 				cout << "Do AUIPC" << endl;
 				R[rd] = PC + (imm31_12u << 12);
 				break;
-			case LHU:
-				cout << "Do LHU" << endl;
+			case JAL:
+				//TODO: 补充指令模拟代码:
 				break;
-			case FENCE:
-				cout << "Do FENCE" << endl;
+			case JALR:
+				//TODO: 补充指令模拟代码:
 				break;
-			case ECSR:
-				cout << "Do EBREAK" << endl;
+			case BRANCH:
+				switch(funct3) {
+					case BEQ:
+						//TODO: 补充指令模拟代码:
+						break;
+					case BNE:
+						//TODO: 补充指令模拟代码:
+						break;
+					case BLT:
+						//TODO: 补充指令模拟代码:
+						break;
+					case BGE:
+						//TODO: 补充指令模拟代码:
+						break;
+					case BLTU:
+						//TODO: 补充指令模拟代码:
+						break;
+					case BGEU:
+						//TODO: 补充指令模拟代码:
+						break;
+					default:
+						cout << "ERROR: Unknown funct3 in BRANCH instruction " << IR << endl;
+				}
+				break;
+			case LOAD:
+				switch(funct3) {
+					case LB:
+						//TODO: 补充指令模拟代码:
+						break;
+					case LH:
+						//TODO: 补充指令模拟代码:
+						break;
+					case LW:
+						//TODO: 补充指令模拟代码:
+						break;
+					case LBU:
+						//TODO: 补充指令模拟代码:
+						break;
+					case LHU:
+						//TODO: 补充指令模拟代码:
+						break;
+					default:
+						cout << "ERROR: Unknown funct3 in LOAD instruction " << IR << endl;
+				}
+				break;
+			case STORE:
+				switch(funct3) {
+					case SB:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SH:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SW:
+						//TODO: 补充指令模拟代码:
+						break;
+					default:
+						cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
+				}
+				break;
+			case ALUR1:
+				switch(funct3) {
+					case ADDI:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SLTI:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SLTIU:
+						//TODO: 补充指令模拟代码:
+						break;
+					case XORI:
+						//TODO: 补充指令模拟代码:
+						break;
+					case ORI:
+						//TODO: 补充指令模拟代码:
+						break;
+					case ANDI:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SLLI:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SHR:
+						switch(imm11_0i >> 5) {
+							case SRLI:
+								//TODO: 补充指令模拟代码:
+								break;
+							case SRAI:
+								//TODO: 补充指令模拟代码:
+								break;
+							default:
+								cout << "ERROR: unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
+						}
+						break;
+					default:
+						cout << "ERROR: unknown funct3 in ALUR1 instruction " << IR << endl;
+				}
+				break;
+			case ALUR2:
+				switch(funct3) {
+					case ADDSUB:
+						switch(funct7) {
+							case ADD:
+								//TODO: 补充指令模拟代码:
+								break;
+							case SUB:
+								//TODO: 补充指令模拟代码:
+								break;
+							default:
+								cout << "ERROR: unknown funct7 in ALUR2 ADDSUB instruction " << IR << endl;
+						}
+						break;
+					case SLL:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SLT:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SLTU:
+						//TODO: 补充指令模拟代码:
+						break;
+					case XOR:
+						//TODO: 补充指令模拟代码:
+						break;
+					case OR:
+						//TODO: 补充指令模拟代码:
+						break;
+					case AND:
+						//TODO: 补充指令模拟代码:
+						break;
+					case SRLA:
+						switch(funct7) {
+							case SRL:
+								//TODO: 补充指令模拟代码:
+								break;
+							case SRA:
+								//TODO: 补充指令模拟代码:
+								break;
+							default:
+								cout << "ERROR: unknown funct7 in ALUR2 SRLA instruction " << IR << endl;
+						}
+						break;
+					default:
+						cout << "ERROR: unknown funct3 in ALUR2 instruction " << IR << endl;
+				}
+				break;
+			case FENCES:
+				switch(funct3) {
+					case FENCE:
+						//TODO: 补充指令模拟代码:
+						break;
+					case FENCE_I:
+						//TODO: 补充指令模拟代码:
+						break;
+					default:
+						cout << "ERROR: unknown funct3 in FENCES instruction " << IR << endl;
+				}
+				break;
+			case CSRX:
+				switch(funct3) {
+					case CALLBREAK:
+						switch(imm11_0i) {
+							case ECALL:
+								//TODO: 补充指令模拟代码:
+								break;
+							case EBREAK:
+								//TODO: 补充指令模拟代码:
+								break;
+							default:
+								cout << "ERROR: unknown imm11_0i in CSRX CALLBREAK instruction " << IR << endl;
+						}
+						break;
+					case CSRRW:
+						//TODO: 补充指令模拟代码:
+						break;
+					case CSRRS:
+						//TODO: 补充指令模拟代码:
+						break;
+					case CSRRC:
+						//TODO: 补充指令模拟代码:
+						break;
+					case CSRRWI:
+						//TODO: 补充指令模拟代码:
+						break;
+					case CSRRSI:
+						//TODO: 补充指令模拟代码:
+						break;
+					case CSRRCI:
+						//TODO: 补充指令模拟代码:
+						break;
+					default:
+						cout << "ERROR: unknown funct3 in CSRX instruction " << IR << endl;
+				}
 				break;
 			default:
-				cout << "Unkown instruction" << endl;
+				cout << "ERROR: Unkown instruction " << IR << endl;
 				break;
 		}
 
@@ -221,3 +450,4 @@ int main(int argc, char const *argv[]) {
 
 	return 0;
 }
+
