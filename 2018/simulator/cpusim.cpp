@@ -8,7 +8,7 @@ using namespace std;
 #define AUIPC 0x17
 
 #define FENCE 0x0F
-#define ECSR 0x73
+#define ECALLBREAKCSRX 0x73
 //#define CSRRWI 0b1110011
 
 // 已分配指令
