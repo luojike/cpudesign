@@ -97,8 +97,6 @@ using namespace std;
 #define CSRRCI 0x7
 
 
-
-
 // 内存模拟器
 // 内存模拟器有关数据
 const int WORDSIZE = sizeof(uint32_t);
