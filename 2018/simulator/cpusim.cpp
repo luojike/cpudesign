@@ -165,8 +165,7 @@ void decode(uint32_t instruction) {
 }
 
 void showRegs() {
-	cout << "PC=" << PC << endl;
-	cout << "IR=" << IR << endl;
+	cout << "PC=" << PC << " " << "IR=" << IR << endl;
 
 	for(int i=0; i<32; i++) {
 		cout << "R[" << i << "]=" << R[i] << " ";
