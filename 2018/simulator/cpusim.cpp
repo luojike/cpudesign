@@ -169,8 +169,9 @@ void showRegs() {
 	cout << "IR=" << IR << endl;
 
 	for(int i=0; i<32; i++) {
-		cout << "R[" << i << "]=" << R[i] << endl;
+		cout << "R[" << i << "]=" << R[i] << " ";
 	}
+	cout << endl;
 }
 
 int main(int argc, char const *argv[]) {
