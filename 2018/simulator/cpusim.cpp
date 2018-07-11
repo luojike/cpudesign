@@ -7,10 +7,6 @@ using namespace std;
 // 演示指令
 #define AUIPC 0x17
 
-#define FENCE 0x0F
-#define ECALLBREAKCSRX 0x73
-//#define CSRRWI 0b1110011
-
 // 已分配指令
 #define LUI //WANGYANG
 #define JAL
@@ -53,15 +49,20 @@ using namespace std;
 #define OR
 #define AND
 
-// 未分配的指令
+// 另外分配的指令
+
+#define FENCE 0x0F
+#define ECALL
+#define CSRRW 0b1110011
+#define CSRRSI
+#define CSRRC
 
 #define FENCE_I
-#define ECALL
-#define CSRRW
+#define EBREAK 0x73
 #define CSRRS
-#define CSRRC
-#define CSRRSI
+#define CSRRWI
 #define CSRRCI
+
 
 
 
