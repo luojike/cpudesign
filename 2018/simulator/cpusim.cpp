@@ -260,6 +260,15 @@ int main(int argc, char const *argv[]) {
 				switch(funct3) {
 					case BEQ:
 						//TODO: 补充指令模拟代码:
+						cout << "DO BLTU" << endl;
+						unsigned int scr1 =R[rs1];
+						unsigned int scr2 = R[rs2];
+						unsigned int imm_temp;
+						if(scr1==scr2){
+							imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
+						}else {
+							PC=PC+imm_temp;
+						}
 						break;
 					case BNE:
 						cout << "Do BNE " << endl;
@@ -299,6 +308,12 @@ int main(int argc, char const *argv[]) {
 				switch(funct3) {
 					case LB:
 						//TODO: 补充指令模拟代码:
+						cout << "DO LB" << endl;
+						int unsigned data,imm_temp;
+						char data;
+						imm_temp = imm11_0i|oxff000000;
+						data = writeByte(imm11_0i,imm_temp)
+						R[rs1]=data;
 						break;
 					case LH:
 						cout << "Do LH " << endl;
@@ -344,6 +359,17 @@ int main(int argc, char const *argv[]) {
 						break;
 					case SW:
 						//TODO: 补充指令模拟代码:
+						cout << "DO SW" << endl;
+						unsigned int imm_temp;
+						char d;
+						d=R[rs2]&oxffffffff;
+						unsigned int a;
+						imm_temp=imm11_5s<<5|imm4_0s;
+						if(imm11_5s & 0x800) {
+							imm_temp = 0xffff000|imm11_5<<5|imm4_0s;
+						}
+						a=R[rs1]+imm_temp;
+						writeByte(a,d);
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
@@ -385,6 +411,15 @@ int main(int argc, char const *argv[]) {
 						break;
 					case ANDI:
 						//TODO: 补充指令模拟代码:
+						cout << "DO ANDI"<<endl;
+						unsigned int re3,imm3;
+						imm3=imm11_0i>>11;
+						if(imm3==1){
+							re3=(0xfffff000|imm11_0i);
+						}else{
+							re3=(0|imm11_0i);	
+						}
+						R[rd]=R[rs1]&re3;
 						break;
 					case SLLI:
 						cout << "Do SLLI " << endl;
@@ -428,6 +463,10 @@ int main(int argc, char const *argv[]) {
 						break;
 					case SLL:
 						//TODO: 补充指令模拟代码:
+						cout<<"DO SLL"<<endl;
+						unsigned int rsTransform;
+						rsTransform=R[rs1]&0x1f;
+						R[rs2]<<rsTransform;
 						break;
 					case SLT:
 						cout << "Do SLT " << endl;
