@@ -4,10 +4,10 @@
 
 using namespace std;
 
-// 演示指令
+// 婕旂ず鎸囦护
 #define AUIPC 0x17
 
-// 分支类型的指令，其中BRANCH用于表示共同的opcode
+// 鍒嗘敮绫诲瀷鐨勬寚浠わ紝鍏朵腑BRANCH鐢ㄤ簬琛ㄧず鍏卞悓鐨刼pcode
 #define BRANCH 0x63
 
 #define BEQ 0x0
@@ -18,7 +18,7 @@ using namespace std;
 #define BGEU 0x7
 
 
-// 装载类型的指令，其中LOAD用于表示共同的opcode
+// 瑁呰浇绫诲瀷鐨勬寚浠わ紝鍏朵腑LOAD鐢ㄤ簬琛ㄧず鍏卞悓鐨刼pcode
 #define LOAD 0x03
 
 #define LB 0x0
@@ -28,7 +28,7 @@ using namespace std;
 #define LHU 0x5
 
 
-// 保存类型的指令，其中STORE用于表示共同的opcode
+// 淇濆瓨绫诲瀷鐨勬寚浠わ紝鍏朵腑STORE鐢ㄤ簬琛ㄧず鍏卞悓鐨刼pcode
 #define STORE 0x23
 
 #define SB 0x0
@@ -36,12 +36,12 @@ using namespace std;
 #define SW 0x2
 
 
-// 已分配指令
+// 宸插垎閰嶆寚浠?
 #define LUI 0x37
 #define JAL 0x6F
 #define JALR 0x67
 
-// 有一个源操作数是立即数的算术逻辑运算指令，采用 ALUR1 作为共同的opcode符号
+// 鏈変竴涓簮鎿嶄綔鏁版槸绔嬪嵆鏁扮殑绠楁湳閫昏緫杩愮畻鎸囦护锛岄噰鐢?ALUR1 浣滀负鍏卞悓鐨刼pcode绗﹀彿
 #define ALUR1 0x13
 
 #define ADDI 0x0
@@ -58,7 +58,7 @@ using namespace std;
 #define SRAI 0x20
 
 
-// 源操作数都来自于寄存器的算术逻辑运算指令，采用 ALUR2 作为共同的opcode符号
+// 婧愭搷浣滄暟閮芥潵鑷簬瀵勫瓨鍣ㄧ殑绠楁湳閫昏緫杩愮畻鎸囦护锛岄噰鐢?ALUR2 浣滀负鍏卞悓鐨刼pcode绗﹀彿
 #define ALUR2 0x33
 
 #define ADDSUB 0x0
@@ -77,7 +77,7 @@ using namespace std;
 #define SRL 0x0
 #define SRA 0x20
 
-// 另外分配的指令
+// 鍙﹀鍒嗛厤鐨勬寚浠?
 
 #define FENCES 0x0F
 #define FENCE 0x0
@@ -97,13 +97,13 @@ using namespace std;
 #define CSRRCI 0x7
 
 
-// 内存模拟器
-// 内存模拟器有关数据
+// 鍐呭瓨妯℃嫙鍣?
+// 鍐呭瓨妯℃嫙鍣ㄦ湁鍏虫暟鎹?
 const int WORDSIZE = sizeof(uint32_t);
 unsigned int MSIZE = 4096;
 char* M;
 
-// 内存模拟器有关函数
+// 鍐呭瓨妯℃嫙鍣ㄦ湁鍏冲嚱鏁?
 int allocMem(uint32_t s) {
 		M = new char[s];
 		MSIZE = s;
@@ -161,14 +161,14 @@ void writeWord(unsigned int address, uint32_t data) {
 	*((uint32_t*)&(M[address])) = data;
 }
 
-// 这个函数直接写入要测试的指令
+// 杩欎釜鍑芥暟鐩存帴鍐欏叆瑕佹祴璇曠殑鎸囦护
 void progMem() {
-	// 从地址0开始写入测试指令
+	// 浠庡湴鍧€0寮€濮嬪啓鍏ユ祴璇曟寚浠?
 	writeWord(0, (1 << 12) | (5 << 7) | (AUIPC));
 }
 
 
-// CPU模拟器有关数据
+// CPU妯℃嫙鍣ㄦ湁鍏虫暟鎹?
 uint32_t PC;
 uint32_t R[32];
 uint32_t IR;
@@ -178,6 +178,8 @@ unsigned int rs1, rs2, rd;
 unsigned int funct7, funct3;
 unsigned int imm_temp;
 unsigned int scr1,scr2;
+unsigned int scr3,scr4;
+
 // immediate values for I-type, S-type, B-type, U-type, J-type
 unsigned int imm11_0i;
 unsigned int imm11_5s, imm4_0s;
@@ -185,7 +187,7 @@ unsigned int imm12b, imm10_5b, imm4_1b, imm11b;
 unsigned int imm31_12u;
 unsigned int imm20j, imm10_1j, imm11j, imm19_12j;
 
-// CPU模拟器有关函数
+// CPU妯℃嫙鍣ㄦ湁鍏冲嚱鏁?
 void decode(uint32_t instruction) {
 	opcode = instruction & 0x7F;
 	rd = (instruction & 0x0F80) >> 7;
@@ -226,7 +228,7 @@ int main(int argc, char const *argv[]) {
 	char c = 'Y';
 
 	while(c != 'n') {
-		cout << "执行当前指令之前寄存器的内容" << endl;
+		cout << "鎵ц褰撳墠鎸囦护涔嬪墠瀵勫瓨鍣ㄧ殑鍐呭" << endl;
 		showRegs();
 
 		IR = readWord(PC);
@@ -254,11 +256,19 @@ int main(int argc, char const *argv[]) {
 				    PC = PC+imm_temp;
 				break;
 			case JALR:
-				//TODO: 补充指令模拟代码:
+				unsigned int imm_temp;
+				imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
+				R[rd]=PC;
+				if(imm20j==1){
+					PC=R[rs1]+(0xffe00000|imm19_12j<<12|imm11j<<1|imm10_1j<<1);
+				}
+				else
+					PC=R[rs1]+(imm_temp);
 				break;
 			case BRANCH:
 				switch(funct3) {
 					case BEQ:
+<<<<<<< HEAD
 						//TODO: 补充指令模拟代码:
 						cout << "DO BLTU" << endl;
 						unsigned int scr1 =R[rs1];
@@ -269,15 +279,18 @@ int main(int argc, char const *argv[]) {
 						}else {
 							PC=PC+imm_temp;
 						}
+=======
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
+>>>>>>> 0552259fb2951aa7fcf17469fbca82b933bd6820
 						break;
 					case BNE:
 						cout << "Do BNE " << endl;
-						if(R[rs1]!=R[rs2]){
+						if(R[rs1]==R[rs2]){
 							PC += ((imm12b<<12) | (imm11b<<11) | (imm10_5b<<5) | (imm4_1b<<1));
 						}
 						break;
 					case BLT:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case BGE:
 						cout << "Do BGE" << endl;
@@ -298,7 +311,16 @@ int main(int argc, char const *argv[]) {
 					    }
 						break;
 					case BGEU:
-						//TODO: 补充指令模拟代码:
+						cout<<"Do BGEU"<<endl;
+						 scr3=R[rs1];
+						 scr4=R[rs2];
+						unsigned int imm_temp;
+						if(scr3<scr4){
+							imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
+							if(imm12b==1){
+								PC=PC+(0xffffe000|imm_temp);
+							}
+						}
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in BRANCH instruction " << IR << endl;
@@ -307,6 +329,7 @@ int main(int argc, char const *argv[]) {
 			case LOAD:
 				switch(funct3) {
 					case LB:
+<<<<<<< HEAD
 						//TODO: 补充指令模拟代码:
 						cout << "DO LB" << endl;
 						int unsigned data,imm_temp;
@@ -314,6 +337,9 @@ int main(int argc, char const *argv[]) {
 						imm_temp = imm11_0i|oxff000000;
 						data = writeByte(imm11_0i,imm_temp)
 						R[rs1]=data;
+=======
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
+>>>>>>> 0552259fb2951aa7fcf17469fbca82b933bd6820
 						break;
 					case LH:
 						cout << "Do LH " << endl;
@@ -327,14 +353,14 @@ int main(int argc, char const *argv[]) {
 						R[rd]=readhalfWord(R[rs1]+re2);	
 						break;
 					case LW:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case LBU:
 						cout << "Do LBU" << endl;
 						R[rd] = R[imm11_0i + R[rs1]] & 0x07;
 						break;
 					case LHU:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in LOAD instruction " << IR << endl;
@@ -355,9 +381,20 @@ int main(int argc, char const *argv[]) {
             		    writeByte(a, d);
 						break;
 					case SH:
-						//TODO: 补充指令模拟代码:
+						cout<<"Do SH"<<endl;
+						unsigned int imm_temp;
+						char j;
+						j=R[rs2]&0xffff;
+						unsigned int x;
+						imm_temp=imm11_5s<<5|imm4_0s;
+						if(imm11_5s& 0x800){
+							imm_temp=0xfffff000|imm11_5s<<5|imm4_0s;
+						}
+						x=R[rs1]+imm_temp;
+						writeByte(x,j);
 						break;
 					case SW:
+<<<<<<< HEAD
 						//TODO: 补充指令模拟代码:
 						cout << "DO SW" << endl;
 						unsigned int imm_temp;
@@ -370,6 +407,9 @@ int main(int argc, char const *argv[]) {
 						}
 						a=R[rs1]+imm_temp;
 						writeByte(a,d);
+=======
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
+>>>>>>> 0552259fb2951aa7fcf17469fbca82b933bd6820
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
@@ -389,7 +429,7 @@ int main(int argc, char const *argv[]) {
 						R[rd]=R[rs1]+re3;
 						break;
 					case SLTI:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case SLTIU:
 						cout << "Do SLTIU" << endl;
@@ -407,9 +447,18 @@ int main(int argc, char const *argv[]) {
                         R[rd]=(imm_temp)^R[rs1];
 						break;
 					case ORI:
-						//TODO: 补充指令模拟代码:
+						cout<<"Do ORI"<<endl;
+						unsigned int re223,imm223;
+						imm223=imm11_0i>>11;
+						if(imm223==1){
+						re223=(0xfffff000  | imm11_0i);
+						}else{
+						re223=(0 | imm11_0i);
+						}
+						R[rd]=R[rs1]|re223;
 						break;
 					case ANDI:
+<<<<<<< HEAD
 						//TODO: 补充指令模拟代码:
 						cout << "DO ANDI"<<endl;
 						unsigned int re3,imm3;
@@ -420,6 +469,9 @@ int main(int argc, char const *argv[]) {
 							re3=(0|imm11_0i);	
 						}
 						R[rd]=R[rs1]&re3;
+=======
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
+>>>>>>> 0552259fb2951aa7fcf17469fbca82b933bd6820
 						break;
 					case SLLI:
 						cout << "Do SLLI " << endl;
@@ -430,7 +482,7 @@ int main(int argc, char const *argv[]) {
 					case SHR:
 						switch(imm11_0i >> 5) {
 							case SRLI:
-								//TODO: 补充指令模拟代码:
+								//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 								break;
 							case SRAI:
 								cout << "Do SRAI" << endl;
@@ -455,18 +507,23 @@ int main(int argc, char const *argv[]) {
 								R[rd]=R[rs1]+R[rs2];
 								break;
 							case SUB:
-								//TODO: 补充指令模拟代码:
+								cout<<" Do SUB"<<endl;
+			                	R[rd]=R[rs1]-R[rs2];
 								break;
 							default:
 								cout << "ERROR: unknown funct7 in ALUR2 ADDSUB instruction " << IR << endl;
 						}
 						break;
 					case SLL:
+<<<<<<< HEAD
 						//TODO: 补充指令模拟代码:
 						cout<<"DO SLL"<<endl;
 						unsigned int rsTransform;
 						rsTransform=R[rs1]&0x1f;
 						R[rs2]<<rsTransform;
+=======
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
+>>>>>>> 0552259fb2951aa7fcf17469fbca82b933bd6820
 						break;
 					case SLT:
 						cout << "Do SLT " << endl;
@@ -477,24 +534,24 @@ int main(int argc, char const *argv[]) {
 						}
 						break;
 					case SLTU:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case XOR:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case OR:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case AND:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case SRLA:
 						switch(funct7) {
 							case SRL:
-								//TODO: 补充指令模拟代码:
+								//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 								break;
 							case SRA:
-								//TODO: 补充指令模拟代码:
+								//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 								break;
 							default:
 								cout << "ERROR: unknown funct7 in ALUR2 SRLA instruction " << IR << endl;
@@ -507,10 +564,10 @@ int main(int argc, char const *argv[]) {
 			case FENCES:
 				switch(funct3) {
 					case FENCE:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case FENCE_I:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					default:
 						cout << "ERROR: unknown funct3 in FENCES instruction " << IR << endl;
@@ -521,32 +578,32 @@ int main(int argc, char const *argv[]) {
 					case CALLBREAK:
 						switch(imm11_0i) {
 							case ECALL:
-								//TODO: 补充指令模拟代码:
+								//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 								break;
 							case EBREAK:
-								//TODO: 补充指令模拟代码:
+								//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 								break;
 							default:
 								cout << "ERROR: unknown imm11_0i in CSRX CALLBREAK instruction " << IR << endl;
 						}
 						break;
 					case CSRRW:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case CSRRS:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case CSRRC:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case CSRRWI:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case CSRRSI:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					case CSRRCI:
-						//TODO: 补充指令模拟代码:
+						//TODO: 琛ュ厖鎸囦护妯℃嫙浠ｇ爜:
 						break;
 					default:
 						cout << "ERROR: unknown funct3 in CSRX instruction " << IR << endl;
@@ -557,10 +614,10 @@ int main(int argc, char const *argv[]) {
 				break;
 		}
 
-		cout << "执行当前指令之后寄存器的内容" << endl;
+		cout << "鎵ц褰撳墠鎸囦护涔嬪悗瀵勫瓨鍣ㄧ殑鍐呭" << endl;
 		showRegs();
 
-		cout << "继续模拟？（Y/n)" << endl;
+		cout << "缁х画妯℃嫙锛燂紙Y/n)" << endl;
 		cin.get(c);
 	}
 
@@ -568,4 +625,5 @@ int main(int argc, char const *argv[]) {
 
 	return 0;
 }
+
 
