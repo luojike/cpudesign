@@ -263,7 +263,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case BGE:
 						cout << "Do BGE" << endl;
-						if(rs1>=rs2)
+						if(R[rs1]>=R[rs2])
 							PC = PC + ((imm12b << 12) | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1));
 						break;
 					case BLTU:
@@ -297,7 +297,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case LBU:
 						cout << "Do LBU" << endl;
-						R[rd] = R[imm11_0i + rs1] & 0x07;
+						R[rd] = R[imm11_0i + R[rs1]] & 0x07;
 						break;
 					case LHU:
 						//TODO: 补充指令模拟代码:
@@ -339,7 +339,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case SLTIU:
 						cout << "Do SLTIU" << endl;
-						if(rs1<imm11_0i)
+						if(R[rs1]<imm11_0i)
 							R[rd] = 1;
 						else
 							R[rd] = 0;
@@ -366,7 +366,7 @@ int main(int argc, char const *argv[]) {
 								break;
 							case SRAI:
 								cout << "Do SRAI" << endl;
-								R[rd] = (rs1 & 0x10) + (rs1 >> 1);
+								R[rd] = (R[rs1] & 0x10) + (R[rs1] >> 1);
 								for(int i=1;i<(imm11_0i & 0x1F);i++){
 									R[rd] = (R[rd] & 0x10) | (R[rd] >> 1);
 								}break;
