@@ -247,10 +247,10 @@ int main(int argc, char const *argv[]) {
 				break;
 			case JAL:
 				cout << "Do JAL" << endl;
-                imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
-                R[rd]=PC;
+                                imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
+                                R[rd]=PC;
 				if(imm20j==1){
-                    PC = PC+(0xffe00000|imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1);	
+                                    PC = PC+(0xffe00000|imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1);	
 				}
 				else
 				    PC = PC+imm_temp;
@@ -299,16 +299,16 @@ int main(int argc, char const *argv[]) {
 						break;
 					case BLTU:
 						cout << "Do BLTU" << endl;
-					    scr1=R[rs1];
-                        scr2=R[rs2];  	
-                	    if(scr1<scr2){
-                		   imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
-                		   if(imm12b==1){
-                	          PC=PC+(0xffffe000|imm_temp);
-				            }
-				        else
-				           PC=PC+imm_temp;
-					    }
+					        scr1=R[rs1];
+                                                scr2=R[rs2];  	
+                	                        if(scr1<scr2){
+                		                    imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
+                		                    if(imm12b==1){
+                	                                PC=PC+(0xffffe000|imm_temp);
+				                    }
+				                    else
+				                    PC=PC+imm_temp;
+					        }
 						break;
 					case BGEU:
 						cout<<"Do BGEU"<<endl;
@@ -370,15 +370,15 @@ int main(int argc, char const *argv[]) {
 				switch(funct3) {
 					case SB:
 						cout << "Do SB" << endl;
-            		    char d;
-					    d=R[rs2] & 0xff;
-            		    unsigned int a;
-					    imm_temp=imm11_5s<<5|imm4_0s;
-            		    if(imm11_5s & 0x800){
-            		    	imm_temp=0xfffff000|imm11_5s<<5|imm4_0s;
-					    }
-					    a = R[rs1] + imm_temp;
-            		    writeByte(a, d);
+            		                        char d;
+					        d=R[rs2] & 0xff;
+            		                        unsigned int a;
+					        imm_temp=imm11_5s<<5|imm4_0s;
+            		                        if(imm11_5s & 0x800){
+            		    	                    imm_temp=0xfffff000|imm11_5s<<5|imm4_0s;
+					        }
+					        a = R[rs1] + imm_temp;
+            		                        writeByte(a, d);
 						break;
 					case SH:
 						cout<<"Do SH"<<endl;
@@ -440,11 +440,11 @@ int main(int argc, char const *argv[]) {
 						break;
 					case XORI:
 						cout << "Do XORI" << endl;
-                        imm_temp = imm11_0i;
-                	    if(imm11_0i & 0x800) {
-                		    imm_temp = imm_temp | 0xfffff000;
-					    }
-                        R[rd]=(imm_temp)^R[rs1];
+                                                imm_temp = imm11_0i;
+                	                        if(imm11_0i & 0x800) {
+                		                    imm_temp = imm_temp | 0xfffff000;
+			            		}
+                                                R[rd]=(imm_temp)^R[rs1];
 						break;
 					case ORI:
 						cout<<"Do ORI"<<endl;
@@ -508,7 +508,7 @@ int main(int argc, char const *argv[]) {
 								break;
 							case SUB:
 								cout<<" Do SUB"<<endl;
-			                	R[rd]=R[rs1]-R[rs2];
+			                	                R[rd]=R[rs1]-R[rs2];
 								break;
 							default:
 								cout << "ERROR: unknown funct7 in ALUR2 ADDSUB instruction " << IR << endl;
