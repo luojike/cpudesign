@@ -99,25 +99,25 @@ using namespace std;
 
 // Data for memory
 const int WORDSIZE = sizeof(uint32_t);
-unsigned int MSIZE = 4096;
+unsigned int MSize = 4096;
 char* M;
 
 // Functions for memory
 int allocMem(uint32_t s) {
     M = new char[s];
-    MSIZE = s;
+    MSize = s;
 
     return s;
 }
 
 void freeMem() {
     delete[] M;
-    MSIZE = 0;
+    MSize = 0;
 }
 
 char readByte(unsigned int address) {
-    if(address >= MSIZE) {
-        cout << "ERROR: address out of range in readByte" << endl;
+    if(address >= MSize) {
+        cout << "ERROR: Address out of range in readByte" << endl;
         return 0;
     }
 
@@ -125,8 +125,8 @@ char readByte(unsigned int address) {
 }
 
 void writeByte(unsigned int address, char data) {
-    if(address >= MSIZE) {
-        cout << "ERROR: address out of range in writeByte" << endl;
+    if(address >= MSize) {
+        cout << "ERROR: Address out of range in writeByte" << endl;
         return;
     }
 
@@ -134,17 +134,17 @@ void writeByte(unsigned int address, char data) {
 }
 
 uint32_t readWord(unsigned int address) {
-    if(address >= MSIZE-WORDSIZE) {
-        cout << "ERROR: address out of range in readWord" << endl;
+    if(address >= MSize-WORDSIZE) {
+        cout << "ERROR: Address out of range in readWord" << endl;
         return 0;
     }
 
     return *((uint32_t*)&(M[address]));
 }
 
-uint32_t readhalfWord(unsigned int address){
-    if(address >= MSIZE-WORDSIZE/2) {
-        cout << "ERROR: address out of range in readWord" << endl;
+uint32_t readHalfWord(unsigned int address){
+    if(address >= MSize-WORDSIZE/2) {
+        cout << "ERROR: Address out of range in readWord" << endl;
         return 0;
     }
 
@@ -152,12 +152,21 @@ uint32_t readhalfWord(unsigned int address){
 }
 
 void writeWord(unsigned int address, uint32_t data) {
-    if(address >= MSIZE-WORDSIZE) {
-        cout << "ERROR: address out of range in writeWord" << endl;
+    if(address >= MSize-WORDSIZE) {
+        cout << "ERROR: Address out of range in writeWord" << endl;
         return;
     }
 
     *((uint32_t*)&(M[address])) = data;
+}
+
+void writeHalfWord(unsigned int address, uint32_t data) {
+    if(address >= MSize-WORDSIZE/2) {
+        cout << "ERROR: Address out of range in writeWord" << endl;
+        return;
+    }
+
+    *((uint16_t*)&(M[address])) = data;
 }
 
 // Write memory with instructions to test
@@ -188,6 +197,7 @@ unsigned int imm20j, imm10_1j, imm11j, imm19_12j;
 
 // Functions for CPU
 void decode(uint32_t instruction) {
+    // Extract all bit fields from instruction
     opcode = instruction & 0x7F;
     rd = (instruction & 0x0F80) >> 7;
     rs1 = (instruction & 0xF8000) >> 15;
@@ -339,7 +349,7 @@ int main(int argc, char const *argv[]) {
                         }else{
                             re2=(0 | imm11_0i);
                         }
-                        R[rd]=readhalfWord(R[rs1]+re2);    
+                        R[rd]=readHalfWord(R[rs1]+re2);    
                         break;
                     case LW:
                         //TODO: Fill code for the instruction here
@@ -471,11 +481,11 @@ int main(int argc, char const *argv[]) {
                                 }
                                 break;
                             default:
-                                cout << "ERROR: unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
+                                cout << "ERROR: Unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
                         }
                         break;
                     default:
-                        cout << "ERROR: unknown funct3 in ALUR1 instruction " << IR << endl;
+                        cout << "ERROR: Unknown funct3 in ALUR1 instruction " << IR << endl;
                 }
                 break;
             case ALUR2:
@@ -491,7 +501,7 @@ int main(int argc, char const *argv[]) {
                                 R[rd]=R[rs1]-R[rs2];
                                 break;
                             default:
-                                cout << "ERROR: unknown funct7 in ALUR2 ADDSUB instruction " << IR << endl;
+                                cout << "ERROR: Unknown funct7 in ALUR2 ADDSUB instruction " << IR << endl;
                         }
                         break;
                     case SLL:
@@ -529,11 +539,11 @@ int main(int argc, char const *argv[]) {
                                 //TODO: Fill code for the instruction here
                                 break;
                             default:
-                                cout << "ERROR: unknown funct7 in ALUR2 SRLA instruction " << IR << endl;
+                                cout << "ERROR: Unknown funct7 in ALUR2 SRLA instruction " << IR << endl;
                         }
                         break;
                     default:
-                        cout << "ERROR: unknown funct3 in ALUR2 instruction " << IR << endl;
+                        cout << "ERROR: Unknown funct3 in ALUR2 instruction " << IR << endl;
                 }
                 break;
             case FENCES:
@@ -545,7 +555,7 @@ int main(int argc, char const *argv[]) {
                         //TODO: Fill code for the instruction here
                         break;
                     default:
-                        cout << "ERROR: unknown funct3 in FENCES instruction " << IR << endl;
+                        cout << "ERROR: Unknown funct3 in FENCES instruction " << IR << endl;
                 }
                 break;
             case CSRX:
@@ -559,7 +569,7 @@ int main(int argc, char const *argv[]) {
                                 //TODO: Fill code for the instruction here
                                 break;
                             default:
-                                cout << "ERROR: unknown imm11_0i in CSRX CALLBREAK instruction " << IR << endl;
+                                cout << "ERROR: Unknown imm11_0i in CSRX CALLBREAK instruction " << IR << endl;
                         }
                         break;
                     case CSRRW:
@@ -581,7 +591,7 @@ int main(int argc, char const *argv[]) {
                         //TODO: Fill code for the instruction here
                         break;
                     default:
-                        cout << "ERROR: unknown funct3 in CSRX instruction " << IR << endl;
+                        cout << "ERROR: Unknown funct3 in CSRX instruction " << IR << endl;
                 }
                 break;
             default:
