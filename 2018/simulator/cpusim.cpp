@@ -175,18 +175,20 @@ void progMem() {
     writeWord(0, (1 << 12) | (5 << 7) | (AUIPC));
 }
 
+// ============================================================================
+
 
 // data for CPU
-uint32_t PC;
+uint32_t PC, NextPC;
 uint32_t R[32];
 uint32_t IR;
 
 unsigned int opcode;
 unsigned int rs1, rs2, rd;
 unsigned int funct7, funct3;
-unsigned int imm_temp;
-unsigned int scr1,scr2;
-unsigned int scr3,scr4;
+unsigned int shamt;
+unsigned int pred, succ;
+unsigned int csr, zimm;
 
 // immediate values for I-type, S-type, B-type, U-type, J-type
 unsigned int imm11_0i;
@@ -195,27 +197,63 @@ unsigned int imm12b, imm10_5b, imm4_1b, imm11b;
 unsigned int imm31_12u;
 unsigned int imm20j, imm10_1j, imm11j, imm19_12j;
 
+//unsigned int imm_temp;
+unsigned int src1,src2;
+//unsigned int src3,src4;
+
+unsigned int Imm11_0ItypeZeroExtended;
+int Imm11_0ItypeSignExtended;
+int Imm11_0StypeSignExtended;
+unsigned int Imm12_1BtypeZeroExtended;
+int Imm12_1BtypeSignExtended;
+unsigned int Imm31_12Utype;
+int Imm20_1JtypeSignExtended;
+
 // Functions for CPU
 void decode(uint32_t instruction) {
     // Extract all bit fields from instruction
     opcode = instruction & 0x7F;
     rd = (instruction & 0x0F80) >> 7;
     rs1 = (instruction & 0xF8000) >> 15;
+    zimm = rs1;
     rs2 = (instruction & 0x1F00000) >> 20;
+    shamt = rs2;
     funct3 = (instruction & 0x7000) >> 12;
     funct7 = instruction >> 25;
-    imm11_0i = instruction >> 20;
-    imm11_5s = instruction >> 25;
-    imm4_0s = (instruction & 0x0F80) >> 7;
-    imm12b = instruction >> 31;
+    imm11_0i = ((int32_t)instruction) >> 20;
+    csr = instruction >> 20;
+    imm11_5s = ((int32_t)instruction) >> 25;
+    imm4_0s = (instruction >> 7) & 0x01F;
+    imm12b = ((int32_t)instruction) >> 31;
     imm10_5b = (instruction >> 25) & 0x3F;
     imm4_1b = (instruction & 0x0F00) >> 8;
     imm11b = (instruction & 0x080) >> 7;
     imm31_12u = instruction >> 12;
-    imm20j = instruction >> 31;
+    imm20j = ((int32_t)instruction) >> 31;
     imm10_1j = (instruction >> 21) & 0x3FF;
     imm11j = (instruction >> 20) & 1;
     imm19_12j = (instruction >> 12) & 0x0FF;
+    pred = (instruction >> 24) & 0x0F;
+    succ = (instruction >> 20) & 0x0F;
+
+    // ========================================================================
+    // Get values of rs1 and rs2
+    src1 = R[rs1];
+    src2 = R[rs2];
+
+    // Immediate values
+    Imm11_0ItypeZeroExtended = imm11_0i & 0x0FFF;
+    Imm11_0ItypeSignExtended = imm11_0i;
+
+    Imm11_0StypeSignExtended = (imm11_5s << 5) | imm4_0s;
+
+    Imm12_1BtypeZeroExtended = imm12b & 0x00001000 | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1);
+    Imm12_1BtypeSignExtended = imm12b & 0xFFFFF000 | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1);
+
+    Imm31_12Utype = instruction & 0xFFFFF000;
+
+    Imm12_1JtypeSignExtended = (imm20j & 0xFFF00000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
+    // ========================================================================
 }
 
 void showRegs() {
@@ -241,7 +279,7 @@ int main(int argc, char const *argv[]) {
         showRegs();
 
         IR = readWord(PC);
-        PC = PC + WORDSIZE;
+        NextPC = PC + WORDSIZE;
 
         decode(IR);
 
@@ -259,38 +297,38 @@ int main(int argc, char const *argv[]) {
                 imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
                 R[rd]=PC;
                 if(imm20j==1){
-                    PC = PC+(0xffe00000|imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1);    
+                    NextPC = PC+(0xffe00000|imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1);    
                 }
                 else
-                    PC = PC+imm_temp;
+                    NextPC = PC+imm_temp;
                 break;
             case JALR:
                 unsigned int imm_temp;
                 imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
                 R[rd]=PC;
                 if(imm20j==1){
-                    PC=R[rs1]+(0xffe00000|imm19_12j<<12|imm11j<<1|imm10_1j<<1);
+                    NextPC=R[rs1]+(0xffe00000|imm19_12j<<12|imm11j<<1|imm10_1j<<1);
                 }
                 else
-                    PC=R[rs1]+(imm_temp);
+                    NextPC=R[rs1]+(imm_temp);
                 break;
             case BRANCH:
                 switch(funct3) {
                     case BEQ:
                         cout << "DO BLTU" << endl;
-                        unsigned int scr1 =R[rs1];
-                        unsigned int scr2 = R[rs2];
+                        unsigned int src1 =R[rs1];
+                        unsigned int src2 = R[rs2];
                         unsigned int imm_temp;
-                        if(scr1==scr2){
+                        if(src1==src2){
                             imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
                         }else {
-                            PC=PC+imm_temp;
+                            NextPC=PC+imm_temp;
                         }
                         break;
                     case BNE:
                         cout << "Do BNE " << endl;
                         if(R[rs1]==R[rs2]){
-                            PC += ((imm12b<<12) | (imm11b<<11) | (imm10_5b<<5) | (imm4_1b<<1));
+                            NextPC += ((imm12b<<12) | (imm11b<<11) | (imm10_5b<<5) | (imm4_1b<<1));
                         }
                         break;
                     case BLT:
@@ -299,30 +337,30 @@ int main(int argc, char const *argv[]) {
                     case BGE:
                         cout << "Do BGE" << endl;
                         if(R[rs1]>=R[rs2])
-                            PC = PC + ((imm12b << 12) | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1));
+                            NextPC = PC + ((imm12b << 12) | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1));
                         break;
                     case BLTU:
                         cout << "Do BLTU" << endl;
-                        scr1=R[rs1];
-                        scr2=R[rs2];      
-                        if(scr1<scr2){
+                        src1=R[rs1];
+                        src2=R[rs2];      
+                        if(src1<src2){
                             imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
                             if(imm12b==1){
-                                PC=PC+(0xffffe000|imm_temp);
+                                NextPC=PC+(0xffffe000|imm_temp);
                             }
                             else
-                                PC=PC+imm_temp;
+                                NextPC=PC+imm_temp;
                         }
                         break;
                     case BGEU:
                         cout<<"Do BGEU"<<endl;
-                        scr3=R[rs1];
-                        scr4=R[rs2];
+                        src3=R[rs1];
+                        src4=R[rs2];
                         unsigned int imm_temp;
-                        if(scr3<scr4){
+                        if(src3<src4){
                             imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
                             if(imm12b==1){
-                                PC=PC+(0xffffe000|imm_temp);
+                                NextPC=PC+(0xffffe000|imm_temp);
                             }
                         }
                         break;
@@ -469,7 +507,7 @@ int main(int argc, char const *argv[]) {
                         R[rd]=R[rs1]<<imm4;
                         break;
                     case SHR:
-                        switch(imm11_0i >> 5) {
+                        switch(funct7) {
                             case SRLI:
                                 //TODO: Fill code for the instruction here
                                 break;
@@ -561,7 +599,7 @@ int main(int argc, char const *argv[]) {
             case CSRX:
                 switch(funct3) {
                     case CALLBREAK:
-                        switch(imm11_0i) {
+                        switch(Imm11_0ItypeZeroExtended) {
                             case ECALL:
                                 //TODO: Fill code for the instruction here
                                 break;
@@ -598,6 +636,9 @@ int main(int argc, char const *argv[]) {
                 cout << "ERROR: Unkown instruction " << IR << endl;
                 break;
         }
+
+	// Update PC
+	PC = NextPC;
 
         cout << "Registers after executing the instruction" << endl;
         showRegs();
