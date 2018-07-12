@@ -143,6 +143,15 @@ uint32_t readWord(unsigned int address) {
 	return *((uint32_t*)&(M[address]));
 }
 
+uint32_t readhalfWord(unsigned int address){
+	if(address >= MSIZE-WORDSIZE/2) {
+		cout << "ERROR: address out of range in readWord" << endl;
+		return 0;
+	}
+
+	return *((uint16_t*)&(M[address]));
+}
+
 void writeWord(unsigned int address, uint32_t data) {
 	if(address >= MSIZE-WORDSIZE) {
 		cout << "ERROR: address out of range in writeWord" << endl;
