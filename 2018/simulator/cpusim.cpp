@@ -176,6 +176,8 @@ uint32_t IR;
 unsigned int opcode;
 unsigned int rs1, rs2, rd;
 unsigned int funct7, funct3;
+unsigned int imm_temp;
+unsigned int scr1,scr2;
 // immediate values for I-type, S-type, B-type, U-type, J-type
 unsigned int imm11_0i;
 unsigned int imm11_5s, imm4_0s;
@@ -242,7 +244,14 @@ int main(int argc, char const *argv[]) {
 				R[rd] = PC + (imm31_12u << 12);
 				break;
 			case JAL:
-				//TODO: 补充指令模拟代码:
+				cout << "Do JAL" << endl;
+                imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
+                R[rd]=PC;
+				if(imm20j==1){
+                    PC = PC+(0xffe00000|imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1);	
+				}
+				else
+				    PC = PC+imm_temp;
 				break;
 			case JALR:
 				//TODO: 补充指令模拟代码:
@@ -263,11 +272,21 @@ int main(int argc, char const *argv[]) {
 						break;
 					case BGE:
 						cout << "Do BGE" << endl;
-						if(rs1>=rs2)
+						if(R[rs1]>=R[rs2])
 							PC = PC + ((imm12b << 12) | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1));
 						break;
 					case BLTU:
-						//TODO: 补充指令模拟代码:
+						cout << "Do BLTU" << endl;
+					    scr1=R[rs1];
+                        scr2=R[rs2];  	
+                	    if(scr1<scr2){
+                		   imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
+                		   if(imm12b==1){
+                	          PC=PC+(0xffffe000|imm_temp);
+				            }
+				        else
+				           PC=PC+imm_temp;
+					    }
 						break;
 					case BGEU:
 						//TODO: 补充指令模拟代码:
@@ -297,7 +316,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case LBU:
 						cout << "Do LBU" << endl;
-						R[rd] = R[imm11_0i + rs1] & 0x07;
+						R[rd] = R[imm11_0i + R[rs1]] & 0x07;
 						break;
 					case LHU:
 						//TODO: 补充指令模拟代码:
@@ -309,7 +328,16 @@ int main(int argc, char const *argv[]) {
 			case STORE:
 				switch(funct3) {
 					case SB:
-						//TODO: 补充指令模拟代码:
+						cout << "Do SB" << endl;
+            		    char d;
+					    d=R[rs2] & 0xff;
+            		    unsigned int a;
+					    imm_temp=imm11_5s<<5|imm4_0s;
+            		    if(imm11_5s & 0x800){
+            		    	imm_temp=0xfffff000|imm11_5s<<5|imm4_0s;
+					    }
+					    a = R[rs1] + imm_temp;
+            		    writeByte(a, d);
 						break;
 					case SH:
 						//TODO: 补充指令模拟代码:
@@ -339,13 +367,18 @@ int main(int argc, char const *argv[]) {
 						break;
 					case SLTIU:
 						cout << "Do SLTIU" << endl;
-						if(rs1<imm11_0i)
+						if(R[rs1]<imm11_0i)
 							R[rd] = 1;
 						else
 							R[rd] = 0;
 						break;
 					case XORI:
-						//TODO: 补充指令模拟代码:
+						cout << "Do XORI" << endl;
+                        imm_temp = imm11_0i;
+                	    if(imm11_0i & 0x800) {
+                		    imm_temp = imm_temp | 0xfffff000;
+					    }
+                        R[rd]=(imm_temp)^R[rs1];
 						break;
 					case ORI:
 						//TODO: 补充指令模拟代码:
@@ -366,7 +399,7 @@ int main(int argc, char const *argv[]) {
 								break;
 							case SRAI:
 								cout << "Do SRAI" << endl;
-								R[rd] = (rs1 & 0x10) + (rs1 >> 1);
+								R[rd] = (R[rs1] & 0x10) + (R[rs1] >> 1);
 								for(int i=1;i<(imm11_0i & 0x1F);i++){
 									R[rd] = (R[rd] & 0x10) | (R[rd] >> 1);
 								}break;
@@ -383,7 +416,8 @@ int main(int argc, char const *argv[]) {
 					case ADDSUB:
 						switch(funct7) {
 							case ADD:
-								//TODO: 补充指令模拟代码:
+								cout << "Do ADD" << endl;
+								R[rd]=R[rs1]+R[rs2];
 								break;
 							case SUB:
 								//TODO: 补充指令模拟代码:
