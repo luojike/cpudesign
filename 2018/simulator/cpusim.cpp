@@ -1,5 +1,4 @@
 #include <cstdint>
-//#include <cstdio>
 #include <iostream>
 
 using namespace std;
@@ -252,7 +251,7 @@ void decode(uint32_t instruction) {
 
     Imm31_12Utype = instruction & 0xFFFFF000;
 
-    Imm12_1JtypeSignExtended = (imm20j & 0xFFF00000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
+    Imm20_1JtypeSignExtended = (imm20j & 0xFFF00000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
     // ========================================================================
 }
 
