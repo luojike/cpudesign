@@ -244,7 +244,10 @@ int main(int argc, char const *argv[]) {
 						//TODO: 补充指令模拟代码:
 						break;
 					case BNE:
-						//TODO: 补充指令模拟代码:
+						cout << "Do BNE " << endl;
+						if(R[rs1]==R[rs2]){
+							PC += ((imm12b<<12) | (imm11b<<11) | (imm10_5b<<5) | (imm4_1b<<1));
+						}
 						break;
 					case BLT:
 						//TODO: 补充指令模拟代码:
@@ -270,7 +273,15 @@ int main(int argc, char const *argv[]) {
 						//TODO: 补充指令模拟代码:
 						break;
 					case LH:
-						//TODO: 补充指令模拟代码:
+						cout << "Do LH " << endl;
+						unsigned int re2,imm2;
+						imm2=imm11_0i>>11;
+						if(imm2==1){
+							re2=(0xfffff000 | imm11_0i);
+						}else{
+							re2=(0 | imm11_0i);
+						}
+						R[rd]=readhalfWord(R[rs1]+re2);	
 						break;
 					case LW:
 						//TODO: 补充指令模拟代码:
@@ -304,7 +315,15 @@ int main(int argc, char const *argv[]) {
 			case ALUR1:
 				switch(funct3) {
 					case ADDI:
-						//TODO: 补充指令模拟代码:
+						cout <<	"Do ADDI" << endl;
+						unsigned int re3,imm3;
+						imm3=imm11_0i>>11;
+						if(imm3==1){
+							re3=(0xfffff000 | imm11_0i);
+						}else{
+							re3=(0 | imm11_0i);
+						}
+						R[rd]=R[rs1]+re3;
 						break;
 					case SLTI:
 						//TODO: 补充指令模拟代码:
@@ -326,7 +345,10 @@ int main(int argc, char const *argv[]) {
 						//TODO: 补充指令模拟代码:
 						break;
 					case SLLI:
-						//TODO: 补充指令模拟代码:
+						cout << "Do SLLI " << endl;
+						unsigned int imm4;
+						imm4=0x0000001f & imm11_0i;
+						R[rd]=R[rs1]<<imm4;
 						break;
 					case SHR:
 						switch(imm11_0i >> 5) {
@@ -365,7 +387,12 @@ int main(int argc, char const *argv[]) {
 						//TODO: 补充指令模拟代码:
 						break;
 					case SLT:
-						//TODO: 补充指令模拟代码:
+						cout << "Do SLT " << endl;
+						if(R[rs1]<R[rs2]){
+							R[rd]=1;
+						}else{
+							R[rd]=0;
+						}
 						break;
 					case SLTU:
 						//TODO: 补充指令模拟代码:
