@@ -338,7 +338,8 @@ int main(int argc, char const *argv[]) {
 								R[rd] = (rs1 & 0x10) + (rs1 >> 1);
 								for(int i=1;i<(imm11_0i & 0x1F);i++){
 									R[rd] = (R[rd] & 0x10) | (R[rd] >> 1);
-								}break;
+								}
+								break;
 							default:
 								cout << "ERROR: unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
 						}
