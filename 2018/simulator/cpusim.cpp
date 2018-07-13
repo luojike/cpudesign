@@ -295,7 +295,7 @@ int main(int argc, char const *argv[]) {
                 break;
             case JAL:
                 cout << "Do JAL" << endl;
-                R[rd]=PC;
+                R[rd]=PC+4;
                 if(imm20j==1){
                     NextPC = PC+ Imm20_1JtypeSignExtended;    
                 }
@@ -405,9 +405,9 @@ int main(int argc, char const *argv[]) {
                         char d1;
                         d1=R[rs2] & 0xff;
                         unsigned int a1;
-                        imm_temp= Imm11_0StypeSignExtended;
+                        imm_temp= Imm11_0ItypeZeroExtended;
                         if(imm11_5s & 0x800){
-                            imm_temp=0xfffff000|imm_temp;
+                            imm_temp=Imm11_0ItypeSignExtended;
                         }
                         a1 = R[rs1] + imm_temp;
                         writeByte(a1, d1);
@@ -460,9 +460,9 @@ int main(int argc, char const *argv[]) {
                         break;
                     case XORI:
                         cout << "Do XORI" << endl;
-                        imm_temp = Imm11_0ItypeSignExtended;
+                        imm_temp = Imm11_0ItypeZeroExtended;
                         if(imm11_0i & 0x800) {
-                            imm_temp = Imm11_0ItypeSignExtended|0xfffff000;
+                            imm_temp = Imm11_0ItypeSignExtended;
                         }
                         R[rd]=(imm_temp)^R[rs1];
                         break;
