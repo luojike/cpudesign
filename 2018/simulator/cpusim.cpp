@@ -316,10 +316,8 @@ int main(int argc, char const *argv[]) {
                     case BEQ:
                         cout << "DO BLTU" << endl;
                         if(src1==src2){
-                            imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
-                        }else {
-                            NextPC=PC+imm_temp;
-                        }
+							NextPC = PC + Imm11_0ItypeSignExtended;
+						}
                         break;
                     case BNE:
                         cout << "Do BNE " << endl;
@@ -365,11 +363,15 @@ int main(int argc, char const *argv[]) {
                 switch(funct3) {
                     case LB:
                         cout << "DO LB" << endl;
-                        int unsigned data,imm_temp;
-                        char data;
-                        imm_temp = imm11_0i|oxff000000;
-                        data = writeByte(imm11_0i,imm_temp)
-                            R[rs1]=data;
+                        unsigned int temp_LH,temp_LH_UP;
+						temp_LH=readHalfWord(src1+Imm11_0ItypeSignExtended);
+						temp_LH_UP=temp_LH>>15;
+						if(temp_UP==1){
+							temp_LH=0xff000000 | temp_LH);
+						}else{
+							temp_LH=0| temp_LH);
+						}
+						R[rd]=temp_LH; 
                         break;
                     case LH:
                         cout << "Do LH " << endl;
@@ -424,15 +426,15 @@ int main(int argc, char const *argv[]) {
                     case SW:
                         cout << "DO SW" << endl;
                         //unsigned int imm_temp;
-                        char d;
-                        d=R[rs2]&0xffffffff;
-                        unsigned int a;
-                        imm_temp=imm11_5s<<5|imm4_0s;
-                        if(imm11_5s & 0x800) {
-                            imm_temp = 0xffff000|imm11_5<<5|imm4_0s;
+                        char d1;
+                        d1=R[rs2] & 0xffffff;
+                        unsigned int a1;
+                        imm_temp= Imm11_0ItypeZeroExtended;
+                        if(imm11_5s & 0x800){
+                            imm_temp=Imm11_0ItypeSignExtended;
                         }
-                        a=R[rs1]+imm_temp;
-                        writeByte(a,d);
+                        a1 = R[rs1] + imm_temp;
+                        writeByte(a1, d1);
                         break;
                     default:
                         cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
