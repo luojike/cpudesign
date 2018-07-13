@@ -196,9 +196,9 @@ unsigned int imm12b, imm10_5b, imm4_1b, imm11b;
 unsigned int imm31_12u;
 unsigned int imm20j, imm10_1j, imm11j, imm19_12j;
 
-//unsigned int imm_temp;
+
 unsigned int src1,src2;
-//unsigned int src3,src4;
+
 
 unsigned int Imm11_0ItypeZeroExtended;
 int Imm11_0ItypeSignExtended;
