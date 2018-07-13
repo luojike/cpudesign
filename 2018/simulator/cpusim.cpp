@@ -327,7 +327,7 @@ int main(int argc, char const *argv[]) {
                     case BNE:
                         cout << "Do BNE " << endl;
                         if(src1!=src2){
-							PC += Imm11_0ItypeSignExtended = imm11_0i;
+							PC += Imm11_0ItypeSignExtended;
 						}
                         break;
                     case BLT:
