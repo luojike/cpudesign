@@ -328,7 +328,7 @@ int main(int argc, char const *argv[]) {
                     case BNE:
                         cout << "Do BNE " << endl;
                         if(src1!=src2){
-							PC += Imm11_0ItypeSignExtended;
+							NextPC = PC + Imm11_0ItypeSignExtended;
 						}
                         break;
                     case BLT:
@@ -377,12 +377,13 @@ int main(int argc, char const *argv[]) {
                         break;
                     case LH:
                         cout << "Do LH " << endl;
-                        unsigned int temp_LH;
-						temp_LH=readHalfWord(src1+Imm11_0ItypeSignExtended)>>15;
-						if(temp_LH==1){
-							temp_LH=0xfffff00 | readHalfWord(src1+Imm11_0ItypeSignExtended);
+                        unsigned int temp_LH,temp_LH_UP;
+						temp_LH=readHalfWord(src1+Imm11_0ItypeSignExtended);
+						temp_LH_UP=temp_LH>>15;
+						if(temp_UP==1){
+							temp_LH=0xffff0000 | temp_LH);
 						}else{
-							temp_LH=0| readHalfWord(src1+Imm11_0ItypeSignExtended);
+							temp_LH=0| temp_LH);
 						}
 						R[rd]=temp_LH; 
                         break;
@@ -492,9 +493,7 @@ int main(int argc, char const *argv[]) {
                         break;
                     case SLLI:
                         cout << "Do SLLI " << endl;
-                        unsigned int temp_SSLI;
-						temp_SLLI=0x0000001f & imm11_0i;
-						R[rd]=src1<<imm4;
+						R[rd]=src1<<shamt;
                         break;
                     case SHR:
                         switch(funct7) {
