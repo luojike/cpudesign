@@ -316,9 +316,6 @@ int main(int argc, char const *argv[]) {
                 switch(funct3) {
                     case BEQ:
                         cout << "DO BLTU" << endl;
-                        unsigned int src1 =R[rs1];
-                        unsigned int src2 = R[rs2];
-                        unsigned int imm_temp;
                         if(src1==src2){
                             imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
                         }else {
