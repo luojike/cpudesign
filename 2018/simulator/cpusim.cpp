@@ -303,14 +303,10 @@ int main(int argc, char const *argv[]) {
                     NextPC = PC+ Imm20_1JtypeZeroExtended;
                 break;
 		case JALR:
-		imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
-		R[rd]=PC;
-                if(imm20j==1){
-                    NextPC=R[rs1]+Imm20_1JtypeSignExtended);
-                }
-                else
-                    NextPC=R[rs1]+(imm_temp);
-		break;
+		 cout << "DO JALR" << endl;
+		 R[rd]=PC+4;
+                 NextPC=R[rs1]+Imm20_1JtypeSignExtended);
+                 break;
             case BRANCH:
                 switch(funct3) {
                     case BEQ:
@@ -345,15 +341,10 @@ int main(int argc, char const *argv[]) {
                         break;
                     case BGEU:
                         cout<<"Do BGEU"<<endl;
-                        src1=R[rs1];
-                        src2=R[rs2];
                         
-                        if(src1<src2){
-                           
-                            if(imm12b==1){
-                                NextPC=PC+Imm12_1BtypeSignExtended;
-                            }
-                        }
+                        if(src1>=src2){
+                            NextPC=PC+Imm12_1BtypeSignExtended;
+			}    
                         break;
                     default:
                         cout << "ERROR: Unknown funct3 in BRANCH instruction " << IR << endl;
@@ -415,12 +406,13 @@ int main(int argc, char const *argv[]) {
                         break;
                     case SH:
                         cout<<"Do SH"<<endl;
-                        //unsigned int imm_temp;
-                        char j;
+                        uint16_t j;
                         j=R[rs2]&0xffff;
                         unsigned int x;
+		
                         
-                        x=R[rs1]+ Imm11_0StypeSignExtended;
+                        x = R[rs1] + Imm11_0ItypeSignExtended;
+                        
                         writeByte(x,j);
                         break;
                     case SW:
