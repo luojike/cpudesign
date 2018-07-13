@@ -326,9 +326,9 @@ int main(int argc, char const *argv[]) {
                         break;
                     case BNE:
                         cout << "Do BNE " << endl;
-                        if(R[rs1]==R[rs2]){
-                            NextPC += ((imm12b<<12) | (imm11b<<11) | (imm10_5b<<5) | (imm4_1b<<1));
-                        }
+                        if(src1!=src2){
+							PC += Imm11_0ItypeSignExtended = imm11_0i;
+						}
                         break;
                     case BLT:
                         //TODO: Fill code for the instruction here
@@ -379,14 +379,14 @@ int main(int argc, char const *argv[]) {
                         break;
                     case LH:
                         cout << "Do LH " << endl;
-                        unsigned int re2,imm2;
-                        imm2=imm11_0i>>11;
-                        if(imm2==1){
-                            re2=(0xfffff000 | imm11_0i);
-                        }else{
-                            re2=(0 | imm11_0i);
-                        }
-                        R[rd]=readHalfWord(R[rs1]+re2);    
+                        unsigned int temp_LH;
+						temp_LH=readHalfWord(src1+Imm11_0ItypeSignExtended)>>15;
+						if(temp_LH==1){
+							temp_LH=0xfffff00 | readHalfWord(src1+Imm11_0ItypeSignExtended);
+						}else{
+							temp_LH=0| readHalfWord(src1+Imm11_0ItypeSignExtended);
+						}
+						R[rd]=temp_LH; 
                         break;
                     case LW:
                         //TODO: Fill code for the instruction here
@@ -450,14 +450,7 @@ int main(int argc, char const *argv[]) {
                 switch(funct3) {
                     case ADDI:
                         cout <<    "Do ADDI" << endl;
-                        unsigned int re3,imm3;
-                        imm3=imm11_0i>>11;
-                        if(imm3==1){
-                            re3=(0xfffff000 | imm11_0i);
-                        }else{
-                            re3=(0 | imm11_0i);
-                        }
-                        R[rd]=R[rs1]+re3;
+                        R[rd]=src1+Imm11_0ItypeSignExtended;
                         break;
                     case SLTI:
                         //TODO: Fill code for the instruction here
@@ -501,9 +494,9 @@ int main(int argc, char const *argv[]) {
                         break;
                     case SLLI:
                         cout << "Do SLLI " << endl;
-                        unsigned int imm4;
-                        imm4=0x0000001f & imm11_0i;
-                        R[rd]=R[rs1]<<imm4;
+                        unsigned int temp_SSLI;
+						temp_SLLI=0x0000001f & imm11_0i;
+						R[rd]=src1<<imm4;
                         break;
                     case SHR:
                         switch(funct7) {
@@ -549,11 +542,11 @@ int main(int argc, char const *argv[]) {
                         break;
                     case SLT:
                         cout << "Do SLT " << endl;
-                        if(R[rs1]<R[rs2]){
-                            R[rd]=1;
-                        }else{
-                            R[rd]=0;
-                        }
+                        if(src1<src2){
+							R[rd]=1;
+						}else{
+							R[rd]=0;
+						}
                         break;
                     case SLTU:
                         //TODO: Fill code for the instruction here
