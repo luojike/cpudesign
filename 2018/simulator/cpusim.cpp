@@ -196,7 +196,7 @@ unsigned int imm12b, imm10_5b, imm4_1b, imm11b;
 unsigned int imm31_12u;
 unsigned int imm20j, imm10_1j, imm11j, imm19_12j;
 
-
+unsigned int imm_temp;
 unsigned int src1,src2;
 
 
@@ -207,6 +207,7 @@ unsigned int Imm12_1BtypeZeroExtended;
 int Imm12_1BtypeSignExtended;
 unsigned int Imm31_12Utype;
 int Imm20_1JtypeSignExtended;
+int Imm20_1JtypeZeroExtended;
 
 // Functions for CPU
 void decode(uint32_t instruction) {
@@ -252,6 +253,7 @@ void decode(uint32_t instruction) {
     Imm31_12Utype = instruction & 0xFFFFF000;
 
     Imm20_1JtypeSignExtended = (imm20j & 0xFFF00000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
+    Imm20_1JtypeZeroExtended = (imm20j & 0x00100000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
     // ========================================================================
 }
 
@@ -293,13 +295,12 @@ int main(int argc, char const *argv[]) {
                 break;
             case JAL:
                 cout << "Do JAL" << endl;
-                imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
                 R[rd]=PC;
                 if(imm20j==1){
-                    NextPC = PC+(0xffe00000|imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1);    
+                    NextPC = PC+ Imm20_1JtypeSignExtended;    
                 }
                 else
-                    NextPC = PC+imm_temp;
+                    NextPC = PC+ Imm20_1JtypeZeroExtended;
                 break;
             case JALR:
                 unsigned int imm_temp;
@@ -340,15 +341,12 @@ int main(int argc, char const *argv[]) {
                         break;
                     case BLTU:
                         cout << "Do BLTU" << endl;
-                        src1=R[rs1];
-                        src2=R[rs2];      
                         if(src1<src2){
-                            imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
                             if(imm12b==1){
-                                NextPC=PC+(0xffffe000|imm_temp);
+                                NextPC=PC+Imm12_1BtypeSignExtended;
                             }
                             else
-                                NextPC=PC+imm_temp;
+                                NextPC=PC+Imm12_1BtypeZeroExtended;
                         }
                         break;
                     case BGEU:
@@ -406,19 +404,19 @@ int main(int argc, char const *argv[]) {
                 switch(funct3) {
                     case SB:
                         cout << "Do SB" << endl;
-                        char d;
-                        d=R[rs2] & 0xff;
-                        unsigned int a;
-                        imm_temp=imm11_5s<<5|imm4_0s;
+                        char d1;
+                        d1=R[rs2] & 0xff;
+                        unsigned int a1;
+                        imm_temp= Imm11_0StypeSignExtended;
                         if(imm11_5s & 0x800){
-                            imm_temp=0xfffff000|imm11_5s<<5|imm4_0s;
+                            imm_temp=0xfffff000|imm_temp;
                         }
-                        a = R[rs1] + imm_temp;
-                        writeByte(a, d);
+                        a1 = R[rs1] + imm_temp;
+                        writeByte(a1, d1);
                         break;
                     case SH:
                         cout<<"Do SH"<<endl;
-                        unsigned int imm_temp;
+                        //unsigned int imm_temp;
                         char j;
                         j=R[rs2]&0xffff;
                         unsigned int x;
@@ -431,9 +429,9 @@ int main(int argc, char const *argv[]) {
                         break;
                     case SW:
                         cout << "DO SW" << endl;
-                        unsigned int imm_temp;
+                        //unsigned int imm_temp;
                         char d;
-                        d=R[rs2]&oxffffffff;
+                        d=R[rs2]&0xffffffff;
                         unsigned int a;
                         imm_temp=imm11_5s<<5|imm4_0s;
                         if(imm11_5s & 0x800) {
@@ -464,9 +462,9 @@ int main(int argc, char const *argv[]) {
                         break;
                     case XORI:
                         cout << "Do XORI" << endl;
-                        imm_temp = imm11_0i;
+                        imm_temp = Imm11_0ItypeSignExtended;
                         if(imm11_0i & 0x800) {
-                            imm_temp = imm_temp | 0xfffff000;
+                            imm_temp = Imm11_0ItypeSignExtended|0xfffff000;
                         }
                         R[rd]=(imm_temp)^R[rs1];
                         break;
