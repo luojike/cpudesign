@@ -296,16 +296,12 @@ int main(int argc, char const *argv[]) {
             case JAL:
                 cout << "Do JAL" << endl;
                 R[rd]=PC+4;
-                if(imm20j==1){
-                    NextPC = PC+ Imm20_1JtypeSignExtended;    
-                }
-                else
-                    NextPC = PC+ Imm20_1JtypeZeroExtended;
+                NextPC = PC+ Imm20_1JtypeSignExtended;    
                 break;
 		case JALR:
 		 cout << "DO JALR" << endl;
 		 R[rd]=PC+4;
-                 NextPC=R[rs1]+Imm20_1JtypeSignExtended);
+                 NextPC=R[rs1]+Imm20_1JtypeSignExtended;
                  break;
             case BRANCH:
                 switch(funct3) {
@@ -332,11 +328,7 @@ int main(int argc, char const *argv[]) {
                     case BLTU:
                         cout << "Do BLTU" << endl;
                         if(src1<src2){
-                            if(imm12b==1){
-                                NextPC=PC+Imm12_1BtypeSignExtended;
-                            }
-                            else
-                                NextPC=PC+Imm12_1BtypeZeroExtended;
+                            NextPC=PC+Imm12_1BtypeSignExtended;
                         }
                         break;
                     case BGEU:
@@ -397,11 +389,7 @@ int main(int argc, char const *argv[]) {
                         char d1;
                         d1=R[rs2] & 0xff;
                         unsigned int a1;
-                        imm_temp= Imm11_0ItypeZeroExtended;
-                        if(imm11_5s & 0x800){
-                            imm_temp=Imm11_0ItypeSignExtended;
-                        }
-                        a1 = R[rs1] + imm_temp;
+                        a1 = R[rs1] +Imm11_0ItypeSignExtended;
                         writeByte(a1, d1);
                         break;
                     case SH:
@@ -450,16 +438,11 @@ int main(int argc, char const *argv[]) {
                         break;
                     case XORI:
                         cout << "Do XORI" << endl;
-                        imm_temp = Imm11_0ItypeZeroExtended;
-                        if(imm11_0i & 0x800) {
-                            imm_temp = Imm11_0ItypeSignExtended;
-                        }
-                        R[rd]=(imm_temp)^R[rs1];
+                        R[rd]=(Imm11_0ItypeSignExtended)^R[rs1];
                         break;
                     case ORI:
                         cout<<"Do ORI"<<endl;
-                        
-                        R[rd]=R[rs1]|Imm11_0ItypeZeroExtended;
+                        R[rd]=R[rs1]|Imm11_0ItypeSignExtended;
                         break;
                     case ANDI:
                         cout << "DO ANDI"<<endl;
