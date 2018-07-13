@@ -302,16 +302,15 @@ int main(int argc, char const *argv[]) {
                 else
                     NextPC = PC+ Imm20_1JtypeZeroExtended;
                 break;
-            case JALR:
-                unsigned int imm_temp;
-                imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
-                R[rd]=PC;
+		case JALR:
+		imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
+		R[rd]=PC;
                 if(imm20j==1){
-                    NextPC=R[rs1]+(0xffe00000|imm19_12j<<12|imm11j<<1|imm10_1j<<1);
+                    NextPC=R[rs1]+Imm20_1JtypeSignExtended);
                 }
                 else
                     NextPC=R[rs1]+(imm_temp);
-                break;
+		break;
             case BRANCH:
                 switch(funct3) {
                     case BEQ:
@@ -348,13 +347,13 @@ int main(int argc, char const *argv[]) {
                         break;
                     case BGEU:
                         cout<<"Do BGEU"<<endl;
-                        src3=R[rs1];
-                        src4=R[rs2];
-                        unsigned int imm_temp;
-                        if(src3<src4){
-                            imm_temp=imm12b<<12|imm11b<<11|imm10_5b<<5|imm4_1b<<1;
+                        src1=R[rs1];
+                        src2=R[rs2];
+                        
+                        if(src1<src2){
+                           
                             if(imm12b==1){
-                                NextPC=PC+(0xffffe000|imm_temp);
+                                NextPC=PC+Imm12_1BtypeSignExtended;
                             }
                         }
                         break;
@@ -418,11 +417,8 @@ int main(int argc, char const *argv[]) {
                         char j;
                         j=R[rs2]&0xffff;
                         unsigned int x;
-                        imm_temp=imm11_5s<<5|imm4_0s;
-                        if(imm11_5s& 0x800){
-                            imm_temp=0xfffff000|imm11_5s<<5|imm4_0s;
-                        }
-                        x=R[rs1]+imm_temp;
+                        
+                        x=R[rs1]+ Imm11_0StypeSignExtended;
                         writeByte(x,j);
                         break;
                     case SW:
@@ -468,14 +464,8 @@ int main(int argc, char const *argv[]) {
                         break;
                     case ORI:
                         cout<<"Do ORI"<<endl;
-                        unsigned int re223,imm223;
-                        imm223=imm11_0i>>11;
-                        if(imm223==1){
-                            re223=(0xfffff000  | imm11_0i);
-                        }else{
-                            re223=(0 | imm11_0i);
-                        }
-                        R[rd]=R[rs1]|re223;
+                        
+                        R[rd]=R[rs1]|Imm11_0ItypeZeroExtended;
                         break;
                     case ANDI:
                         cout << "DO ANDI"<<endl;
@@ -554,6 +544,7 @@ int main(int argc, char const *argv[]) {
                     case AND:
                         //TODO: Fill code for the instruction here
                         break;
+			
                     case SRLA:
                         switch(funct7) {
                             case SRL:
