@@ -287,7 +287,7 @@ int main(int argc, char const *argv[]) {
         switch(opcode) {
             case LUI:
                 cout << "Do LUI" << endl;
-                R[rd] = imm31_12u << 12;
+                R[rd] = Imm31_12Utype;
                 break;
             case AUIPC:
                 cout << "Do AUIPC" << endl;
@@ -322,8 +322,8 @@ int main(int argc, char const *argv[]) {
                         break;
                     case BGE:
                         cout << "Do BGE" << endl;
-                        if(R[rs1]>=R[rs2])
-                            NextPC = PC + ((imm12b << 12) | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1));
+                        if((int)src1 >= (int)src2)
+                            NextPC = PC + Imm12_1BtypeSignExtended;
                         break;
                     case BLTU:
                         cout << "Do BLTU" << endl;
@@ -373,7 +373,7 @@ int main(int argc, char const *argv[]) {
                         break;
                     case LBU:
                         cout << "Do LBU" << endl;
-                        R[rd] = R[imm11_0i + R[rs1]] & 0x07;
+                        R[rd] = readByte(Imm11_0ItypeSignExtended + src1) & 0x000000ff;
                         break;
                     case LHU:
                         //TODO: Fill code for the instruction here
@@ -431,7 +431,7 @@ int main(int argc, char const *argv[]) {
                         break;
                     case SLTIU:
                         cout << "Do SLTIU" << endl;
-                        if(R[rs1]<imm11_0i)
+                        if(src1<(unsigned int)Imm11_0ItypeSignExtended)
                             R[rd] = 1;
                         else
                             R[rd] = 0;
@@ -466,9 +466,9 @@ int main(int argc, char const *argv[]) {
                                 break;
                             case SRAI:
                                 cout << "Do SRAI" << endl;
-                                R[rd] = (R[rs1] & 0x10) + (R[rs1] >> 1);
-                                for(int i=1;i<(imm11_0i & 0x1F);i++){
-                                    R[rd] = (R[rd] & 0x10) | (R[rd] >> 1);
+                                R[rd] = (src1 & 0x80000000) + (src1 >> 1);
+                                for(int i=1;i<shamt;i++){
+                                    R[rd] = (R[rd] & 0x80000000) | (R[rd] >> 1);
                                 }
                                 break;
                             default:
