@@ -411,7 +411,7 @@ int main(int argc, char const *argv[]) {
 					case SW:
 						cout << "DO SW" << endl;
 						//unsigned int imm_temp;
-						char _swData;
+						uint32_t _swData;
 						_swData=R[rs2] & 0xffffffff;
 						unsigned int _swR;
 						_swR = R[rs1] + Imm11_0StypeSignExtended;
