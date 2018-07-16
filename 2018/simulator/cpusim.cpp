@@ -493,7 +493,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case SLT:
 						cout << "Do SLT " << endl;
-						if(src1<src2){
+						if((int)src1<(int)src2){
 							R[rd]=1;
 						}else{
 							R[rd]=0;
