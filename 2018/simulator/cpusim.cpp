@@ -306,7 +306,7 @@ int main(int argc, char const *argv[]) {
             case BRANCH:
                 switch(funct3) {
                     case BEQ:
-                        cout << "DO BLTU" << endl;
+                        cout << "DO BEQ" << endl;
                         if(src1==src2){
 							NextPC = PC + Imm11_0ItypeSignExtended;
 						}
