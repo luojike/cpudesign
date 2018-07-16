@@ -347,15 +347,15 @@ int main(int argc, char const *argv[]) {
 				switch(funct3) {
 					case LB:
 						cout << "DO LB" << endl;
-						unsigned int temp_LH,temp_LH_UP;
-						temp_LH=readByte(src1+Imm11_0ItypeSignExtended);
-						temp_LH_UP=temp_LH>>15;
-						if(temp_LH_UP==1){
-							temp_LH=0xffffff00 & temp_LH);
+						unsigned int LB_LH,LB_LH_UP;
+						LB_LH=readByte(src1+Imm11_0ItypeSignExtended);
+						LB_LH_UP=temp_LH>>15;
+						if(LB_LH_UP==1){
+							LB_LH=0xffffff00 & LB_LH;
 						}else{
-							temp_LH=0 & temp_LH);
+							LB_LH=0 & LB_LH;
 						}
-						R[rd]=temp_LH; 
+						R[rd]=LB_LH; 
 						break;
 					case LH:
 						cout << "Do LH " << endl;
@@ -387,11 +387,11 @@ int main(int argc, char const *argv[]) {
 				switch(funct3) {
 					case SB:
 						cout << "Do SB" << endl;
-						char d1;
-						d1=R[rs2] & 0xff;
-						unsigned int a1;
-						a1 = R[rs1] +Imm11_0ItypeSignExtended;
-						writeByte(a1, d1);
+						char sb_d1;
+						unsigned int sb_a1;
+						sb_d1=R[rs2] & 0xff;
+						sb_a1 = R[rs1] +Imm11_0ItypeSignExtended;
+						writeByte(sb_a1, sb_d1);
 						break;
 					case SH:
 						cout<<"Do SH"<<endl;
