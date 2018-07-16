@@ -398,9 +398,8 @@ int main(int argc, char const *argv[]) {
 						unsigned int x;
 
 
-						x = R[rs1] + Imm11_0ItypeSignExtended;
-
-						writeByte(x,j);
+						x = R[rs1] + Imm11_0ItypeSignExtended；
+						writeHalfWord(x,j);
 						break;
 					case SW:
 						cout << "DO SW" << endl;
