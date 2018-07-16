@@ -348,6 +348,7 @@ int main(int argc, char const *argv[]) {
 						cout << "DO LB" << endl;
 						unsigned int temp_LH,temp_LH_UP;
 						temp_LH=readByte(src1+Imm11_0ItypeSignExtended);
+						temp_LH_UP=temp_LH>>15;
 						if(temp_LH_UP==1){
 							temp_LH=0xffffff00 | temp_LH);
 						}else{
@@ -408,7 +409,7 @@ int main(int argc, char const *argv[]) {
 						_swData=R[rs2] & 0xffffffff;
 						unsigned int _swR;
 						_swR = R[rs1] + Imm11_0ItypeZeroExtended;
-						writeByte(_swR, _swData);
+						readWord(_swR, _swData);
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
@@ -453,7 +454,10 @@ int main(int argc, char const *argv[]) {
 								break;
 							case SRAI:
 								cout << "Do SRAI" << endl;
-								R[rd] = ((int)src1) >> shamt;
+								R[rd] = (src1 & 0x80000000) + (src1 >> 1);
+								for(int i=1;i<shamt;i++){
+									R[rd] = (R[rd] & 0x80000000) | (R[rd] >> 1);
+								}
 								break;
 							default:
 								cout << "ERROR: Unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
@@ -482,12 +486,12 @@ int main(int argc, char const *argv[]) {
 					case SLL:
 						cout<<"DO SLL"<<endl;
 						unsigned int rsTransform;
-						rsTransform=R[rs1]&0x1f;
-						R[rs2]<<rsTransform;
+						rsTransform=R[rs2]&0x1f;
+						R[rd]=R[rs1]<<rsTransform; 
 						break;
 					case SLT:
 						cout << "Do SLT " << endl;
-						if((int)src1<(int)src2){
+						if(src1<src2){
 							R[rd]=1;
 						}else{
 							R[rd]=0;
