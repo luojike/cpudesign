@@ -348,10 +348,11 @@ int main(int argc, char const *argv[]) {
 						cout << "DO LB" << endl;
 						unsigned int temp_LH,temp_LH_UP;
 						temp_LH=readByte(src1+Imm11_0ItypeSignExtended);
+						temp_LH_UP=temp_LH>>15;
 						if(temp_LH_UP==1){
-							temp_LH=0xffffff00 | temp_LH);
+							temp_LH=0xffffff00 & temp_LH);
 						}else{
-							temp_LH=0| temp_LH);
+							temp_LH=0 & temp_LH);
 						}
 						R[rd]=temp_LH; 
 						break;
