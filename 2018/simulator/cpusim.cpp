@@ -40,7 +40,7 @@ using namespace std;
 
 
 // ALU ops with one immediate
-#define ALUR1 0x13
+#define ALUIMM 0x13
 
 #define ADDI 0x0
 #define SLTI 0x2
@@ -57,7 +57,7 @@ using namespace std;
 
 
 // ALU ops with all register operands
-#define ALUR2 0x33
+#define ALURRR 0x33
 
 #define ADDSUB 0x0  // common funct3 for ADD and SUB
 #define ADD 0x0
@@ -173,8 +173,8 @@ void progMem() {
 	// Write starts with PC at 0
 	writeWord(0, (0xfffff << 12) | (2 << 7) | (LUI));
 	writeWord(4, (1 << 12) | (5 << 7) | (AUIPC));
-	writeWord(8, (0x20<<25) | (5<<15) | (0<<20) | (2 << 12) | (0 << 7) | (STORE));
-	writeWord(12, (0x20<<20) | (0<<15) | (0<<12) | (3<<7) | (LOAD));
+	writeWord(8, (0x20<<25) | (5<<20) | (0<<15) | (SW << 12) | (0 << 7) | (STORE));
+	writeWord(12, (0x400<<20) | (0<<15) | (LB<<12) | (3<<7) | (LOAD));
 }
 
 // ============================================================================
@@ -208,7 +208,7 @@ int Imm11_0ItypeSignExtended;
 int Imm11_0StypeSignExtended;
 unsigned int Imm12_1BtypeZeroExtended;
 int Imm12_1BtypeSignExtended;
-unsigned int Imm31_12Utype;
+unsigned int Imm31_12UtypeZeroFilled;
 int Imm20_1JtypeSignExtended;
 int Imm20_1JtypeZeroExtended;
 
@@ -253,7 +253,7 @@ void decode(uint32_t instruction) {
 	Imm12_1BtypeZeroExtended = imm12b & 0x00001000 | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1);
 	Imm12_1BtypeSignExtended = imm12b & 0xFFFFF000 | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1);
 
-	Imm31_12Utype = instruction & 0xFFFFF000;
+	Imm31_12UtypeZeroFilled = instruction & 0xFFFFF000;
 
 	Imm20_1JtypeSignExtended = (imm20j & 0xFFF00000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
 	Imm20_1JtypeZeroExtended = (imm20j & 0x00100000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
@@ -261,10 +261,10 @@ void decode(uint32_t instruction) {
 }
 
 void showRegs() {
-	cout << "PC=" << PC << " " << "IR=" << IR << endl;
+	cout << "PC=0x" << std::hex << PC << " " << "IR=0x" << std::hex << IR << endl;
 
 	for(int i=0; i<32; i++) {
-		cout << "R[" << i << "]=" << R[i] << " ";
+		cout << "R[" << i << "]=0x" << std::hex << R[i] << " ";
 	}
 	cout << endl;
 }
@@ -279,7 +279,7 @@ int main(int argc, char const *argv[]) {
 	char c = 'Y';
 
 	while(c != 'n') {
-		cout << "Registers bofore executing the instruction at" << PC << endl;
+		cout << "Registers bofore executing the instruction @0x" << std::hex << PC << endl;
 		showRegs();
 
 		IR = readWord(PC);
@@ -290,11 +290,13 @@ int main(int argc, char const *argv[]) {
 		switch(opcode) {
 			case LUI:
 				cout << "Do LUI" << endl;
-				R[rd] = Imm31_12Utype;
+				R[rd] = Imm31_12UtypeZeroFilled;
 				break;
 			case AUIPC:
 				cout << "Do AUIPC" << endl;
-				R[rd] = PC + Imm31_12Utype;
+				cout << "PC = " << PC << endl;
+				cout << "Imm31_12UtypeZeroFilled = " << Imm31_12UtypeZeroFilled << endl;
+				R[rd] = PC + Imm31_12UtypeZeroFilled;
 				break;
 			case JAL:
 				cout << "Do JAL" << endl;
@@ -350,6 +352,7 @@ int main(int argc, char const *argv[]) {
 					case LB:
 						cout << "DO LB" << endl;
 						unsigned int LB_LH,LB_LH_UP;
+						cout << "LB Address is: " << src1+Imm11_0ItypeSignExtended << endl;
 						LB_LH=readByte(src1+Imm11_0ItypeSignExtended);
 						LB_LH_UP=LB_LH>>7;
 						if(LB_LH_UP==1){
@@ -411,14 +414,15 @@ int main(int argc, char const *argv[]) {
 						char _swData;
 						_swData=R[rs2] & 0xffffffff;
 						unsigned int _swR;
-						_swR = R[rs1] + Imm11_0ItypeZeroExtended;
+						_swR = R[rs1] + Imm11_0StypeSignExtended;
+						cout << "SW Addr and Data are: " << _swR << ", " << _swData << endl;
 						writeWord(_swR, _swData);
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
 				}
 				break;
-			case ALUR1:
+			case ALUIMM:
 				switch(funct3) {
 					case ADDI:
 						cout <<    "Do ADDI" << endl;
@@ -460,14 +464,14 @@ int main(int argc, char const *argv[]) {
 								R[rd] = ((int)src1) >> shamt;
 								break;
 							default:
-								cout << "ERROR: Unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
+								cout << "ERROR: Unknown (imm11_0i >> 5) in ALUIMM SHR instruction " << IR << endl;
 						}
 						break;
 					default:
-						cout << "ERROR: Unknown funct3 in ALUR1 instruction " << IR << endl;
+						cout << "ERROR: Unknown funct3 in ALUIMM instruction " << IR << endl;
 				}
 				break;
-			case ALUR2:
+			case ALURRR:
 				switch(funct3) {
 					case ADDSUB:
 						switch(funct7) {
@@ -480,7 +484,7 @@ int main(int argc, char const *argv[]) {
 								R[rd]=R[rs1]-R[rs2];
 								break;
 							default:
-								cout << "ERROR: Unknown funct7 in ALUR2 ADDSUB instruction " << IR << endl;
+								cout << "ERROR: Unknown funct7 in ALURRR ADDSUB instruction " << IR << endl;
 						}
 						break;
 					case SLL:
@@ -519,11 +523,11 @@ int main(int argc, char const *argv[]) {
 								//TODO: Fill code for the instruction here
 								break;
 							default:
-								cout << "ERROR: Unknown funct7 in ALUR2 SRLA instruction " << IR << endl;
+								cout << "ERROR: Unknown funct7 in ALURRR SRLA instruction " << IR << endl;
 						}
 						break;
 					default:
-						cout << "ERROR: Unknown funct3 in ALUR2 instruction " << IR << endl;
+						cout << "ERROR: Unknown funct3 in ALURRR instruction " << IR << endl;
 				}
 				break;
 			case FENCES:
