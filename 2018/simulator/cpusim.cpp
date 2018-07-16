@@ -455,10 +455,7 @@ int main(int argc, char const *argv[]) {
 								break;
 							case SRAI:
 								cout << "Do SRAI" << endl;
-								R[rd] = (src1 & 0x80000000) + (src1 >> 1);
-								for(int i=1;i<shamt;i++){
-									R[rd] = (R[rd] & 0x80000000) | (R[rd] >> 1);
-								}
+								R[rd] = ((int)src1) >> shamt;
 								break;
 							default:
 								cout << "ERROR: Unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
