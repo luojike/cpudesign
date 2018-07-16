@@ -361,10 +361,10 @@ int main(int argc, char const *argv[]) {
                         unsigned int temp_LH,temp_LH_UP;
 						temp_LH=readHalfWord(src1+Imm11_0ItypeSignExtended);
 						temp_LH_UP=temp_LH>>15;
-						if(temp_UP==1){
-							temp_LH=0xffff0000 | temp_LH);
+						if(temp_LH_UP==1){
+							temp_LH=0xffff0000 | temp_LH;
 						}else{
-							temp_LH=0| temp_LH);
+							temp_LH=0| temp_LH;
 						}
 						R[rd]=temp_LH; 
                         break;
