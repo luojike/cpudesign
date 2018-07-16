@@ -405,7 +405,7 @@ int main(int argc, char const *argv[]) {
 						unsigned int x;
 
 
-						x = R[rs1] + Imm11_0ItypeSignExtended;
+						x = R[rs1] + Imm11_0StypeSignExtended;
 						writeHalfWord(x,j);
 						break;
 					case SW:
