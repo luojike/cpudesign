@@ -349,7 +349,7 @@ int main(int argc, char const *argv[]) {
 						cout << "DO LB" << endl;
 						unsigned int LB_LH,LB_LH_UP;
 						LB_LH=readByte(src1+Imm11_0ItypeSignExtended);
-						LB_LH_UP=temp_LH>>15;
+						LB_LH_UP=LB_LH>>15;
 						if(LB_LH_UP==1){
 							LB_LH=0xffffff00 & LB_LH;
 						}else{
