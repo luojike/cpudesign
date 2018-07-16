@@ -70,11 +70,11 @@ while(1) {
 
 第一条指令运行后模拟器的输出
 
-![图1](../perf/perf_ls.png)
+![图1](./some.png)
 
 最后一条指令运行后模拟器的输出
 
-![图2](../perf/perf_ls.png)
+![图2](./another.png)
 
 ## 分析和结论
 
