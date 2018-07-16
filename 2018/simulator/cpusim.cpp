@@ -171,7 +171,8 @@ void writeHalfWord(unsigned int address, uint32_t data) {
 // Write memory with instructions to test
 void progMem() {
 	// Write starts with PC at 0
-	writeWord(0, (1 << 12) | (5 << 7) | (AUIPC));
+	writeWord(0, (0xfffff << 12) | (2 << 7) | (LUI));
+	writeWord(4, (1 << 12) | (5 << 7) | (AUIPC));
 }
 
 // ============================================================================
@@ -291,7 +292,7 @@ int main(int argc, char const *argv[]) {
 				break;
 			case AUIPC:
 				cout << "Do AUIPC" << endl;
-				R[rd] = PC + (imm31_12u << 12);
+				R[rd] = PC + Imm31_12Utype;
 				break;
 			case JAL:
 				cout << "Do JAL" << endl;
