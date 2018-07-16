@@ -395,7 +395,7 @@ int main(int argc, char const *argv[]) {
 						char sb_d1;
 						unsigned int sb_a1;
 						sb_d1=R[rs2] & 0xff;
-						sb_a1 = R[rs1] +Imm11_0ItypeSignExtended;
+						sb_a1 = R[rs1] +Imm11_0StypeSignExtended;
 						writeByte(sb_a1, sb_d1);
 						break;
 					case SH:
@@ -403,8 +403,6 @@ int main(int argc, char const *argv[]) {
 						uint16_t j;
 						j=R[rs2]&0xffff;
 						unsigned int x;
-
-
 						x = R[rs1] + Imm11_0StypeSignExtended;
 						writeHalfWord(x,j);
 						break;
