@@ -409,7 +409,7 @@ int main(int argc, char const *argv[]) {
 						_swData=R[rs2] & 0xffffffff;
 						unsigned int _swR;
 						_swR = R[rs1] + Imm11_0ItypeZeroExtended;
-						readWord(_swR, _swData);
+						writeWord(_swR, _swData);
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
