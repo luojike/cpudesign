@@ -314,7 +314,7 @@ int main(int argc, char const *argv[]) {
 					case BNE:
 						cout << "Do BNE " << endl;
 						if(src1!=src2){
-							NextPC = PC + Imm11_0ItypeSignExtended;
+							NextPC = PC + Imm12_1BtypeSignExtended;
 						}
 						break;
 					case BLT:
