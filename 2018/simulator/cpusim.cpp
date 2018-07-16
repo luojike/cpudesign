@@ -404,15 +404,11 @@ int main(int argc, char const *argv[]) {
 					case SW:
 						cout << "DO SW" << endl;
 						//unsigned int imm_temp;
-						char d1;
-						d1=R[rs2] & 0xffffff;
-						unsigned int a1;
-						imm_temp= Imm11_0ItypeZeroExtended;
-						if(imm11_5s & 0x800){
-							imm_temp=Imm11_0ItypeSignExtended;
-						}
-						a1 = R[rs1] + imm_temp;
-						writeByte(a1, d1);
+						char _swData;
+						_swData=R[rs2] & 0xffffffff;
+						unsigned int _swR;
+						_swR = R[rs1] + Imm11_0ItypeZeroExtended;
+						writeByte(_swR, _swData);
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
@@ -444,14 +440,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case ANDI:
 						cout << "DO ANDI"<<endl;
-						unsigned int re3,imm3;
-						imm3=imm11_0i>>11;
-						if(imm3==1){
-							re3=(0xfffff000|imm11_0i);
-						}else{
-							re3=(0|imm11_0i);    
-						}
-						R[rd]=R[rs1]&re3;
+						R[rd]=R[rs1]&Imm11_0ItypeSignExtended;
 						break;
 					case SLLI:
 						cout << "Do SLLI " << endl;
