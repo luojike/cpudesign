@@ -175,6 +175,10 @@ void progMem() {
 	writeWord(4, (1 << 12) | (5 << 7) | (AUIPC));
 	writeWord(8, (0x20<<25) | (5<<20) | (0<<15) | (SW << 12) | (0 << 7) | (STORE));
 	writeWord(12, (0x400<<20) | (0<<15) | (LB<<12) | (3<<7) | (LOAD));
+	writeWord(16, (0x400<<20) | (0<<15) | (LBU<<12) | (7<<7) | (LOAD));
+	writeWord(20, (0x0<<25) | (2<<20) | (0<<15) | (BGE<<12) | (0x8<<7) | (BRANCH));
+	writeWord(28, (0x8<<20) | (3<<15) | (SLTIU<<12) | (8<<7) | (ALUIMM));
+	writeWord(32, (SRAI<<25) | (0x2<<20) | (0x2<<15) | (SHR<<12) | (9<<7) | (ALUIMM));
 }
 
 // ============================================================================
@@ -395,7 +399,7 @@ int main(int argc, char const *argv[]) {
 						char sb_d1;
 						unsigned int sb_a1;
 						sb_d1=R[rs2] & 0xff;
-						sb_a1 = R[rs1] +Imm11_0ItypeSignExtended;
+						sb_a1 = R[rs1] +Imm11_0StypeSignExtended;
 						writeByte(sb_a1, sb_d1);
 						break;
 					case SH:
@@ -403,9 +407,7 @@ int main(int argc, char const *argv[]) {
 						uint16_t j;
 						j=R[rs2]&0xffff;
 						unsigned int x;
-
-
-						x = R[rs1] + Imm11_0ItypeSignExtended;
+						x = R[rs1] + Imm11_0StypeSignExtended;
 						writeHalfWord(x,j);
 						break;
 					case SW:
@@ -495,7 +497,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case SLT:
 						cout << "Do SLT " << endl;
-						if(src1<src2){
+						if((int)src1<(int)src2){
 							R[rd]=1;
 						}else{
 							R[rd]=0;
