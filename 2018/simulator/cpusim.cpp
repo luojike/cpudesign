@@ -347,7 +347,7 @@ int main(int argc, char const *argv[]) {
 					case LB:
 						cout << "DO LB" << endl;
 						unsigned int temp_LH,temp_LH_UP;
-						temp_LH=readHalfWord(src1+Imm11_0ItypeSignExtended);
+						temp_LH=readByte(src1+Imm11_0ItypeSignExtended);
 						temp_LH_UP=temp_LH>>15;
 						if(temp_UP==1){
 							temp_LH=0xff000000 | temp_LH);
