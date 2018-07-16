@@ -267,55 +267,47 @@ void showRegs() {
 }
 
 int main(int argc, char const *argv[]) {
-	/* code */
-	allocMem(4096);
-	progMem();
+    /* code */
+    allocMem(4096);
+    progMem();
 
-	PC = 0;
+    PC = 0;
 
-	char c = 'Y';
+    char c = 'Y';
 
-	while(c != 'n') {
-		cout << "Registers bofore executing the instruction at" << PC << endl;
-		showRegs();
+    while(c != 'n') {
+        cout << "Registers bofore executing the instruction at" << PC << endl;
+        showRegs();
 
-		IR = readWord(PC);
-		NextPC = PC + WORDSIZE;
+        IR = readWord(PC);
+        NextPC = PC + WORDSIZE;
 
-		decode(IR);
+        decode(IR);
 
-		switch(opcode) {
-			case LUI:
-				cout << "Do LUI" << endl;
-				R[rd] = imm31_12u << 12;
-				break;
-			case AUIPC:
-				cout << "Do AUIPC" << endl;
-				R[rd] = PC + (imm31_12u << 12);
-				break;
-			case JAL:
-				cout << "Do JAL" << endl;
-				R[rd]=PC+4;
-				if(imm20j==1){
-					NextPC = PC+ Imm20_1JtypeSignExtended;    
-				}
-				else
-					NextPC = PC+ Imm20_1JtypeZeroExtended;
-				break;
-			case JALR:
-				imm_temp=imm20j<<20|imm19_12j<<12|imm11j<<11|imm10_1j<<1;
-				R[rd]=PC;
-				if(imm20j==1){
-					NextPC=R[rs1]+Imm20_1JtypeSignExtended);
-				}
-				else
-					NextPC=R[rs1]+(imm_temp);
-				break;
-			case BRANCH:
-				switch(funct3) {
-					case BEQ:
-						cout << "DO BLTU" << endl;
-						if(src1==src2){
+        switch(opcode) {
+            case LUI:
+                cout << "Do LUI" << endl;
+                R[rd] = Imm31_12Utype;
+                break;
+            case AUIPC:
+                cout << "Do AUIPC" << endl;
+                R[rd] = PC + (imm31_12u << 12);
+                break;
+            case JAL:
+                cout << "Do JAL" << endl;
+                R[rd]=PC+4;
+                NextPC = PC+ Imm20_1JtypeSignExtended;    
+                break;
+		case JALR:
+		 cout << "DO JALR" << endl;
+		 R[rd]=PC+4;
+                 NextPC=R[rs1]+Imm20_1JtypeSignExtended;
+                 break;
+            case BRANCH:
+                switch(funct3) {
+                    case BEQ:
+                        cout << "DO BLTU" << endl;
+                        if(src1==src2){
 							NextPC = PC + Imm11_0ItypeSignExtended;
 						}
 						break;
@@ -324,46 +316,37 @@ int main(int argc, char const *argv[]) {
 						if(src1!=src2){
 							NextPC = PC + Imm11_0ItypeSignExtended;
 						}
-						break;
-					case BLT:
-						//TODO: Fill code for the instruction here
-						break;
-					case BGE:
-						cout << "Do BGE" << endl;
-						if(R[rs1]>=R[rs2])
-							NextPC = PC + ((imm12b << 12) | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1));
-						break;
-					case BLTU:
-						cout << "Do BLTU" << endl;
-						if(src1<src2){
-							if(imm12b==1){
-								NextPC=PC+Imm12_1BtypeSignExtended;
-							}
-							else
-								NextPC=PC+Imm12_1BtypeZeroExtended;
-						}
-						break;
-					case BGEU:
-						cout<<"Do BGEU"<<endl;
-						src1=R[rs1];
-						src2=R[rs2];
-
-						if(src1<src2){
-
-							if(imm12b==1){
-								NextPC=PC+Imm12_1BtypeSignExtended;
-							}
-						}
-						break;
-					default:
-						cout << "ERROR: Unknown funct3 in BRANCH instruction " << IR << endl;
-				}
-				break;
-			case LOAD:
-				switch(funct3) {
-					case LB:
-						cout << "DO LB" << endl;
-						unsigned int temp_LH,temp_LH_UP;
+                        break;
+                    case BLT:
+                        //TODO: Fill code for the instruction here
+                        break;
+                    case BGE:
+                        cout << "Do BGE" << endl;
+                        if((int)src1 >= (int)src2)
+                            NextPC = PC + Imm12_1BtypeSignExtended;
+                        break;
+                    case BLTU:
+                        cout << "Do BLTU" << endl;
+                        if(src1<src2){
+                            NextPC=PC+Imm12_1BtypeSignExtended;
+                        }
+                        break;
+                    case BGEU:
+                        cout<<"Do BGEU"<<endl;
+                        
+                        if(src1>=src2){
+                            NextPC=PC+Imm12_1BtypeSignExtended;
+			}    
+                        break;
+                    default:
+                        cout << "ERROR: Unknown funct3 in BRANCH instruction " << IR << endl;
+                }
+                break;
+            case LOAD:
+                switch(funct3) {
+                    case LB:
+                        cout << "DO LB" << endl;
+                        unsigned int temp_LH,temp_LH_UP;
 						temp_LH=readHalfWord(src1+Imm11_0ItypeSignExtended);
 						temp_LH_UP=temp_LH>>15;
 						if(temp_UP==1){
@@ -384,151 +367,143 @@ int main(int argc, char const *argv[]) {
 							temp_LH=0| temp_LH);
 						}
 						R[rd]=temp_LH; 
-						break;
-					case LW:
-						//TODO: Fill code for the instruction here
-						break;
-					case LBU:
-						cout << "Do LBU" << endl;
-						R[rd] = R[imm11_0i + R[rs1]] & 0x07;
-						break;
-					case LHU:
-						//TODO: Fill code for the instruction here
-						break;
-					default:
-						cout << "ERROR: Unknown funct3 in LOAD instruction " << IR << endl;
-				}
-				break;
-			case STORE:
-				switch(funct3) {
-					case SB:
-						cout << "Do SB" << endl;
-						char d1;
-						d1=R[rs2] & 0xff;
-						unsigned int a1;
-						imm_temp= Imm11_0ItypeZeroExtended;
-						if(imm11_5s & 0x800){
-							imm_temp=Imm11_0ItypeSignExtended;
-						}
-						a1 = R[rs1] + imm_temp;
-						writeByte(a1, d1);
-						break;
-					case SH:
-						cout<<"Do SH"<<endl;
-						//unsigned int imm_temp;
-						char j;
-						j=R[rs2]&0xffff;
-						unsigned int x;
-
-						x=R[rs1]+ Imm11_0StypeSignExtended;
-						writeByte(x,j);
-						break;
-					case SW:
-						cout << "DO SW" << endl;
-						//unsigned int imm_temp;
-						char d1;
-						d1=R[rs2] & 0xffffff;
-						unsigned int a1;
-						imm_temp= Imm11_0ItypeZeroExtended;
-						if(imm11_5s & 0x800){
-							imm_temp=Imm11_0ItypeSignExtended;
-						}
-						a1 = R[rs1] + imm_temp;
-						writeByte(a1, d1);
-						break;
-					default:
-						cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
-				}
-				break;
-			case ALUR1:
-				switch(funct3) {
-					case ADDI:
-						cout <<    "Do ADDI" << endl;
-						R[rd]=src1+Imm11_0ItypeSignExtended;
-						break;
-					case SLTI:
-						//TODO: Fill code for the instruction here
-						break;
-					case SLTIU:
-						cout << "Do SLTIU" << endl;
-						if(R[rs1]<imm11_0i)
-							R[rd] = 1;
-						else
-							R[rd] = 0;
-						break;
-					case XORI:
-						cout << "Do XORI" << endl;
-						imm_temp = Imm11_0ItypeZeroExtended;
-						if(imm11_0i & 0x800) {
-							imm_temp = Imm11_0ItypeSignExtended;
-						}
-						R[rd]=(imm_temp)^R[rs1];
-						break;
-					case ORI:
-						cout<<"Do ORI"<<endl;
-
-						R[rd]=R[rs1]|Imm11_0ItypeZeroExtended;
-						break;
-					case ANDI:
-						cout << "DO ANDI"<<endl;
-						unsigned int re3,imm3;
-						imm3=imm11_0i>>11;
-						if(imm3==1){
-							re3=(0xfffff000|imm11_0i);
-						}else{
-							re3=(0|imm11_0i);    
-						}
-						R[rd]=R[rs1]&re3;
-						break;
-					case SLLI:
-						cout << "Do SLLI " << endl;
+                        break;
+                    case LW:
+                        //TODO: Fill code for the instruction here
+                        break;
+                    case LBU:
+                        cout << "Do LBU" << endl;
+                        R[rd] = readByte(Imm11_0ItypeSignExtended + src1) & 0x000000ff;
+                        break;
+                    case LHU:
+                        //TODO: Fill code for the instruction here
+                        break;
+                    default:
+                        cout << "ERROR: Unknown funct3 in LOAD instruction " << IR << endl;
+                }
+                break;
+            case STORE:
+                switch(funct3) {
+                    case SB:
+                        cout << "Do SB" << endl;
+                        char d1;
+                        d1=R[rs2] & 0xff;
+                        unsigned int a1;
+                        a1 = R[rs1] +Imm11_0ItypeSignExtended;
+                        writeByte(a1, d1);
+                        break;
+                    case SH:
+                        cout<<"Do SH"<<endl;
+                        uint16_t j;
+                        j=R[rs2]&0xffff;
+                        unsigned int x;
+		
+                        
+                        x = R[rs1] + Imm11_0ItypeSignExtended;
+                        
+                        writeByte(x,j);
+                        break;
+                    case SW:
+                        cout << "DO SW" << endl;
+                        //unsigned int imm_temp;
+                        char d1;
+                        d1=R[rs2] & 0xffffff;
+                        unsigned int a1;
+                        imm_temp= Imm11_0ItypeZeroExtended;
+                        if(imm11_5s & 0x800){
+                            imm_temp=Imm11_0ItypeSignExtended;
+                        }
+                        a1 = R[rs1] + imm_temp;
+                        writeByte(a1, d1);
+                        break;
+                    default:
+                        cout << "ERROR: Unknown funct3 in STORE instruction " << IR << endl;
+                }
+                break;
+            case ALUR1:
+                switch(funct3) {
+                    case ADDI:
+                        cout <<    "Do ADDI" << endl;
+                        R[rd]=src1+Imm11_0ItypeSignExtended;
+                        break;
+                    case SLTI:
+                        //TODO: Fill code for the instruction here
+                        break;
+                    case SLTIU:
+                        cout << "Do SLTIU" << endl;
+                        if(src1<(unsigned int)Imm11_0ItypeSignExtended)
+                            R[rd] = 1;
+                        else
+                            R[rd] = 0;
+                        break;
+                    case XORI:
+                        cout << "Do XORI" << endl;
+                        R[rd]=(Imm11_0ItypeSignExtended)^R[rs1];
+                        break;
+                    case ORI:
+                        cout<<"Do ORI"<<endl;
+                        R[rd]=R[rs1]|Imm11_0ItypeSignExtended;
+                        break;
+                    case ANDI:
+                        cout << "DO ANDI"<<endl;
+                        unsigned int re3,imm3;
+                        imm3=imm11_0i>>11;
+                        if(imm3==1){
+                            re3=(0xfffff000|imm11_0i);
+                        }else{
+                            re3=(0|imm11_0i);    
+                        }
+                        R[rd]=R[rs1]&re3;
+                        break;
+                    case SLLI:
+                        cout << "Do SLLI " << endl;
 						R[rd]=src1<<shamt;
-						break;
-					case SHR:
-						switch(funct7) {
-							case SRLI:
-								//TODO: Fill code for the instruction here
-								break;
-							case SRAI:
-								cout << "Do SRAI" << endl;
-								R[rd] = (R[rs1] & 0x10) + (R[rs1] >> 1);
-								for(int i=1;i<(imm11_0i & 0x1F);i++){
-									R[rd] = (R[rd] & 0x10) | (R[rd] >> 1);
-								}
-								break;
-							default:
-								cout << "ERROR: Unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
-						}
-						break;
-					default:
-						cout << "ERROR: Unknown funct3 in ALUR1 instruction " << IR << endl;
-				}
-				break;
-			case ALUR2:
-				switch(funct3) {
-					case ADDSUB:
-						switch(funct7) {
-							case ADD:
-								cout << "Do ADD" << endl;
-								R[rd]=R[rs1]+R[rs2];
-								break;
-							case SUB:
-								cout<<" Do SUB"<<endl;
-								R[rd]=R[rs1]-R[rs2];
-								break;
-							default:
-								cout << "ERROR: Unknown funct7 in ALUR2 ADDSUB instruction " << IR << endl;
-						}
-						break;
-					case SLL:
-						cout<<"DO SLL"<<endl;
-						unsigned int rsTransform;
-						rsTransform=R[rs1]&0x1f;
-						R[rs2]<<rsTransform;
-						break;
-					case SLT:
-						cout << "Do SLT " << endl;
-						if(src1<src2){
+                        break;
+                    case SHR:
+                        switch(funct7) {
+                            case SRLI:
+                                //TODO: Fill code for the instruction here
+                                break;
+                            case SRAI:
+                                cout << "Do SRAI" << endl;
+                                R[rd] = (src1 & 0x80000000) + (src1 >> 1);
+                                for(int i=1;i<shamt;i++){
+                                    R[rd] = (R[rd] & 0x80000000) | (R[rd] >> 1);
+                                }
+                                break;
+                            default:
+                                cout << "ERROR: Unknown (imm11_0i >> 5) in ALUR1 SHR instruction " << IR << endl;
+                        }
+                        break;
+                    default:
+                        cout << "ERROR: Unknown funct3 in ALUR1 instruction " << IR << endl;
+                }
+                break;
+            case ALUR2:
+                switch(funct3) {
+                    case ADDSUB:
+                        switch(funct7) {
+                            case ADD:
+                                cout << "Do ADD" << endl;
+                                R[rd]=R[rs1]+R[rs2];
+                                break;
+                            case SUB:
+                                cout<<" Do SUB"<<endl;
+                                R[rd]=R[rs1]-R[rs2];
+                                break;
+                            default:
+                                cout << "ERROR: Unknown funct7 in ALUR2 ADDSUB instruction " << IR << endl;
+                        }
+                        break;
+                    case SLL:
+                        cout<<"DO SLL"<<endl;
+                        unsigned int rsTransform;
+                        rsTransform=R[rs1]&0x1f;
+                        R[rs2]<<rsTransform;
+                        break;
+                    case SLT:
+                        cout << "Do SLT " << endl;
+                        if(src1<src2){
 							R[rd]=1;
 						}else{
 							R[rd]=0;
