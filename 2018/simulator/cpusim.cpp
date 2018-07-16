@@ -550,6 +550,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case FENCE_I:
 						//TODO: Fill code for the instruction here
+						cout<<"nop"<<endl;
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in FENCES instruction " << IR << endl;
@@ -574,19 +575,36 @@ int main(int argc, char const *argv[]) {
 						break;
 					case CSRRS:
 						//TODO: Fill code for the instruction here
-						break;
+						{
+						    uint32_t temp=imm11j&0x00000fff;
+						    rd=(temp|rs1)&0x1f;
+						    break;
+						}
 					case CSRRC:
 						//TODO: Fill code for the instruction here
 						break;
 					case CSRRWI:
 						//TODO: Fill code for the instruction here
-						break;
+						{	
+						    uint32_t temp=imm11j;
+					            uint32_t zmm=rs1&0x000001f;
+					            if(rd!=0x0)
+						    {	
+							rd=temp&0x1f;
+							}
+						    imm11j=zmm&0xfff;
+						    break;
+						}
 					case CSRRSI:
 						//TODO: Fill code for the instruction here
 						break;
 					case CSRRCI:
 						//TODO: Fill code for the instruction here
-						break;
+						{	uint32_t temp=imm11j;
+							uint32_t zmm=!(rs1&0x1f);
+							rd=(temp&zmm);
+							break;
+						}
 					default:
 						cout << "ERROR: Unknown funct3 in CSRX instruction " << IR << endl;
 				}
