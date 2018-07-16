@@ -103,75 +103,75 @@ char* M;
 
 // Functions for memory
 int allocMem(uint32_t s) {
-    M = new char[s];
-    MSize = s;
+	M = new char[s];
+	MSize = s;
 
-    return s;
+	return s;
 }
 
 void freeMem() {
-    delete[] M;
-    MSize = 0;
+	delete[] M;
+	MSize = 0;
 }
 
 char readByte(unsigned int address) {
-    if(address >= MSize) {
-        cout << "ERROR: Address out of range in readByte" << endl;
-        return 0;
-    }
+	if(address >= MSize) {
+		cout << "ERROR: Address out of range in readByte" << endl;
+		return 0;
+	}
 
-    return M[address];
+	return M[address];
 }
 
 void writeByte(unsigned int address, char data) {
-    if(address >= MSize) {
-        cout << "ERROR: Address out of range in writeByte" << endl;
-        return;
-    }
+	if(address >= MSize) {
+		cout << "ERROR: Address out of range in writeByte" << endl;
+		return;
+	}
 
-    M[address] = data;
+	M[address] = data;
 }
 
 uint32_t readWord(unsigned int address) {
-    if(address >= MSize-WORDSIZE) {
-        cout << "ERROR: Address out of range in readWord" << endl;
-        return 0;
-    }
+	if(address >= MSize-WORDSIZE) {
+		cout << "ERROR: Address out of range in readWord" << endl;
+		return 0;
+	}
 
-    return *((uint32_t*)&(M[address]));
+	return *((uint32_t*)&(M[address]));
 }
 
 uint32_t readHalfWord(unsigned int address){
-    if(address >= MSize-WORDSIZE/2) {
-        cout << "ERROR: Address out of range in readWord" << endl;
-        return 0;
-    }
+	if(address >= MSize-WORDSIZE/2) {
+		cout << "ERROR: Address out of range in readWord" << endl;
+		return 0;
+	}
 
-    return *((uint16_t*)&(M[address]));
+	return *((uint16_t*)&(M[address]));
 }
 
 void writeWord(unsigned int address, uint32_t data) {
-    if(address >= MSize-WORDSIZE) {
-        cout << "ERROR: Address out of range in writeWord" << endl;
-        return;
-    }
+	if(address >= MSize-WORDSIZE) {
+		cout << "ERROR: Address out of range in writeWord" << endl;
+		return;
+	}
 
-    *((uint32_t*)&(M[address])) = data;
+	*((uint32_t*)&(M[address])) = data;
 }
 
 void writeHalfWord(unsigned int address, uint32_t data) {
-    if(address >= MSize-WORDSIZE/2) {
-        cout << "ERROR: Address out of range in writeWord" << endl;
-        return;
-    }
+	if(address >= MSize-WORDSIZE/2) {
+		cout << "ERROR: Address out of range in writeWord" << endl;
+		return;
+	}
 
-    *((uint16_t*)&(M[address])) = data;
+	*((uint16_t*)&(M[address])) = data;
 }
 
 // Write memory with instructions to test
 void progMem() {
-    // Write starts with PC at 0
-    writeWord(0, (1 << 12) | (5 << 7) | (AUIPC));
+	// Write starts with PC at 0
+	writeWord(0, (1 << 12) | (5 << 7) | (AUIPC));
 }
 
 // ============================================================================
@@ -211,59 +211,59 @@ int Imm20_1JtypeZeroExtended;
 
 // Functions for CPU
 void decode(uint32_t instruction) {
-    // Extract all bit fields from instruction
-    opcode = instruction & 0x7F;
-    rd = (instruction & 0x0F80) >> 7;
-    rs1 = (instruction & 0xF8000) >> 15;
-    zimm = rs1;
-    rs2 = (instruction & 0x1F00000) >> 20;
-    shamt = rs2;
-    funct3 = (instruction & 0x7000) >> 12;
-    funct7 = instruction >> 25;
-    imm11_0i = ((int32_t)instruction) >> 20;
-    csr = instruction >> 20;
-    imm11_5s = ((int32_t)instruction) >> 25;
-    imm4_0s = (instruction >> 7) & 0x01F;
-    imm12b = ((int32_t)instruction) >> 31;
-    imm10_5b = (instruction >> 25) & 0x3F;
-    imm4_1b = (instruction & 0x0F00) >> 8;
-    imm11b = (instruction & 0x080) >> 7;
-    imm31_12u = instruction >> 12;
-    imm20j = ((int32_t)instruction) >> 31;
-    imm10_1j = (instruction >> 21) & 0x3FF;
-    imm11j = (instruction >> 20) & 1;
-    imm19_12j = (instruction >> 12) & 0x0FF;
-    pred = (instruction >> 24) & 0x0F;
-    succ = (instruction >> 20) & 0x0F;
+	// Extract all bit fields from instruction
+	opcode = instruction & 0x7F;
+	rd = (instruction & 0x0F80) >> 7;
+	rs1 = (instruction & 0xF8000) >> 15;
+	zimm = rs1;
+	rs2 = (instruction & 0x1F00000) >> 20;
+	shamt = rs2;
+	funct3 = (instruction & 0x7000) >> 12;
+	funct7 = instruction >> 25;
+	imm11_0i = ((int32_t)instruction) >> 20;
+	csr = instruction >> 20;
+	imm11_5s = ((int32_t)instruction) >> 25;
+	imm4_0s = (instruction >> 7) & 0x01F;
+	imm12b = ((int32_t)instruction) >> 31;
+	imm10_5b = (instruction >> 25) & 0x3F;
+	imm4_1b = (instruction & 0x0F00) >> 8;
+	imm11b = (instruction & 0x080) >> 7;
+	imm31_12u = instruction >> 12;
+	imm20j = ((int32_t)instruction) >> 31;
+	imm10_1j = (instruction >> 21) & 0x3FF;
+	imm11j = (instruction >> 20) & 1;
+	imm19_12j = (instruction >> 12) & 0x0FF;
+	pred = (instruction >> 24) & 0x0F;
+	succ = (instruction >> 20) & 0x0F;
 
-    // ========================================================================
-    // Get values of rs1 and rs2
-    src1 = R[rs1];
-    src2 = R[rs2];
+	// ========================================================================
+	// Get values of rs1 and rs2
+	src1 = R[rs1];
+	src2 = R[rs2];
 
-    // Immediate values
-    Imm11_0ItypeZeroExtended = imm11_0i & 0x0FFF;
-    Imm11_0ItypeSignExtended = imm11_0i;
+	// Immediate values
+	Imm11_0ItypeZeroExtended = imm11_0i & 0x0FFF;
+	Imm11_0ItypeSignExtended = imm11_0i;
 
-    Imm11_0StypeSignExtended = (imm11_5s << 5) | imm4_0s;
+	Imm11_0StypeSignExtended = (imm11_5s << 5) | imm4_0s;
 
-    Imm12_1BtypeZeroExtended = imm12b & 0x00001000 | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1);
-    Imm12_1BtypeSignExtended = imm12b & 0xFFFFF000 | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1);
+	Imm12_1BtypeZeroExtended = imm12b & 0x00001000 | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1);
+	Imm12_1BtypeSignExtended = imm12b & 0xFFFFF000 | (imm11b << 11) | (imm10_5b << 5) | (imm4_1b << 1);
 
-    Imm31_12Utype = instruction & 0xFFFFF000;
+	Imm31_12Utype = instruction & 0xFFFFF000;
 
-    Imm20_1JtypeSignExtended = (imm20j & 0xFFF00000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
-    Imm20_1JtypeZeroExtended = (imm20j & 0x00100000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
-    // ========================================================================
+	Imm20_1JtypeSignExtended = (imm20j & 0xFFF00000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
+	Imm20_1JtypeZeroExtended = (imm20j & 0x00100000) | (imm19_12j << 12) | (imm11j << 11) | (imm10_1j << 1);
+	// ========================================================================
 }
 
 void showRegs() {
-    cout << "PC=" << PC << " " << "IR=" << IR << endl;
+	cout << "PC=" << PC << " " << "IR=" << IR << endl;
 
-    for(int i=0; i<32; i++) {
-        cout << "R[" << i << "]=" << R[i] << " ";
-    }
-    cout << endl;
+	for(int i=0; i<32; i++) {
+		cout << "R[" << i << "]=" << R[i] << " ";
+	}
+	cout << endl;
 }
 
 int main(int argc, char const *argv[]) {
@@ -306,14 +306,14 @@ int main(int argc, char const *argv[]) {
             case BRANCH:
                 switch(funct3) {
                     case BEQ:
-                        cout << "DO BLTU" << endl;
+                        cout << "DO BEQ" << endl;
                         if(src1==src2){
 							NextPC = PC + Imm11_0ItypeSignExtended;
 						}
-                        break;
-                    case BNE:
-                        cout << "Do BNE " << endl;
-                        if(src1!=src2){
+						break;
+					case BNE:
+						cout << "Do BNE " << endl;
+						if(src1!=src2){
 							NextPC = PC + Imm11_0ItypeSignExtended;
 						}
                         break;
@@ -355,10 +355,10 @@ int main(int argc, char const *argv[]) {
 							temp_LH=0| temp_LH);
 						}
 						R[rd]=temp_LH; 
-                        break;
-                    case LH:
-                        cout << "Do LH " << endl;
-                        unsigned int temp_LH,temp_LH_UP;
+						break;
+					case LH:
+						cout << "Do LH " << endl;
+						unsigned int temp_LH,temp_LH_UP;
 						temp_LH=readHalfWord(src1+Imm11_0ItypeSignExtended);
 						temp_LH_UP=temp_LH>>15;
 						if(temp_LH_UP==1){
@@ -508,102 +508,102 @@ int main(int argc, char const *argv[]) {
 						}else{
 							R[rd]=0;
 						}
-                        break;
-                    case SLTU:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case XOR:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case OR:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case AND:
-                        //TODO: Fill code for the instruction here
-                        break;
-			
-                    case SRLA:
-                        switch(funct7) {
-                            case SRL:
-                                //TODO: Fill code for the instruction here
-                                break;
-                            case SRA:
-                                //TODO: Fill code for the instruction here
-                                break;
-                            default:
-                                cout << "ERROR: Unknown funct7 in ALUR2 SRLA instruction " << IR << endl;
-                        }
-                        break;
-                    default:
-                        cout << "ERROR: Unknown funct3 in ALUR2 instruction " << IR << endl;
-                }
-                break;
-            case FENCES:
-                switch(funct3) {
-                    case FENCE:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case FENCE_I:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    default:
-                        cout << "ERROR: Unknown funct3 in FENCES instruction " << IR << endl;
-                }
-                break;
-            case CSRX:
-                switch(funct3) {
-                    case CALLBREAK:
-                        switch(Imm11_0ItypeZeroExtended) {
-                            case ECALL:
-                                //TODO: Fill code for the instruction here
-                                break;
-                            case EBREAK:
-                                //TODO: Fill code for the instruction here
-                                break;
-                            default:
-                                cout << "ERROR: Unknown imm11_0i in CSRX CALLBREAK instruction " << IR << endl;
-                        }
-                        break;
-                    case CSRRW:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case CSRRS:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case CSRRC:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case CSRRWI:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case CSRRSI:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    case CSRRCI:
-                        //TODO: Fill code for the instruction here
-                        break;
-                    default:
-                        cout << "ERROR: Unknown funct3 in CSRX instruction " << IR << endl;
-                }
-                break;
-            default:
-                cout << "ERROR: Unkown instruction " << IR << endl;
-                break;
-        }
+						break;
+					case SLTU:
+						//TODO: Fill code for the instruction here
+						break;
+					case XOR:
+						//TODO: Fill code for the instruction here
+						break;
+					case OR:
+						//TODO: Fill code for the instruction here
+						break;
+					case AND:
+						//TODO: Fill code for the instruction here
+						break;
 
-	// Update PC
-	PC = NextPC;
+					case SRLA:
+						switch(funct7) {
+							case SRL:
+								//TODO: Fill code for the instruction here
+								break;
+							case SRA:
+								//TODO: Fill code for the instruction here
+								break;
+							default:
+								cout << "ERROR: Unknown funct7 in ALUR2 SRLA instruction " << IR << endl;
+						}
+						break;
+					default:
+						cout << "ERROR: Unknown funct3 in ALUR2 instruction " << IR << endl;
+				}
+				break;
+			case FENCES:
+				switch(funct3) {
+					case FENCE:
+						//TODO: Fill code for the instruction here
+						break;
+					case FENCE_I:
+						//TODO: Fill code for the instruction here
+						break;
+					default:
+						cout << "ERROR: Unknown funct3 in FENCES instruction " << IR << endl;
+				}
+				break;
+			case CSRX:
+				switch(funct3) {
+					case CALLBREAK:
+						switch(Imm11_0ItypeZeroExtended) {
+							case ECALL:
+								//TODO: Fill code for the instruction here
+								break;
+							case EBREAK:
+								//TODO: Fill code for the instruction here
+								break;
+							default:
+								cout << "ERROR: Unknown imm11_0i in CSRX CALLBREAK instruction " << IR << endl;
+						}
+						break;
+					case CSRRW:
+						//TODO: Fill code for the instruction here
+						break;
+					case CSRRS:
+						//TODO: Fill code for the instruction here
+						break;
+					case CSRRC:
+						//TODO: Fill code for the instruction here
+						break;
+					case CSRRWI:
+						//TODO: Fill code for the instruction here
+						break;
+					case CSRRSI:
+						//TODO: Fill code for the instruction here
+						break;
+					case CSRRCI:
+						//TODO: Fill code for the instruction here
+						break;
+					default:
+						cout << "ERROR: Unknown funct3 in CSRX instruction " << IR << endl;
+				}
+				break;
+			default:
+				cout << "ERROR: Unkown instruction " << IR << endl;
+				break;
+		}
 
-        cout << "Registers after executing the instruction" << endl;
-        showRegs();
+		// Update PC
+		PC = NextPC;
 
-        cout << "Continue simulation (Y/n)? [Y]" << endl;
-        cin.get(c);
-    }
+		cout << "Registers after executing the instruction" << endl;
+		showRegs();
 
-    freeMem();
+		cout << "Continue simulation (Y/n)? [Y]" << endl;
+		cin.get(c);
+	}
 
-    return 0;
+	freeMem();
+
+	return 0;
 }
 
 
