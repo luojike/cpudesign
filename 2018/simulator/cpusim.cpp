@@ -307,8 +307,8 @@ int main(int argc, char const *argv[]) {
 				switch(funct3) {
 					case BEQ:
 						cout << "DO BEQ" << endl;
-						if(src1==src2){
-							NextPC = PC + Imm11_0ItypeSignExtended;
+						if((int)src1==(int)src2){
+							NextPC = PC + Imm12_1BtypeSignExtended;
 						}
 						break;
 					case BNE:
