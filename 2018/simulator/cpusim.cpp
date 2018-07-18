@@ -338,7 +338,10 @@ int main(int argc, char const *argv[]) {
 						}
 						break;
 					case BLT:
-						//TODO: Fill code for the instruction here
+						cout << "Do BLT" << endl;
+						if((int)src1<(int)src2){
+							NextPC = PC + Imm12_1BtypeSignExtended;
+						}
 						break;
 					case BGE:
 						cout << "Do BGE" << endl;
@@ -390,7 +393,16 @@ int main(int argc, char const *argv[]) {
 						R[rd]=temp_LH; 
 						break;
 					case LW:
-						//TODO: Fill code for the instruction here
+						cout << "Do LW" << endl;
+						unsigned int temp_LW,temp_LW_UP;
+						temp_LW=readByte(src1+Imm11_0ItypeSignExtended);
+						temp_LW_UP=temp_LW>>31;
+						if(temp_LW_UP==1){
+							temp_LW=0x00000000 | temp_LW;
+						}else{
+							temp_LW=0xffffffff & temp_LW;
+						}
+						R[rd]=temp_LW;
 						break;
 					case LBU:
 						cout << "Do LBU" << endl;
@@ -442,7 +454,11 @@ int main(int argc, char const *argv[]) {
 						R[rd]=src1+Imm11_0ItypeSignExtended;
 						break;
 					case SLTI:
-						//TODO: Fill code for the instruction here
+						cout << "Do SLTI" << endl;
+						if(src1<Imm11_0ItypeSignExtended)
+							R[rd] = 1;
+						else
+							R[rd] = 0;
 						break;
 					case SLTIU:
 						cout << "Do SLTIU" << endl;
@@ -470,7 +486,8 @@ int main(int argc, char const *argv[]) {
 					case SHR:
 						switch(funct7) {
 							case SRLI:
-								//TODO: Fill code for the instruction here
+								cout << "Do SRLI" << endl;
+								R[rd]=src1>>shamt;
 								break;
 							case SRAI:
 								cout << "Do SRAI" << endl;
@@ -515,7 +532,12 @@ int main(int argc, char const *argv[]) {
 						}
 						break;
 					case SLTU:
-						//TODO: Fill code for the instruction here
+						cout << "Do SLTU" << endl;
+						if(src2!=0){
+							R[rd]=1;
+						}else{
+							R[rd]=0;
+						}
 						break;
 					case XOR:
 						//TODO: Fill code for the instruction here
