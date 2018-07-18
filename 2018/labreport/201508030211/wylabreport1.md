@@ -155,23 +155,23 @@ SRAI算数右移，符号移入高位。上述指令中，将R[2]中的值右移
 
 LUI指令运行后模拟器的输出
 
-![LUI](http://note.youdao.com/noteshare?id=6635a4d67f81099cc2deaecacaea181f&sub=278F58ABD86B4F519167EBF55A4C002E)
+![LUI](./DoLUI.JPG)
 
 LBU指令运行后模拟器的输出
 
-![LBU](http://note.youdao.com/noteshare?id=86bd8b07ebc007641417a9420d133dad&sub=CB131F83A14746E3AE155797A11FC2C1)
+![LBU](./DoLBU.JPG)
 
 BGE指令运行后模拟器的输出
 
-![BGE](http://note.youdao.com/noteshare?id=f9ff5a03e51a82765a3f814bba757fbd&sub=73BA1D5135FC4459A2317902A7B1A61B)
+![BGE](./DoBGE.JPG)
 
 SLTIU指令运行后模拟器的输出
 
-![SLTIU](http://note.youdao.com/noteshare?id=11064128f5c4d4db9635c070f08cacfe&sub=3514B18FC19C4E30B919D3E77B1E7206)
+![SLTIU](./DoSLTIU.JPG)
 
 SRAI指令运行后模拟器的输出
 
-![SRAI](http://note.youdao.com/noteshare?id=591fd81a4214076ff7f55756b47e5be5&sub=3E172C1E3F144F49BD38ABE06ED5C57F)
+![SRAI](./DoSRAI.JPG)
 
 
 ## 分析和结论
