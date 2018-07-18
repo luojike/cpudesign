@@ -18,7 +18,7 @@
 
 ### CPU指令集
 
-CPU的指令集请见[这里](http://risc-v.org)，其中共有_n_条指令。
+CPU的指令集请见[这里](https://riscv.org/specifications/)，其中基本指令集共有_47_条指令。
 
 ### 模拟器程序框架
 
