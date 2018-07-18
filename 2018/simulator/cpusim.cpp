@@ -179,6 +179,17 @@ void progMem() {
 	writeWord(20, (0x0<<25) | (2<<20) | (0<<15) | (BGE<<12) | (0x8<<7) | (BRANCH));
 	writeWord(28, (0x8<<20) | (3<<15) | (SLTIU<<12) | (8<<7) | (ALUIMM));
 	writeWord(32, (SRAI<<25) | (0x2<<20) | (0x2<<15) | (SHR<<12) | (9<<7) | (ALUIMM));
+	
+	writeWord(36,(0x400)<<20|(1<<15)|(JALR<<12)|(4<<7)|(JALR));
+	writeWord(40, (0x20<<25) | (7<<20) | (0<<15) | (SH << 12) | (9 << 7) | (STORE));
+	writeWord(44, (0x0<<25) | (4<<20) | (1<<15) | (BGEU<<12) | (0x8<<7) | (BRANCH));
+	writeWord(48, (0x400<<20) | (2<<15) | (ORI<<12) | (4<<7) | (ALUIMM));
+	
+	writeWord(56, (1<<31) |(0<<25) | (8<<20) | (0<<15) | (BLTU << 12) | (0 << 11) |(0 << 7) | (BRANCH));
+	writeWord(60, (0x20<<25) | (8<<20) | (0<<15) | (SB << 12) | (0 << 7) | (STORE));
+	writeWord(64, (0x100<<20) | (3<<15) | (XORI << 12) | (9 << 7) | (ALUIMM));
+	writeWord(68, (ADD<<25) | (3<<20) | (1<<15) | (ADDSUB << 12) | (10 << 7) | (ALURRR));
+	writeWord(72, (1 << 31) |(1 << 23) |(1 << 22) |(1 << 12) | (7 << 7) | (JAL));
 }
 
 // ============================================================================
@@ -539,6 +550,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case FENCE_I:
 						//TODO: Fill code for the instruction here
+						cout<<"nop"<<endl;
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in FENCES instruction " << IR << endl;
@@ -563,19 +575,36 @@ int main(int argc, char const *argv[]) {
 						break;
 					case CSRRS:
 						//TODO: Fill code for the instruction here
-						break;
+						{
+						    uint32_t temp=imm11j&0x00000fff;
+						    rd=(temp|rs1)&0x1f;
+						    break;
+						}
 					case CSRRC:
 						//TODO: Fill code for the instruction here
 						break;
 					case CSRRWI:
 						//TODO: Fill code for the instruction here
-						break;
+						{	
+						    uint32_t temp=imm11j;
+					            uint32_t zmm=rs1&0x000001f;
+					            if(rd!=0x0)
+						    {	
+							rd=temp&0x1f;
+							}
+						    imm11j=zmm&0xfff;
+						    break;
+						}
 					case CSRRSI:
 						//TODO: Fill code for the instruction here
 						break;
 					case CSRRCI:
 						//TODO: Fill code for the instruction here
-						break;
+						{	uint32_t temp=imm11j;
+							uint32_t zmm=!(rs1&0x1f);
+							rd=(temp&zmm);
+							break;
+						}
 					default:
 						cout << "ERROR: Unknown funct3 in CSRX instruction " << IR << endl;
 				}
