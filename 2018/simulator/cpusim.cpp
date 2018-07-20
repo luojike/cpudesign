@@ -562,7 +562,7 @@ int main(int argc, char const *argv[]) {
 								break;
 							case SRA:
 								  cout<<"DO SRA"<<endl;
-								  R(rd)=(int)src1>>src2;
+								  R[rd]=(int)src1>>src2;
 								break;
 							default:
 								cout << "ERROR: Unknown funct7 in ALURRR SRLA instruction " << IR << endl;
