@@ -546,20 +546,23 @@ int main(int argc, char const *argv[]) {
 						R[rd]=R[rs1]^R[rs2];
 						break;
 					case OR:
-						//TODO: Fill code for the instruction here
-						break;
+						cout << "Do OR" << endl;
+								R[rd]=R[rs1]|R[rs2];
+							break;
 					case AND:
-						//TODO: Fill code for the instruction here
+						cout << "Do AND" << endl;
+								R[rd]=R[rs1]&R[rs2];
 						break;
 
 					case SRLA:
 						switch(funct7) {
 							case SRL:
-								cout<<"DO SRL"<<endl;
-                                R[rd]=R[rs1]>>R[rs2];
+				           cout<<"DO SRL"<<endl;
+                                           R[rd]=R[rs1]>>R[rs2];
 								break;
 							case SRA:
-								//TODO: Fill code for the instruction here
+								  cout<<"DO SRA"<<endl;
+								  R(rd)=(int)src1>>src2;
 								break;
 							default:
 								cout << "ERROR: Unknown funct7 in ALURRR SRLA instruction " << IR << endl;
