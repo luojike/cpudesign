@@ -410,7 +410,8 @@ int main(int argc, char const *argv[]) {
 						R[rd] = readByte(Imm11_0ItypeSignExtended + src1) & 0x000000ff;
 						break;
 					case LHU:
-						//TODO: Fill code for the instruction here
+						cout << "Do LHU" << endl;
+						R[rd] = readByte(Imm11_0ItypeSignExtended + src1) & 0x0000ffff;
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in LOAD instruction " << IR << endl;
@@ -541,7 +542,8 @@ int main(int argc, char const *argv[]) {
 						}
 						break;
 					case XOR:
-						//TODO: Fill code for the instruction here
+						cout << "Do XOR " << endl;
+						R[rd]=R[rs1]^R[rs2];
 						break;
 					case OR:
 						//TODO: Fill code for the instruction here
@@ -553,7 +555,8 @@ int main(int argc, char const *argv[]) {
 					case SRLA:
 						switch(funct7) {
 							case SRL:
-								//TODO: Fill code for the instruction here
+								cout<<"DO SRL"<<endl;
+                                R[rd]=R[rs1]>>R[rs2];
 								break;
 							case SRA:
 								//TODO: Fill code for the instruction here
