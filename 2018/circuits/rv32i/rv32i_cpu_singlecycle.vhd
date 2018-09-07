@@ -1,6 +1,5 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
 entity rv32i_cpu_singlecycle is
@@ -22,7 +21,7 @@ architecture behav of rv32i_cpu_singlecycle is
 
 		signal next_pc: std_logic_vector(31 downto 0);
 
-		-- 指令各个字段
+		-- Fields in instruction
 		signal opcode: std_logic_vector(6 downto 0);
 		signal rd: std_logic_vector(4 downto 0);
 		signal funct3: std_logic_vector(2 downto 0);
@@ -41,12 +40,12 @@ architecture behav of rv32i_cpu_singlecycle is
 		signal reg_write_id: std_logic_vector(4 downto 0);
 		signal reg_write_data: std_logic_vector(31 downto 0);
 begin
-		-- 取指
+		-- Instruction Fetch
 		inst_addr <= pc;
 		ir <= inst;
 
-		-- 译码
-		-- 待补充
+		-- Decode
+		-- Not finished
 		opcode <= ir(6 downto 0);
 		rd <= ir(11 downto 7);
 		funct3 <= ir(14 downto 12);
@@ -54,40 +53,40 @@ begin
 		rs2 <= ir(24 downto 20);
 		funct7 <= ir(31 downto 25);
 
-		-- 读取寄存器操作数
-		src1 <= regs(TO_INTEGER(UNSIGNED(rs1), 5));
-		src2 <= regs(TO_INTEGER(UNSIGNED(rs2), 5));
+		-- Read operands from register file
+		src1 <= regs(TO_INTEGER(UNSIGNED(rs1)));
+		src2 <= regs(TO_INTEGER(UNSIGNED(rs2)));
 
-		-- 准备写入寄存器组的下标和数据
+		-- Prepare index and data to write into register file
 		reg_write_id <= rd;
 
-		addresult <= SIGNED(src1) + SIGNED(src2);
-		subresult <= SIGNED(src1) - SIGNED(src2);
-		-- 其它情况
+		addresult <= STD_LOGIC_VECTOR(SIGNED(src1) + SIGNED(src2));
+		subresult <= STD_LOGIC_VECTOR(SIGNED(src1) - SIGNED(src2));
+		-- more
 		-- ......
 
 		reg_write_data <= addresult when opcode = "0110011" and funct7 = "0000000" else
 						  subresult when opcode = "0110011" and funct7 = "0100000" else
-						  -- 其它情况
+						  -- more 
 						  -- ......
-						  -- 最后设置一个默认值
-						  "0000000000000000000000000000000";
+						  -- At last, set a default value
+						  "00000000000000000000000000000000";
 
-		-- 执行
-		-- 待补充
+		-- Execute
+		-- Not finished
 
-		-- 在时钟clk上升沿更新PC和寄存器组
+		-- Update pc and register file at rising edge of clk
 		process(clk)
 		begin
 			if(rising_edge(clk)) then
 				if (reset='1') then
 					pc <= "00000000000000000000000000000000";
-					-- 寄存器组是否也清零？
+					-- Clear register file?
 				else
 					pc <= next_pc;
 
 					if (reg_write = '1') then
-						regs(TO_INTEGER(UNSIGNED(reg_write_id), 5)) <= reg_write_data;
+						regs(TO_INTEGER(UNSIGNED(reg_write_id))) <= reg_write_data;
 					end if; -- reg_write = '1'
 				end if; -- reset = '1'
 			end if; -- rising_edge(clk)
