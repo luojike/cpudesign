@@ -9,7 +9,8 @@ entity rv32i_cpu_singlecycle is
 		inst_addr: out std_logic_vector(31 downto 0);
 		inst: in std_logic_vector(31 downto 0);
 		data_addr: out std_logic_vector(31 downto 0);
-		data: inout std_logic_vector(31 downto 0);
+		data_in: in std_logic_vector(31 downto 0);
+		data_out: out std_logic_vector(31 downto 0);
 		data_read: out std_logic;
 		data_write: out std_logic
 	);
