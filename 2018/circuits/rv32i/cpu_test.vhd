@@ -52,16 +52,16 @@ BEGIN
     data_write => data_write
     );
  
-init : PROCESS                                                
+for_reset : PROCESS                                                
 -- variable declarations                                       
 BEGIN                                                         
         reset = '1';
         wait for 5*clk_period;
         reset = '0';
-WAIT;                                                         
-END PROCESS init;                                             
+        WAIT;                                                         
+END PROCESS for_reset;                                             
 
-clk_gen:process  
+clk_gen : process  
 begin  
     clk='1';  
     wait for clk_period/2;  
