@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity rv32i_cpu_singlecycle is
+entity cpu is
 	port(
 		clk: in std_logic;
 		reset: in std_logic;
@@ -14,9 +14,9 @@ entity rv32i_cpu_singlecycle is
 		data_read: out std_logic;
 		data_write: out std_logic
 	);
-end entity rv32i_cpu_singlecycle;
+end entity cpu;
 
-architecture behav of rv32i_cpu_singlecycle is
+architecture behav of cpu is
 		signal ir: std_logic_vector(31 downto 0);
 		signal pc: std_logic_vector(31 downto 0);
 
