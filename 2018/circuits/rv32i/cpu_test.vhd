@@ -19,6 +19,9 @@ SIGNAL data_in : STD_LOGIC_VECTOR(31 downto 0);
 SIGNAL data_out : STD_LOGIC_VECTOR(31 downto 0);
 SIGNAL data_read : STD_LOGIC;
 SIGNAL data_write : STD_LOGIC;
+
+TYPE ram is array(1024) of std_logic_vector(7 downto 0);
+signal data_ram : ram;
  
 COMPONENT cpu  
     PORT (  
@@ -63,7 +66,7 @@ begin
     wait for clk_period/2;  
     clk='0';  
     wait for clk_period/2;  
-end process;  
+end process clk_gen;  
 
 
 inst_fetch : PROCESS(inst_addr)
@@ -79,5 +82,21 @@ BEGIN
        end case;
 WAIT;                                                         
 END PROCESS inst_fetch;                                            
+
+read_data: PROCESS(data_addr, data_read)
+begin
+    if data_read='1' then
+        data_in <= data_ram(INTEGER(UNSIGNED(data_addr));
+    else
+        data_in <= X"00";
+    end if;
+end process read_data;
+
+write_data: PROCESS(data_addr, data_write, data_out)
+begin
+    if data_write='1' then
+        data_ram(INTEGER(UNSIGNED(data_addr)) <= data_out;
+    end if;
+end process write_data;
 
 END cpu_test_arch;  
