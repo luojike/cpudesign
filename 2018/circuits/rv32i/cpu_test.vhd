@@ -21,8 +21,14 @@ SIGNAL data_out : STD_LOGIC_VECTOR(31 downto 0);
 SIGNAL data_read : STD_LOGIC;
 SIGNAL data_write : STD_LOGIC;
 
-TYPE ram is array(natural range <>) of std_logic_vector(31 downto 0);
-signal data_ram : ram(1023 downto 0);
+TYPE mem is array(natural range <>) of std_logic_vector(31 downto 0);
+signal data_ram : mem(1023 downto 0);
+--constant inst_rom : mem(1023 downto 0) := (
+--                                            0=>X"00000000";
+--											  1=>X"00000004";
+--											  -- ........
+--											  others=>X"00000000";
+--                                          );
  
 COMPONENT cpu  
     PORT (  
