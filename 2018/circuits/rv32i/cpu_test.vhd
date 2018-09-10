@@ -50,7 +50,8 @@ BEGIN
     data_out => data_out,
     data_read => data_read,
     data_write => data_write
-    );  
+    );
+ 
 init : PROCESS                                                
 -- variable declarations                                       
 BEGIN                                                         
