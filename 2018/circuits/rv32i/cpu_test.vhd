@@ -24,10 +24,10 @@ SIGNAL data_write : STD_LOGIC;
 TYPE mem is array(natural range <>) of std_logic_vector(7 downto 0);
 signal data_ram : mem(4095 downto 0);
 --constant inst_rom : mem(1023 downto 0) := (
---                                            0=>X"00000000";
---											  1=>X"00000004";
---											  -- ........
---											  others=>X"00000000";
+--						0=>X"00000000";
+--						1=>X"00000004";
+--						-- ........
+--						others=>X"00000000";
 --                                          );
  
 COMPONENT cpu  
@@ -94,8 +94,8 @@ read_data: PROCESS(data_addr, data_read)
 		variable i : integer;
 begin
     if data_read='1' then
-		i := TO_INTEGER(UNSIGNED(data_addr));
-		-- Assume little-endian layout
+	i := TO_INTEGER(UNSIGNED(data_addr));
+	-- Assume little-endian layout
         data_in <= data_ram(i+3) & data_ram(i+2) & data_ram(i+1) & data_ram(i);
     else
         data_in <= X"00000000";
@@ -103,10 +103,10 @@ begin
 end process read_data;
 
 write_data: PROCESS(data_addr, data_write, data_out)
-		variable i : integer;
+	variable i : integer;
 begin
     if data_write='1' then
-		i := TO_INTEGER(UNSIGNED(data_addr));
+	i := TO_INTEGER(UNSIGNED(data_addr));
         data_ram(i+3) <= data_out(31 downto 24);
         data_ram(i+2) <= data_out(23 downto 16);
         data_ram(i+1) <= data_out(15 downto 8);
