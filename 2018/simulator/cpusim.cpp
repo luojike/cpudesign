@@ -191,6 +191,12 @@ void progMem() {
 	writeWord(64, (0x100<<20) | (3<<15) | (XORI << 12) | (9 << 7) | (ALUIMM));
 	writeWord(68, (ADD<<25) | (3<<20) | (1<<15) | (ADDSUB << 12) | (10 << 7) | (ALURRR));
 	writeWord(72, (1 << 31) |(1 << 23) |(1 << 22) |(1 << 12) | (7 << 7) | (JAL));
+	
+	writeWord(0, 0x0013ab73);// CSRRS
+	writeWord(4, 0x0013db73);//CSRRWI
+	writeWord(8, 0x0013fb73);//CSRRCI
+	writeWord(12, 0x0000100f);//FENCE_I
+	writeWord(16, 0x00100073);//EBREAK,默认跳转到pc为4的位置
 }
 
 // ============================================================================
@@ -579,7 +585,7 @@ int main(int argc, char const *argv[]) {
 						break;
 					case FENCE_I:
 						//TODO: Fill code for the instruction here
-						cout<<"nop"<<endl;
+						cout<<"fence_i,nop"<<endl;
 						break;
 					default:
 						cout << "ERROR: Unknown funct3 in FENCES instruction " << IR << endl;
@@ -593,8 +599,11 @@ int main(int argc, char const *argv[]) {
 								//TODO: Fill code for the instruction here
 								break;
 							case EBREAK:
-								//TODO: Fill code for the instruction here
-								break;
+								{//TODO: Fill code for the instruction here
+									PC = ebreakadd;
+									cout << "do ebreak and pc jumps to :" << ebreakadd << endl;
+									break;
+								}
 							default:
 								cout << "ERROR: Unknown imm11_0i in CSRX CALLBREAK instruction " << IR << endl;
 						}
@@ -605,9 +614,11 @@ int main(int argc, char const *argv[]) {
 					case CSRRS:
 						//TODO: Fill code for the instruction here
 						{
-						    uint32_t temp=imm11j&0x00000fff;
-						    rd=(temp|rs1)&0x1f;
-						    break;
+						    uint32_t temp = readWord(rs2)&0x00000fff;
+							uint32_t temp1 = rs1 & 0x000fffff;
+							writeWord(rd,(temp|temp1));
+							cout << "do CSRRS and the result is :" << "rd="<<readWord(rd)<<endl;
+							break;
 						}
 					case CSRRC:
 						//TODO: Fill code for the instruction here
@@ -615,23 +626,29 @@ int main(int argc, char const *argv[]) {
 					case CSRRWI:
 						//TODO: Fill code for the instruction here
 						{	
-						    uint32_t temp=imm11j;
-					            uint32_t zmm=rs1&0x000001f;
-					            if(rd!=0x0)
-						    {	
-							rd=temp&0x1f;
+						    if (rd == 0) break;
+							else
+							{
+								uint32_t zmm = imm11j& 0x000001f;
+								uint32_t tem = readWord(rs2) & 0x00000fff;
+								writeWord(rd, tem);
+								writeWord(rs2, zmm);
+								cout << "do CSRRWI and the result is :" << "rd=" << readWord(rd) << endl;
+								break;
 							}
-						    imm11j=zmm&0xfff;
-						    break;
 						}
 					case CSRRSI:
 						//TODO: Fill code for the instruction here
 						break;
 					case CSRRCI:
 						//TODO: Fill code for the instruction here
-						{	uint32_t temp=imm11j;
-							uint32_t zmm=!(rs1&0x1f);
-							rd=(temp&zmm);
+						{	uint32_t zmm = imm11j & 0x000001f;
+							uint32_t tem = readWord(rs2) & 0x00000fff;
+							if (readWord(rd) != 0)
+							{
+								writeWord(rs2, zmm | tem);
+							}
+							cout << "do CSRRCI and the result is :" << "rd=" << readWord(rd) << endl;
 							break;
 						}
 					default:
