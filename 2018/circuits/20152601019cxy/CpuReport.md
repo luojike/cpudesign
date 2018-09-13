@@ -468,6 +468,10 @@ CPU运行过程的截图如下：
 
 最开始显示了两个时钟周期，分别为ADDI和SLLI指令，Result为结果值Out1是rs寄存器的取值，Out2是rt寄存器的取值，curPC是地址，opCode是译码，rs、rt、rd是寄存器的标号，DMOut是存储数据那里输出的指令集，DMOut2是执行LOAD指令的读取。
 ![图1](./ADDI、SLLI.png)
+根据上面的instructionMemory.v的代码可以看出，开始第一个时钟周期的Result的计算为1号寄存器的值加上立即数8的结果（为了方便观察我把所有的寄存器的值初始化为1），第二个时钟周期的Result的计算为rt寄存器的值向左平移立即数2低五位的数。
+
+后面显示了三个时钟周期，分别为BNE、SLT和LH指令。
+![图2](./Anthor)
 
 
 
