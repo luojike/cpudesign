@@ -467,9 +467,11 @@ CPU在如下机器上进行了测试：
 CPU运行过程的截图如下：
 
 最开始显示了两个时钟周期，分别为ADDI和SLLI指令，Result为结果值Out1是rs寄存器的取值，Out2是rt寄存器的取值，curPC是地址，opCode是译码，rs、rt、rd是寄存器的标号，DMOut是存储数据那里输出的指令集，DMOut2是执行LOAD指令的读取。
-![图1]()
+![图1](./ADDI、SLLI.png)
 
-![图9](./SLT.png)
+
+
+
 
 ## 分析和结论
 
