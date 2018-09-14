@@ -2,6 +2,8 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;                                 
 USE ieee.numeric_std.all;
 
+use work.regsprober.all;
+
 ENTITY cpu_test IS  
 END cpu_test;
 
