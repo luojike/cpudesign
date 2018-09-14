@@ -1,3 +1,8 @@
+library ieee;
+use ieee.numeric_bit.all;
+
+use work.myprober.all;
+
 --  A testbench has no ports.
 entity adder_tb is
 end adder_tb;
@@ -11,6 +16,7 @@ architecture behav of adder_tb is
   --  Specifies which entity is bound with the component.
   for adder_0: adder use entity work.adder;
   signal i0, i1, ci, s, co : bit;
+  signal test: unsigned(31 downto 0);
 begin
   --  Component instantiation.
   adder_0: adder port map (i0 => i0, i1 => i1, ci => ci,
@@ -42,8 +48,11 @@ begin
       i0 <= patterns(i).i0;
       i1 <= patterns(i).i1;
       ci <= patterns(i).ci;
+	  -- test
+	  assert test > 0
+	  	report "test not greater than 0" severity note;
       --  Wait for the results.
-      wait for 1 ns;
+      wait for 10 ns;
       --  Check the outputs.
       assert s = patterns(i).s
         report "bad sum value" severity error;
