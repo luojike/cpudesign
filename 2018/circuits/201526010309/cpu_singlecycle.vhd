@@ -34,10 +34,10 @@ architecture behav of cpu_singlecycle is
 		
 		signal src1: std_logic_vector(31 downto 0);
 		signal src2: std_logic_vector(31 downto 0);
-		signal BLT: std_logic_vector(4 downto 0);
-		signal SLTI: std_logic_vector(31 downto 0);
-		signal SRLI:std_logic_vector(31 downto 0);
-		signal SLTU:std_logic_vector(31 downto 0);
+		signal BLTaddr: std_logic_vector(4 downto 0);
+		signal SLTIres: std_logic_vector(31 downto 0);
+		signal SRLIres:std_logic_vector(31 downto 0);
+		signal SLTUres:std_logic_vector(31 downto 0);
 		type regfile is array(31 downto 0) of std_logic_vector(31 downto 0);
 		signal regs: regfile;
 		signal reg_write: std_logic;
@@ -51,7 +51,6 @@ architecture behav of cpu_singlecycle is
 		opcode <= ir(6 downto 0);
 		rd <= ir(11 downto 7);
 		funct3 <= ir(14 downto 12);
-		Imm11 <= ir(31 downto 20);
 		rs1 <= ir(19 downto 15);
 		rs2 <= ir(24 downto 20);
 		shamt <= ir(31 downto 20);
@@ -68,7 +67,7 @@ architecture behav of cpu_singlecycle is
 		
 		BLTaddr <= ir(11 downto 7);
 					
-		SLTIres<="00000000000000000000000000000001" when SIGNED(src1) <  SIGNED(Imm11) else
+		SLTIres<="00000000000000000000000000000001" when SIGNED(src1) <  SIGNED(funct7) else
 					"00000000000000000000000000000000";
 		
 		SRLIres <= src1 SRA UNSIGNED(shamt);
@@ -103,4 +102,3 @@ architecture behav of cpu_singlecycle is
 		end process;
 
 end architecture behav;
-
