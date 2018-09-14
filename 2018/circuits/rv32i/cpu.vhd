@@ -2,6 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use work.regsprober.all;
+
 entity cpu is
 	port(
 		clk: in std_logic;
@@ -35,12 +37,17 @@ architecture behav of cpu is
 		signal addresult: std_logic_vector(31 downto 0);
 		signal subresult: std_logic_vector(31 downto 0);
 
-		type regfile is array(31 downto 0) of std_logic_vector(31 downto 0);
-		signal regs: regfile;
+		type regfile is array(natural range<>) of std_logic_vector(31 downto 0);
+		signal regs: regfile(31 downto 0);
 		signal reg_write: std_logic;
 		signal reg_write_id: std_logic_vector(4 downto 0);
 		signal reg_write_data: std_logic_vector(31 downto 0);
 begin
+		-- register file prober
+		gen: for i in 31 downto 0 generate
+			regsview(i) <= regs(i);
+		end generate gen;
+
 		-- Instruction Fetch
 		inst_addr <= pc;
 		ir <= inst;
