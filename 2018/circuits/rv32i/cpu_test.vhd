@@ -2,7 +2,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;                                 
 USE ieee.numeric_std.all;
 
-use work.regsprober.all;
+-- use work.regsprober.all;
 
 ENTITY cpu_test IS  
 END cpu_test;
@@ -36,13 +36,13 @@ COMPONENT cpu
     PORT (  
     clk : IN STD_LOGIC;  
     reset : IN STD_LOGIC;  
-    inst_addr : STD_LOGIC_VECTOR(31 downto 0);
-    inst: STD_LOGIC_VECTOR(31 downto 0);
-    data_addr : STD_LOGIC_VECTOR(31 downto 0);
-    data_in : STD_LOGIC_VECTOR(31 downto 0);
-    data_out : STD_LOGIC_VECTOR(31 downto 0);
-    data_read : STD_LOGIC;
-    data_write : STD_LOGIC
+    inst_addr : out STD_LOGIC_VECTOR(31 downto 0);
+    inst: in STD_LOGIC_VECTOR(31 downto 0);
+    data_addr : out STD_LOGIC_VECTOR(31 downto 0);
+    data_in : in STD_LOGIC_VECTOR(31 downto 0);
+    data_out : out STD_LOGIC_VECTOR(31 downto 0);
+    data_read : out STD_LOGIC;
+    data_write : out STD_LOGIC
     );  
 END COMPONENT;
 
@@ -72,10 +72,13 @@ END PROCESS for_reset;
 
 clk_gen : process  
 begin  
-    clk<='1';  
-    wait for clk_period/2;  
-    clk<='0';  
-    wait for clk_period/2;  
+	for i in 1 to 100 loop
+    	clk<='1';  
+    	wait for clk_period/2;  
+    	clk<='0';  
+    	wait for clk_period/2;  
+	end loop;
+	wait; -- wait forever, this means stop of simulation
 end process clk_gen;  
 
 
