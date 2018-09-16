@@ -11,7 +11,8 @@ entity rv32i_cpu_singlecycle is
 		inst_addr: out std_logic_vector(31 downto 0);
 		inst: in std_logic_vector(31 downto 0);
 		data_addr: out std_logic_vector(31 downto 0);
-		data: inout std_logic_vector(31 downto 0);
+		data_in: in std_logic_vector(31 downto 0);
+		data_out: out std_logic_vector(31 downto 0);
 		data_read: out std_logic;
 		data_write: out std_logic
 	);
@@ -82,6 +83,7 @@ architecture behav of rv32i_cpu_singlecycle is
 		
 		reg_write <= '1' when opcode = "1110011" and (funct3 = "010" or funct3 ="101" or (funct3 = "111" and rd /= "0000")) else
 					 '0';
+		
 					 
 		reg_write_data <= CSRRSres  when opcode = "1110011" and funct3 = "010" else
 						  CSRRWIres when opcode = "1110011" and funct3 = "101" else
@@ -93,6 +95,10 @@ architecture behav of rv32i_cpu_singlecycle is
 						  "00000000000000000000000000000000";
 		next_pc <= 	ebreakaddr when src3 = "00000000000000000000000000000001" and opcode = "1110011" and funct3 = "000" else
 					STD_LOGIC_VECTOR(UNSIGNED(pc)+4);
+		data_addr <= pc;
+		data_write <= reg_write;
+		data_read <= '1';
+		data_out <= reg_write_data;
 		-- Execute
 		-- Not finished
 
@@ -102,12 +108,16 @@ architecture behav of rv32i_cpu_singlecycle is
 			if(rising_edge(clk)) then
 				if (reset='1') then
 					pc <= "00000000000000000000000000000000";
+						
+					data_write<='0';
+					data_read <='0';
+					data_out<="00000000000000000000000000000000";
 					-- Clear register file?
 				else
 					pc <= next_pc;
-
 					if (reg_write = '1') then
 						regs(TO_INTEGER(UNSIGNED(reg_write_id))) <= reg_write_data;
+
 					end if; -- reg_write = '1'
 				end if; -- reset = '1'
 			end if; -- rising_edge(clk)
