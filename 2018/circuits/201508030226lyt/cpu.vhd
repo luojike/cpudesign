@@ -32,16 +32,16 @@ architecture behav of cpu is
 		signal rs2: std_logic_vector(4 downto 0);
 		signal funct7: std_logic_vector(6 downto 0);
     	
-    	signal Imm11_0I : std_logic_vector(31 downto 0);
-    	signal Imm20_1J : std_logic_vector(31 downto 0);
-    	signal Imm12_1B : std_logic_vector(31 downto 0);
-    	signal Imm11_0S : std_logic_vector(31 downto 0);
+    	        signal Imm11_0I : std_logic_vector(31 downto 0);
+    	        signal Imm20_1J : std_logic_vector(31 downto 0);
+    	        signal Imm12_1B : std_logic_vector(31 downto 0);
+    	        signal Imm11_0S : std_logic_vector(31 downto 0);
 
 		signal src1: std_logic_vector(31 downto 0);
 		signal src2: std_logic_vector(31 downto 0);
 		signal subresult: std_logic_vector(31 downto 0);
         
-        signal sb_a1: std_logic_vector(31 downto 0);
+                signal sb_a1: std_logic_vector(31 downto 0);
 		signal sb_d1: std_logic_vector(31 downto 0);
 		
 		signal jalresult: std_logic_vector(31 downto 0);
@@ -76,11 +76,11 @@ begin
 		
 		Imm11_0I <= "11111111111111111111" & ir(31 downto 20) when ir(31)='1' else
 									"00000000000000000000" & ir(31 downto 20);
-    	Imm20_1J <= "111111111111" & ir(31) & ir(19 downto 12) & ir(20) & ir(30 downto 21) when ir(31)='1' else
+    	        Imm20_1J <= "111111111111" & ir(31) & ir(19 downto 12) & ir(20) & ir(30 downto 21) when ir(31)='1' else
 									"000000000000" & ir(31) & ir(19 downto 12) & ir(20) & ir(30 downto 21);
-    	Imm11_0S <= "11111111111111111111" & ir(31 downto 25) & ir(11 downto 7) when ir(31)='1' else
+    	        Imm11_0S <= "11111111111111111111" & ir(31 downto 25) & ir(11 downto 7) when ir(31)='1' else
 									"00000000000000000000" & ir(31 downto 25) & ir(11 downto 7);
-    	Imm12_1B <= "11111111111111111111" & ir(31) & ir(7) & ir(30 downto 25) & ir(11 downto 8) when ir(31)='1' else
+    	        Imm12_1B <= "11111111111111111111" & ir(31) & ir(7) & ir(30 downto 25) & ir(11 downto 8) when ir(31)='1' else
 									"00000000000000000000" & ir(31) & ir(7) & ir(30 downto 25) & ir(11 downto 8);
 
 		-- Read operands from register file
