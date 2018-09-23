@@ -1,0 +1,90 @@
+$date
+  Fri Sep 14 10:23:51 2018
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 32 ! test[31:0] $end
+$var reg 1 " i0 $end
+$var reg 1 # i1 $end
+$var reg 1 $ ci $end
+$var reg 1 % s $end
+$var reg 1 & co $end
+$var reg 32 ' test[31:0] $end
+$scope module adder_0 $end
+$var reg 1 ( i0 $end
+$var reg 1 ) i1 $end
+$var reg 1 * ci $end
+$var reg 1 + s $end
+$var reg 1 , co $end
+$var reg 1 - cc $end
+$upscope $end
+$enddefinitions $end
+#0
+b00000000000000000000000000000000 !
+0"
+0#
+0$
+0%
+0&
+b00000000000000000000000000000000 '
+0(
+0)
+0*
+0+
+0,
+0-
+#10000000
+1$
+1%
+1*
+1+
+#20000000
+1#
+0$
+1)
+0*
+#30000000
+b00000000000000000000000000000001 !
+1$
+0%
+1&
+1*
+0+
+1,
+1-
+#40000000
+1"
+0#
+0$
+1%
+0&
+1(
+0)
+0*
+1+
+0,
+0-
+#50000000
+b00000000000000000000000000000010 !
+1$
+0%
+1&
+1*
+0+
+1,
+1-
+#60000000
+1#
+0$
+1)
+0*
+#70000000
+1$
+1%
+1*
+1+
+#80000000
