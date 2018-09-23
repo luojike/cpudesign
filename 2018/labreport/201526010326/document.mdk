@@ -1,0 +1,186 @@
+# 实验报告
+
+## RISC-V基本指令集模拟器设计与实现
+
+数媒1501班 201526010326 刘琼
+
+## 实验目标
+
+设计一个CPU模拟器，能模拟CPU指令集的功能。
+
+## 实验要求
+
+* 采用C/C++编写程序
+* 模拟器的输入是二进制的机器指令文件
+* 模拟器的输出是CPU各个寄存器的状态和相关的存储器单元状态
+
+## 实验内容
+
+### CPU指令集
+
+CPU的指令集请见[这里](https://riscv.org/specifications/)，其中共有_47_条指令。
+
+所需写入的指令为BEQ,LB,SW,ANDI,SRAI.
+
+### 模拟器程序框架
+
+考虑到CPU执行指令的流程为：
+
+1. 取指
+2. 译码
+3. 执行（包括运算和结果写回）
+
+对模拟器程序的框架设计如下：
+
+```C++
+while(1) {
+    inst = fetch(cpu.pc);
+    cpu.pc = cpu.pc + 4;
+    
+    inst.decode();
+    
+    switch(inst.opcode) {
+        case ADD:
+            cpu.regs[inst.rd] = cpu.regs[rs] + cpu.regs[rt];
+            break;
+        case /*其它操作码*/ :
+            /* 执行相关操作 */
+            break;
+        default:
+            cout << "无法识别的操作码：” << inst.opcode;
+    }
+}
+```
+
+其中while循环条件可以根据需要改为模拟终止条件。
+
+### 具体指令编码内容如下
+
+```C++
+case BRANCH:
+  switch(funct3) {
+    case BEQ:
+      cout << "DO BEQ" << endl;
+        if(src1==src2){
+          NextPC = PC + Imm12_1BtypeSignExtended;
+				}
+			break;
+    default:
+			cout << "ERROR: Unknown funct3 in BRANCH instruction " << IR << endl;
+      break;
+  }
+	
+case LB:
+  cout << "DO LB" << endl;
+  unsigned int LB_LH,LB_LH_UP;
+  cout << "LB Address is: " << src1+Imm11_0ItypeSignExtended << endl;
+  LB_LH=readByte(src1+Imm11_0ItypeSignExtended);
+  LB_LH_UP=LB_LH>>7;
+  if(LB_LH_UP==1){
+    LB_LH=0xffffff00 & LB_LH;
+  }else{
+    LB_LH=0x000000ff & LB_LH;
+  }
+  R[rd]=LB_LH; 
+  break;
+	
+case SW:
+  cout << "DO SW" << endl;
+  //unsigned int imm_temp;
+  uint32_t _swData;
+  _swData=R[rs2] & 0xffffffff;
+  unsigned int _swR;
+  _swR = R[rs1] + Imm11_0StypeSignExtended;
+  cout << "SW Addr and Data are: " << _swR << ", " << _swData << endl;
+  writeWord(_swR, _swData);
+  break;
+  
+case ANDI:
+  cout << "DO ANDI"<<endl;
+  R[rd]=R[rs1]&Imm11_0ItypeSignExtended;
+  break;
+  
+case SLL:
+  cout<<"DO SLL"<<endl;
+  unsigned int rsTransform;
+  rsTransform=R[rs2]&0x1f;
+  R[rd]=R[rs1]<<rsTransform; 
+  break;
+```
+
+## 测试
+
+### 测试平台
+
+模拟器在如下机器上进行了测试：
+
+| 部件     | 配置             | 备注   |
+| :--------|:----------------:| :-----:|
+| CPU      | core i5-6500U    |        |
+| 内存     | DDR3 4GB         |        |
+| 操作系统 | Windows 8        | 中文版 |
+
+### 测试记录
+
+模拟器的测试输入如下所示。
+
+```C++
+void progMem() {
+	writeWord(16, (0x0<<25) | (7<<20) | (5<<15) | (BGE<<12) | (0x8<<7) | (BRANCH));
+  writeWord(12, (0xa0<<20) | (0<<15) | (LB<<12) | (3<<7) | (LOAD));
+	writeWord(8, (0x05<<25) | (5<<20) | (0<<15) | (SW << 12) | (0 << 7) | (STORE));
+  writeWord(64, (0x100<<20) | (3<<15) | (ANDI << 12) | (9 << 7) | (ALUIMM));
+}
+```
+指令作用分别为
+
+BGE：当R[rs1] == R[rs2]时, 进行跳转。上述指令中取R[5]=1004与R[7]=4进行比较，并进行跳转至PC+8处。
+
+LB：将rs1中的数据加上Itype类型符号扩展立即数作为地址读一个字节，再将其符号扩展后存入rd寄存器中；
+
+SW：将rs1寄存器中的数据加上Stype类型符号扩展立即数作为地址，将rs2寄存器中的数据作为32位的data写入；
+
+ANDI：将rs1寄存器中的数据与上Itype类型符号扩展立即数存入rd寄存器中；
+
+SLL：逻辑左移
+
+
+
+模拟器运行过程的截图如下：
+
+BGE指令运行后模拟器的输出
+![bge]
+
+[bge]: images/bge.png "bge" { width:auto; max-width:90% }
+
+
+
+LB指令运行后模拟器的输出
+
+![lb]
+
+[lb]: images/lb.png "lb" { width:auto; max-width:90% }
+
+
+
+
+SW指令运行后模拟器的输出
+![sw]
+
+[sw]: images/sw.png "sw" { width:auto; max-width:90% }
+
+
+
+ANDI指令运行后模拟器的输出
+
+
+SLL指令运行后模拟器的输出
+
+
+
+## 分析和结论
+
+从测试记录来看，模拟器实现了对二进制指令的读入，指令功能的模拟，CPU和存储器状态的输出。
+
+根据分析结果，可以认为编写的模拟器实现了所要求的功能，完成了实验目标。
+
