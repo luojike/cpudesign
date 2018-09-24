@@ -581,7 +581,8 @@ int main(int argc, char const *argv[]) {
 			case FENCES:
 				switch(funct3) {
 					case FENCE:
-						//TODO: Fill code for the instruction here
+						cout<<"Do FENCE"<<endl;
+						cout<<"FENCE,nop"<<endl;
 						break;
 					case FENCE_I:
 						//TODO: Fill code for the instruction here
@@ -596,7 +597,8 @@ int main(int argc, char const *argv[]) {
 					case CALLBREAK:
 						switch(Imm11_0ItypeZeroExtended) {
 							case ECALL:
-								//TODO: Fill code for the instruction here
+								cout<<"Do ECALL"<<endl;
+								R[rd]=PC+4;
 								break;
 							case EBREAK:
 								{//TODO: Fill code for the instruction here
@@ -609,7 +611,9 @@ int main(int argc, char const *argv[]) {
 						}
 						break;
 					case CSRRW:
-						//TODO: Fill code for the instruction here
+						cout<<"Do CSRRW"<<endl;
+						R[rd] = src2 & 0x00000fff;
+						R[rs2] = src1;
 						break;
 					case CSRRS:
 						//TODO: Fill code for the instruction here
@@ -621,7 +625,9 @@ int main(int argc, char const *argv[]) {
 							break;
 						}
 					case CSRRC:
-						//TODO: Fill code for the instruction here
+						cout<<"Do CSRRC"<<endl;
+						R[rd] = src2 & 0x00000fff;
+						R[rs2] = ~src1 & src2;
 						break;
 					case CSRRWI:
 						//TODO: Fill code for the instruction here
@@ -638,7 +644,9 @@ int main(int argc, char const *argv[]) {
 							}
 						}
 					case CSRRSI:
-						//TODO: Fill code for the instruction here
+						cout<<"Do CSRRSI"<<endl;
+						R[rd] = src2 & 0x00000fff;
+						R[rs2] = (zimm&0x0000001f) | src2;
 						break;
 					case CSRRCI:
 						//TODO: Fill code for the instruction here
