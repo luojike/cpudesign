@@ -26,7 +26,7 @@ CPU的指令集请见[这里](https://riscv.org/specifications/)，其中基本�
 3. 执行（包括运算和结果写回）
 
 对模拟器程序的框架设计如下：
-```
+```C++
  while(1) {
     inst = fetch(cpu.pc);
     cpu.pc = cpu.pc + 4;
@@ -48,7 +48,7 @@ CPU的指令集请见[这里](https://riscv.org/specifications/)，其中基本�
 其中while循环条件可以根据需要改为模拟终止条件。
 
 ### 具体指令编码内容如下
-```
+```C++
 case FENCE:
           cout<<"Do FENCE"<<endl;
           cout<<"FENCE,nop"<<endl;
@@ -86,7 +86,7 @@ case CSRRSI:
 
 ## 测试记录
 模拟器的测试输入如下所示
-```
+```C++
 	writeWord(12, 0x00229b73);// CSRRW
 	writeWord(16, 0x0022bb73);// CSRRC
 	writeWord(20, 0x0022eb73);// CSRRSI
