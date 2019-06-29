@@ -36,3 +36,9 @@
 出勤分数根据出勤率，代码分数根据是否能编译运行，实现所需功能以及代码排版风格评分，实验报告根据
 格式是否规范、条理是否清晰、文字是否通顺、数据记录和分析是否详尽评分。
 
+## 参考资料
+
+1. RISC-V官方指令集手册. [https://riscv.org/specifications/](https://riscv.org/specifications/).
+2. RISC-V资源列表. [https://cnrv.io/resource](https://cnrv.io/resource).
+3. 武汉聚芯和北京九天的蜂鸟E200系列处理器GitHub网页. [https://link.zhihu.com/?target=https%3A//github.com/SI-RISCV/e200_opensource](https://link.zhihu.com/?target=https%3A//github.com/SI-RISCV/e200_opensource).
+
