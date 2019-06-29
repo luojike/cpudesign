@@ -12,7 +12,7 @@
 
 ## 实验要求
 
-硬件设计采用VHDL或Verilog语言，软件设计采用C/C++或SystemC语言，其它语言例如MyHDL也可选。
+硬件设计采用VHDL或Verilog语言，软件设计采用C/C++或SystemC语言，其它语言例如Chisel、MyHDL等也可选。
 
 实验报告采用markdown语言，或者直接上传PDF文档
 
