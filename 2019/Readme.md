@@ -26,7 +26,7 @@
 人手了。
 
 每个组选择一位同学做组长，负责注册github帐号，并将帐号通过课程QQ群告知教师。随后，
-组长负责将本组代码和报告上传到[课程的github网站](https://github.com/luojike/comparch)的2019目录下。
+组长负责将本组代码和报告上传到[课程的github网站](https://github.com/luojike/cpudesign)的2019目录下。
 请注意创建自己组的目录，以免与其它组混淆。
 
 ## 考核标准
