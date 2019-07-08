@@ -38,7 +38,7 @@
 
 ## 参考资料
 
-1. RISC-V官方指令集手册. [https://riscv.org/specifications/](https://riscv.org/specifications/).
+1. RISC-V官方指令集手册. [https://riscv.org/specifications/](https://riscv.org/specifications/). [下载](https://github.com/luojike/cpudesign/blob/master/2019/riscv-spec.pdf)
 2. RISC-V资源列表. [https://cnrv.io/resource](https://cnrv.io/resource).
 3. 武汉聚芯和北京九天的蜂鸟E200系列处理器GitHub网页. [https://github.com/SI-RISCV/e200_opensource](https://github.com/SI-RISCV/e200_opensource).
 
