@@ -8,7 +8,8 @@
     尝试从指令memory模块开始做。
 7月8日：
     还是看手册（Computer Organization and Design）有用，之前那本主要讲流水线设计。
-
+7月9,10日：
+初步设计完指令ROM，寄存器，pc计数。
 
 
 刘梦函：
