@@ -17,6 +17,10 @@ entity cpu_simple is
 end entity;
 
 architecture cpu_simple_behav of cpu_simple is
+	-- utype instructions, using opcode
+	constant rtype_lui: std_logic_vector(6 downto 0) := B"0110111";
+	constant rtype_auipc: std_logic_vector(6 downto 0) := B"0010111";
+	
 	-- rtype alu operations, using opcode, funct3, funct7
 	constant rtype_alu: std_logic_vector(6 downto 0) := B"0110011";
 	constant rtype_addsub: std_logic_vector(2 downto 0) := B"000";
@@ -56,6 +60,8 @@ architecture cpu_simple_behav of cpu_simple is
 	signal funct3: std_logic_vector(2 downto 0);
 	signal funct7: std_logic_vector(6 downto 0);
 
+	signal utype_imm31_12: std_logic_vector(31 downto 12);
+
 	signal btype_imm12_1: std_logic_vector(12 downto 1);
 
 	signal rtype_alu_result: std_logic_vector(31 downto 0);
@@ -94,6 +100,8 @@ begin
 	funct3 <= ir(14 downto 12);
 	funct7 <= ir(31 downto 25);
 
+	utype_imm31_12 <= ir(31 downto 12);
+
 	btype_imm12_1 <= ir(31) & ir(7) & ir(30 downto 25) & ir(11 downto 8);
 	
 	-- ......
@@ -112,11 +120,12 @@ begin
 			    X"00000000";  -- default ALU result
 
 	rd_data <= rtype_alu_result when opcode = rtype_alu else
+			      utype_imm31_12 & X"000" when opcode = utype_lui else
+			      std_logic_vector(unsigned(utype_imm31_12 & X"000") + unsigned(pc)) when opcode=utype_auipc else
 		       -- ......
 		       X"00000000";  -- default rd data
 
-	rd_write <= '1' when opcode = rtype_alu else  -- 或者写成 rtype_alu or ... or ... 的形式
-		     '0';  -- default
+	rd_write <= opcode=rtype_alu or opcode=utype_lui or opcode=utype_auipc;
 
 	-- 分支指令
 	branch_target(13 downto 0) <= btype_imm12_1 & '0' & '0';
