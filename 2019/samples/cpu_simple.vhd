@@ -17,6 +17,7 @@ entity cpu_simple is
 end entity;
 
 architecture cpu_simple_behav of cpu_simple is
+	-- rtype alu operations, using opcode, funct3, funct7
 	constant rtype_alu: std_logic_vector(6 downto 0) := B"0110011";
 	constant rtype_addsub: std_logic_vector(2 downto 0) := B"000";
 	constant rtype_add: std_logic_vector(6 downto 0) := B"0000000";
@@ -31,25 +32,41 @@ architecture cpu_simple_behav of cpu_simple is
 	constant rtype_or: std_logic_vector(2 downto 0) := B"110";
 	constant rtype_and: std_logic_vector(2 downto 0) := B"111";
 
+	-- btype branches, using opcode, funct3
+	constant btype_branch: std_logic_vector(6 downto 0) := B"1100011";
+	constant btype_beq: std_logic_vector(2 downto 0) := B"000";
+	constant btype_bne: std_logic_vector(2 downto 0) := B"001";
+	constant btype_blt: std_logic_vector(2 downto 0) := B"100";
+	constant btype_bge: std_logic_vector(2 downto 0) := B"101";
+	constant btype_bltu: std_logic_vector(2 downto 0) := B"110";
+	constant btype_bgeu: std_logic_vector(2 downto 0) := B"111";
+
 	type regfile is array(natural range<>) of std_logic_vector(31 downto 0);
 	signal regs: regfile(31 downto 0);
-	signal reg_write: std_logic;
-	signal reg_rd: std_logic_vector(4 downto 0);
-	signal reg_rd_data: std_logic_vector(31 downto 0);
+
+	signal rd_write: std_logic;
+	signal rd_data: std_logic_vector(31 downto 0);
 
 	signal opcode: std_logic_vector(6 downto 0);
 
+	signal rd: std_logic_vector(4 downto 0);
 	signal rs1: std_logic_vector(4 downto 0);
 	signal rs2: std_logic_vector(4 downto 0);
 
 	signal funct3: std_logic_vector(2 downto 0);
 	signal funct7: std_logic_vector(6 downto 0);
 
+	signal btype_imm12_1: std_logic_vector(12 downto 1);
+
 	signal rtype_alu_result: std_logic_vector(31 downto 0);
 
 	signal pc: std_logic_vector(31 downto 0);
 	signal ir: std_logic_vector(31 downto 0);
+
 	signal next_pc: std_logic_vector(31 downto 0);
+
+	signal branch_target: std_logic_vector(31 downto 0);
+	signal branch_taken: boolean;
 
 	function bool2logic32(b: boolean) return std_logic_vector(31 downto 0) is
 	begin
@@ -67,16 +84,17 @@ begin
 	inst_addr <= pc;  -- 取指地址
 	inst_read <= '1' when reset = '0' else '0';  -- 当reset无效时发出指令读取信号;
 	ir <= inst;  -- 当前指令
-	next_pc <= std_logic_vector(unsigned(pc) + 4);  -- when ... else ... when ... else ...; -- 需补充其它情况
 
 	-- decode
 	opcode <= ir(6 downto 0);
-	reg_rd <= ir(11 downto 7);
+	rd <= ir(11 downto 7);
 	rs1 <= ir(19 downto 15);
 	rs2 <= ir(24 downto 20);
 
 	funct3 <= ir(14 downto 12);
 	funct7 <= ir(31 downto 25);
+
+	btype_imm12_1 <= ir(31) & ir(7) & ir(30 downto 25) & ir(11 downto 8);
 	
 	-- ......
 
@@ -93,12 +111,29 @@ begin
 			    rs1 and rs2 when funct3 = rtype_and else
 			    X"00000000";  -- default ALU result
 
-	reg_rd_data <= rtype_alu_result when opcode = rtype_alu else
+	rd_data <= rtype_alu_result when opcode = rtype_alu else
 		       -- ......
 		       X"00000000";  -- default rd data
 
-	reg_write <= '1' when opcode = rtype_alu else  -- 或者写成 rtype_alu or ... or ... 的形式
+	rd_write <= '1' when opcode = rtype_alu else  -- 或者写成 rtype_alu or ... or ... 的形式
 		     '0';  -- default
+
+	-- 分支指令
+	branch_target(13 downto 0) <= btype_imm12_1 & '0' & '0';
+	branch_target(31 downto 14) <= ( others => btype_imm12_1(12) );
+
+	branch_taken <= rs1 = rs2 when funct3 = btype_beq else
+			rs1 /= rs2 when funct3 = btype_bne else
+			signed(rs1) < signed(rs2) when funct3 = btype_blt else
+			signed(rs1) >= signed(rs2) when funct3 = btype_bge else
+			unsigned(rs1) < unsigned(rs2) when funct3 = btype_bltu else
+			unsigned(rs1) >= unsigned(rs2) when funct3 = btype_bgeu else
+			false;
+
+
+	-- 下一条指令地址
+	next_pc <= branch_target when opcode = btype_branch and branch_taken else 
+		   std_logic_vector(unsigned(pc) + 4); -- 需补充其它情况
 
 
 	-- ...... (其它组合逻辑)
@@ -122,7 +157,7 @@ begin
 		variable i: integer;
 		variable k: integer;
 	begin
-		i := to_integer(unsigned(reg_rd));
+		i := to_integer(unsigned(rd));
 
 		if(rising_edge(clk)) then
 			if(reset='1') then
@@ -131,9 +166,9 @@ begin
 					regs[k] <= X"00000000";  -- reset to 0
 				end loop;	
 
-			elsif(reg_write='1' and i /= 0) then
+			elsif(rd_write='1' and i /= 0) then
 
-				regs[i] <= reg_rd_data;
+				regs[i] <= rd_data;
 
 			end if;
 		end if;
