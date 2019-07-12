@@ -24,6 +24,14 @@ architecture cpu_simple_behav of cpu_simple is
 	-- jtype
 	constant jtype_jal: std_logic_vector(6 downto 0) := B"1101111";
 	
+	-- itype load instructions, using opcode, funct3
+	constant itype_load: std_logic_vector(6 downto 0) := B"0000011";
+	constant itype_lb: std_logic_vector(2 downto 0) := B"000";
+	constant itype_lh: std_logic_vector(2 downto 0) := B"001";
+	constant itype_lw: std_logic_vector(2 downto 0) := B"010";
+	constant itype_lbu: std_logic_vector(2 downto 0) := B"100";
+	constant itype_lhu: std_logic_vector(2 downto 0) := B"101";
+	
 	-- rtype alu operations, using opcode, funct3, funct7
 	constant rtype_alu: std_logic_vector(6 downto 0) := B"0110011";
 	constant rtype_addsub: std_logic_vector(2 downto 0) := B"000";
@@ -68,6 +76,8 @@ architecture cpu_simple_behav of cpu_simple is
 
 	signal utype_imm31_12: std_logic_vector(31 downto 12);
 
+	signal itype_imm11_0: std_logic_vector(11 downto 0);
+
 	signal btype_imm12_1: std_logic_vector(12 downto 1);
 
 	signal rtype_alu_result: std_logic_vector(31 downto 0);
@@ -76,6 +86,9 @@ architecture cpu_simple_behav of cpu_simple is
 	signal ir: std_logic_vector(31 downto 0);
 
 	signal next_pc: std_logic_vector(31 downto 0);
+
+	signal load_addr: std_logic_vector(31 downto 0);
+	signal store_addr: std_logic_vector(31 downto 0);
 
 	signal branch_target: std_logic_vector(31 downto 0);
 	signal branch_taken: boolean;
@@ -89,6 +102,22 @@ architecture cpu_simple_behav of cpu_simple is
 		end if;
 	end;
 
+	function signext8to32(b: std_logic_vector(7 downto 0)) return std_logic_vector(31 downto 0) is
+		variable t: std_logic_vector(31 downto 0);
+	begin
+		t(7 downto 0) <= b;
+		t(31 downto 8) <= (others=>b(7));
+		return t;
+	end;
+
+	function signext16to32(h: std_logic_vector(15 downto 0)) return std_logic_vector(31 downto 0) is
+		variable t: std_logic_vector(31 downto 0);
+	begin
+		t(15 downto 0) <= h;
+		t(31 downto 16) <= (others=>h(15));
+		return t;
+	end;
+
 
 begin
 	-- 组合逻辑部分
@@ -96,6 +125,21 @@ begin
 	inst_addr <= pc;  -- 取指地址
 	inst_read <= '1' when reset = '0' else '0';  -- 当reset无效时发出指令读取信号;
 	ir <= inst;  -- 当前指令
+
+	-- 数据访问
+	load_addr <= std_logic_vector(unsigned(rs1) + unsigned(X"00000" & itype_imm11_0));
+	-- store_addr <= ...
+	data_addr <= load_addr when opcode=itype_load else
+		     store_addr;
+	data_read <= '1' when opcode=itype_load else '0';  -- 当reset无效时发出指令读取信号;
+	-- data_write <= ...
+	load_data <= data when funct3=itype_lw else
+		     signext8to32(data(7 downto 0)) when funct3=itype_lb else
+		     signext16to32(data(15 downto 0)) when funct3=itype_lh else
+		     X"000000" & data(7 downto 0) when funct3=itype_lbu else
+		     X"0000" & data(15 downto 0) when funct3=itype_lhu else
+		     X"00000000";
+	-- data <= ...
 
 	-- decode
 	opcode <= ir(6 downto 0);
@@ -111,6 +155,8 @@ begin
 	jal_offset(31 downto 21) <= (others=>jal_imm20_1(20));
 
 	utype_imm31_12 <= ir(31 downto 12);
+
+	itype_imm11_0 <= ir(31 downto 20);
 
 	btype_imm12_1 <= ir(31) & ir(7) & ir(30 downto 25) & ir(11 downto 8);
 	
@@ -133,10 +179,11 @@ begin
 		   unsigned(pc)+4 when opcode=jtype_jal else
 		   utype_imm31_12 & X"000" when opcode = utype_lui else
 		   std_logic_vector(unsigned(utype_imm31_12 & X"000") + unsigned(pc)) when opcode=utype_auipc else
+		   load_data when opcode=itype_load else
 		   -- ......
 		   X"00000000";  -- default rd data
 
-	rd_write <= opcode=rtype_alu or opcode=utype_lui or opcode=utype_auipc or opcode=jtype_jal;
+	rd_write <= opcode=rtype_alu or opcode=utype_lui or opcode=utype_auipc or opcode=jtype_jal or opcode=itype_load;
 
 	-- 分支指令
 	branch_target(13 downto 0) <= btype_imm12_1 & '0' & '0';
