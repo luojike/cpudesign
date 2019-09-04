@@ -47,7 +47,7 @@ architecture behav of grg is
 		src2 <= srcc2;
 		tem1 <=to_bitvector(srcc1);
 		count<=to_integer(unsigned(imm(4 downto 0)));
-		count1 <= to_integer(unsigned(rs2));
+		count1 <= to_integer(unsigned(srcc2));
 		process(clk)
 		variable mem1:std_logic_vector(7 downto 0);
 		variable tem:std_logic_vector(31 downto 0);
@@ -55,6 +55,9 @@ architecture behav of grg is
 		variable imm2:signed(31 downto 0);
 		variable tem2:bit_vector(31 downto 0);
 		variable tem3:std_logic_vector(7 downto 0);
+		variable tem4:std_logic_vector(32 downto 0);
+		variable tem5:std_logic_vector(32 downto 0);
+		variable tem6:std_logic_vector(32 downto 0);
 		begin
 			if(clk'event and clk='1') then		    
 			    if(load='1') then
@@ -105,6 +108,8 @@ architecture behav of grg is
 			    when others=>
 			    wrimem<=(others=>'Z');
 			    end case;
+			    else
+			    wrimem<=(others=>'Z');
 			    end if;
 			    elsif(lui='1') then--LUI
 			    regs(to_integer(unsigned(rd)))<=imm1&"000000000000";
@@ -154,9 +159,27 @@ architecture behav of grg is
 			    case funct3 is
 			    when "000"=>
 			    if(imm(11 downto 5)="0000000") then--ADD
-			    regs(to_integer(unsigned(rd)))<=std_logic_vector(signed(srcc1)+signed(srcc2))(31 downto 0);
+			    tem4:=std_logic_vector(resize(signed(srcc1), tem4'LENGTH)); 
+		        tem5:=std_logic_vector(resize(signed(srcc2), tem5'LENGTH));   
+			    tem6:=std_logic_vector(signed(tem4)+signed(tem5))(32 downto 0);
+			    if(tem6(32)='1' and tem6(31)='0') then
+			    regs(to_integer(unsigned(rd)))<="10000000000000000000000000000000";
+			    elsif(tem6(32)='0' and tem6(31)='1') then
+			    regs(to_integer(unsigned(rd)))<="01111111111111111111111111111111";
+			    else
+			    regs(to_integer(unsigned(rd)))<=tem6(31 downto 0);
+			    end if;
 			    else--SUB
-			    regs(to_integer(unsigned(rd)))<=std_logic_vector(signed(srcc1)-signed(srcc2))(31 downto 0);
+			    tem4:=std_logic_vector(resize(signed(srcc1), tem4'LENGTH)); 
+		        tem5:=std_logic_vector(resize(signed(srcc2), tem5'LENGTH));   
+			    tem6:=std_logic_vector(signed(tem4)-signed(tem5))(32 downto 0);
+			    if(tem6(32)='1' and tem6(31)='0') then
+			    regs(to_integer(unsigned(rd)))<="10000000000000000000000000000000";
+			    elsif(tem6(32)='0' and tem6(31)='1') then
+			    regs(to_integer(unsigned(rd)))<="01111111111111111111111111111111";
+			    else
+			    regs(to_integer(unsigned(rd)))<=tem6(31 downto 0);
+			    end if;
 			    end if;
 			    when "001"=>--SLL
 			    tem2:=tem1 sll count1;
