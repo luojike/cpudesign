@@ -35,7 +35,7 @@ architecture behav of idc is
 	funct3<=ir(14 downto 12);
 	opcode<=ir(6 downto 0);
 	with opcode select
-	imm<= ir (31 downto 20) when "0000011"|"1100111"|"0010011",
+	imm<= ir (31 downto 20) when "0000011"|"1100111"|"0010011"|"0110011",
 	      ir(31 downto 25)&ir(11 downto 7) when "0100011",
 	      ir(31)&ir(7)&ir(30 downto 25)&ir(11 downto 8) when "1100011" ,
 	      (others=>'Z') when others;
@@ -54,7 +54,7 @@ architecture behav of idc is
 	rr<='1' when opcode="0110011" else '0';
 	jal<='1' when opcode="1101111" else '0';
 	jalr<='1' when opcode="1100111" else '0';
-	be<='1' when opcode="1100111" else '0';
+	be<='1' when opcode="1100011" else '0';
 	process(count)
     begin
     if(count='0' and opcode="0100011") then
