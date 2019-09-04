@@ -10,9 +10,12 @@ entity cnt is
 		be:in std_logic;
 		jud:in std_logic;
 		jum:in std_logic_vector(7 downto 0);
+		load: in std_logic;
+	    store: in std_logic;
 		q:out std_logic_vector(7 downto 0));
 end cnt;
 architecture test of cnt is
+	signal lx:std_logic:='0';
 	signal q1:std_logic_vector(7 downto 0):="00000000";
 	begin
 	process(clk)
@@ -25,6 +28,16 @@ architecture test of cnt is
            q1<=jum;
 		   elsif(be='1' and jud='1') then
 		   q1<=q1+jum;
+           elsif(load='1' or store='1') then
+		   if(lx='1') then
+		   q1<=q1+1;
+		   end if;
+	       case lx is
+		   when '0'=>
+		   lx<='1';
+		   when '1'=>
+		   lx<='0';
+		   end case;
 		   else
 		   q1<=q1+1;
 		   end if;
