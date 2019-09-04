@@ -73,7 +73,7 @@ BEGIN
         WAIT;                                                         
 END PROCESS do_reset;                                             
 
-clk_gen : process  
+clk_gen : PROCESS  
 begin  
 	for i in 1 to 100 loop
     	clk<='1';  
@@ -82,7 +82,7 @@ begin
     	wait for clk_period/2;  
 	end loop;
 	wait; -- wait forever, this means stop of simulation
-end process clk_gen;  
+end PROCESS clk_gen;  
 
 
 inst_fetch : PROCESS(inst_addr)
