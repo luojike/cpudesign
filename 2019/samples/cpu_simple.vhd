@@ -68,6 +68,9 @@ architecture cpu_simple_behav of cpu_simple is
 	signal rs1: std_logic_vector(4 downto 0);
 	signal rs2: std_logic_vector(4 downto 0);
 
+	signal rs1_data: std_logic_vector(4 downto 0);
+	signal rs2_data: std_logic_vector(4 downto 0);
+
 	signal funct3: std_logic_vector(2 downto 0);
 	signal funct7: std_logic_vector(6 downto 0);
 
@@ -147,6 +150,9 @@ begin
 	rs1 <= ir(19 downto 15);
 	rs2 <= ir(24 downto 20);
 
+	rs1_data <= regs(to_integer(unsigned(rs1)));
+	rs2_data <= regs(to_integer(unsigned(rs2)));
+
 	funct3 <= ir(14 downto 12);
 	funct7 <= ir(31 downto 25);
 
@@ -163,16 +169,16 @@ begin
 	-- ......
 
 	-- R-type ALU operations
-	rtype_alu_result <= std_logic_vector(signed(rs1) + signed(rs2)) when funct3 = rtype_addsub and funct7 = rtype_add else
-			    std_logic_vector(signed(rs1) - signed(rs2)) when funct3 = rtype_addsub and funct7 = rtype_sub else
-			    rs1 sll to_integer(unsigned(rs2)) when funct3 = rtype_sll else
-			    bool2logic32(signed(rs1) < signed(rs2)) when funct3 = rtype_slt else
-			    bool2logic32(unsigned(rs1) < unsigned(rs2)) when funct3 = rtype_sltu else
-			    rs1 xor rs2 when funct3 = rtype_xor else
-			    rs1 srl to_integer(unsigned(rs2)) when funct3 = rtype_srlsra and funct7 = rtype_srl else
-			    rs1 sra to_integer(unsigned(rs2)) when funct3 = rtype_srlsra and funct7 = rtype_sra else
-			    rs1 or rs2 when funct3 = rtype_or else
-			    rs1 and rs2 when funct3 = rtype_and else
+	rtype_alu_result <= std_logic_vector(signed(rs1_data) + signed(rs2_data)) when funct3 = rtype_addsub and funct7 = rtype_add else
+			    std_logic_vector(signed(rs1_data) - signed(rs2_data)) when funct3 = rtype_addsub and funct7 = rtype_sub else
+			    rs1_data sll to_integer(unsigned(rs2_data)) when funct3 = rtype_sll else
+			    bool2logic32(signed(rs1_data) < signed(rs2_data)) when funct3 = rtype_slt else
+			    bool2logic32(unsigned(rs1_data) < unsigned(rs2_data)) when funct3 = rtype_sltu else
+			    rs1_data xor rs2_data when funct3 = rtype_xor else
+			    rs1_data srl to_integer(unsigned(rs2_data)) when funct3 = rtype_srlsra and funct7 = rtype_srl else
+			    rs1_data sra to_integer(unsigned(rs2_data)) when funct3 = rtype_srlsra and funct7 = rtype_sra else
+			    rs1_data or rs2_data when funct3 = rtype_or else
+			    rs1_data and rs2_data when funct3 = rtype_and else
 			    X"00000000";  -- default ALU result
 
 	rd_data <= rtype_alu_result when opcode = rtype_alu else
@@ -189,12 +195,12 @@ begin
 	branch_target(13 downto 0) <= btype_imm12_1 & '0' & '0';
 	branch_target(31 downto 14) <= ( others => btype_imm12_1(12) );
 
-	branch_taken <= rs1 = rs2 when funct3 = btype_beq else
-			rs1 /= rs2 when funct3 = btype_bne else
-			signed(rs1) < signed(rs2) when funct3 = btype_blt else
-			signed(rs1) >= signed(rs2) when funct3 = btype_bge else
-			unsigned(rs1) < unsigned(rs2) when funct3 = btype_bltu else
-			unsigned(rs1) >= unsigned(rs2) when funct3 = btype_bgeu else
+	branch_taken <= rs1_data = rs2_data when funct3 = btype_beq else
+			rs1_data /= rs2_data when funct3 = btype_bne else
+			signed(rs1_data) < signed(rs2_data) when funct3 = btype_blt else
+			signed(rs1_data) >= signed(rs2_data) when funct3 = btype_bge else
+			unsigned(rs1_data) < unsigned(rs2_data) when funct3 = btype_bltu else
+			unsigned(rs1_data) >= unsigned(rs2_data) when funct3 = btype_bgeu else
 			false;
 
 
@@ -231,12 +237,12 @@ begin
 			if(reset='1') then
 				-- reset all regs to 0 except reg[0]
 				for k in 1 to 31 loop
-					regs[k] <= X"00000000";  -- reset to 0
+					regs(k) <= X"00000000";  -- reset to 0
 				end loop;	
 
 			elsif(rd_write='1' and i /= 0) then
 
-				regs[i] <= rd_data;
+				regs(i) <= rd_data;
 
 			end if;
 		end if;
