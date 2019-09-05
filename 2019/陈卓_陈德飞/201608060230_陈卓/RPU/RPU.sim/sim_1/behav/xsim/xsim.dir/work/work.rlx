@@ -1,0 +1,14 @@
+0.6
+2019.1
+May 24 2019
+15:06:07
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/constants.vhd,1544747498,vhdl,C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd;C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd;C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd;C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd;C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd;C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd;C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd;C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd;C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd,,,constants,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd,1544747498,vhdl,,,,control_unit,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd,1544747498,vhdl,,,,core,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd,1544747498,vhdl,,,,csr_unit,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd,1544747498,vhdl,,,,lint_unit,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd,1544747498,vhdl,,,,mem_controller,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd,1544747498,vhdl,,,,pc_unit,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd,1544747498,vhdl,,,,register_set,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd,1544747498,vhdl,,,,alu_rv32i,,,,,,,,
+C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd,1544747498,vhdl,,,,decoder_rv32,,,,,,,,

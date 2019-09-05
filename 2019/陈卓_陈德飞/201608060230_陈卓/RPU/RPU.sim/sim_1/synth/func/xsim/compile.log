@@ -1,0 +1,10 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim/rpu_core_tb_func_synth.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'alu_RV32I'
+INFO: [VRFC 10-3107] analyzing entity 'control_unit'
+INFO: [VRFC 10-3107] analyzing entity 'csr_unit'
+INFO: [VRFC 10-3107] analyzing entity 'decoder_RV32'
+INFO: [VRFC 10-3107] analyzing entity 'lint_unit'
+INFO: [VRFC 10-3107] analyzing entity 'mem_controller'
+INFO: [VRFC 10-3107] analyzing entity 'pc_unit'
+INFO: [VRFC 10-3107] analyzing entity 'register_set'
+INFO: [VRFC 10-3107] analyzing entity 'core'

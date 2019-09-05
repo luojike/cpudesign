@@ -1,0 +1,1599 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Wed Aug 28 08:45:28 2019
+# Process ID: 9424
+# Current directory: C:/Users/chint/Desktop/RPU
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent3128 C:\Users\chint\Desktop\RPU\RPU.xpr
+# Log file: C:/Users/chint/Desktop/RPU/vivado.log
+# Journal file: C:/Users/chint/Desktop/RPU\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/chint/Desktop/RPU/RPU.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.1/data/ip'.
+open_project: Time (s): cpu = 00:00:29 ; elapsed = 00:00:17 . Memory (MB): peak = 746.727 ; gain = 166.773
+update_compile_order -fileset sources_1
+synth_design -rtl -name rtl_1
+Command: synth_design -rtl -name rtl_1
+Starting synth_design
+Using part: xc7s50csga324-1
+Top: core
+INFO: [Device 21-403] Loading part xc7s50csga324-1
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1151.008 ; gain = 184.156
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'core' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:57]
+INFO: [Synth 8-3491] module 'mem_controller' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:30' bound to instance 'memctl' of component 'mem_controller' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:322]
+INFO: [Synth 8-638] synthesizing module 'mem_controller' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:55]
+INFO: [Synth 8-256] done synthesizing module 'mem_controller' (1#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:55]
+INFO: [Synth 8-3491] module 'pc_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:30' bound to instance 'pcunit' of component 'pc_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:345]
+INFO: [Synth 8-638] synthesizing module 'pc_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:40]
+INFO: [Synth 8-226] default block is never used [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:47]
+INFO: [Synth 8-256] done synthesizing module 'pc_unit' (2#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:40]
+INFO: [Synth 8-3491] module 'control_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:26' bound to instance 'control' of component 'control_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:353]
+INFO: [Synth 8-638] synthesizing module 'control_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:52]
+WARNING: [Synth 8-6014] Unused sequential element next_s_state_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:85]
+INFO: [Synth 8-256] done synthesizing module 'control_unit' (3#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:52]
+INFO: [Synth 8-3491] module 'decoder_RV32' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:27' bound to instance 'decoder' of component 'decoder_RV32' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:373]
+INFO: [Synth 8-638] synthesizing module 'decoder_RV32' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:48]
+WARNING: [Synth 8-614] signal 'I_int_ack' is read in the process but is not in the sensitivity list [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:54]
+INFO: [Synth 8-256] done synthesizing module 'decoder_RV32' (4#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:48]
+INFO: [Synth 8-3491] module 'alu_RV32I' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:28' bound to instance 'alu' of component 'alu_RV32I' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:393]
+INFO: [Synth 8-638] synthesizing module 'alu_RV32I' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:47]
+INFO: [Synth 8-226] default block is never used [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:63]
+INFO: [Synth 8-256] done synthesizing module 'alu_RV32I' (5#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:47]
+INFO: [Synth 8-3491] module 'register_set' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:27' bound to instance 'reg' of component 'register_set' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:410]
+INFO: [Synth 8-638] synthesizing module 'register_set' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:41]
+INFO: [Synth 8-256] done synthesizing module 'register_set' (6#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:41]
+INFO: [Synth 8-3491] module 'csr_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:27' bound to instance 'csru' of component 'csr_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:422]
+INFO: [Synth 8-638] synthesizing module 'csr_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:49]
+WARNING: [Synth 8-614] signal 'I_instRetTick' is read in the process but is not in the sensitivity list [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:140]
+INFO: [Synth 8-256] done synthesizing module 'csr_unit' (7#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:49]
+INFO: [Synth 8-3491] module 'lint_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:27' bound to instance 'lint' of component 'lint_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:450]
+INFO: [Synth 8-638] synthesizing module 'lint_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:47]
+WARNING: [Synth 8-6014] Unused sequential element int2_ack_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:75]
+WARNING: [Synth 8-6014] Unused sequential element int3_ack_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:76]
+INFO: [Synth 8-256] done synthesizing module 'lint_unit' (8#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:47]
+WARNING: [Synth 8-3848] Net O_int_ack in module/entity core does not have driver. [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:38]
+INFO: [Synth 8-256] done synthesizing module 'core' (9#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:57]
+WARNING: [Synth 8-3917] design core has port O_DBG[63] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[62] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[61] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[60] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[59] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[58] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[54] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[51] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[50] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[47] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[46] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[45] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[39] driven by constant 0
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[15]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[14]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[13]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[12]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[11]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[10]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_aluop[1]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_aluop[0]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[31]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[30]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[29]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[28]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[27]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[26]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[25]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[24]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[23]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[22]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[21]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[20]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[19]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[18]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[17]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[16]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[15]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[14]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[13]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[12]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[11]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[10]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[9]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[8]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[7]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[6]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[5]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[4]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[3]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[2]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[1]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[0]
+WARNING: [Synth 8-3331] design pc_unit has unconnected port I_intVec
+WARNING: [Synth 8-3331] design core has unconnected port O_int_ack
+WARNING: [Synth 8-3331] design core has unconnected port I_halt
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[31]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[30]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[29]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[28]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[27]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[26]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[25]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[24]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[23]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[22]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[21]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[20]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[19]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[18]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[17]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[16]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[15]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[14]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[13]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[12]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[11]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[10]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[9]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[8]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[7]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[6]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[5]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[4]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[3]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[2]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[1]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[0]
+WARNING: [Synth 8-3331] design core has unconnected port I_int
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1220.500 ; gain = 253.648
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1220.500 ; gain = 253.648
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1220.500 ; gain = 253.648
+---------------------------------------------------------------------------------
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-141] Inserted 14 OBUFs to IO ports without IO buffers.
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+INFO: [Opt 31-140] Inserted 1 IBUFs to IO ports without IO buffers.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1330.629 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+RTL Elaboration Complete:  : Time (s): cpu = 00:00:35 ; elapsed = 00:00:20 . Memory (MB): peak = 1352.332 ; gain = 385.480
+34 Infos, 95 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:43 ; elapsed = 00:00:29 . Memory (MB): peak = 1352.332 ; gain = 591.367
+refresh_design
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+refresh_design: Time (s): cpu = 00:00:14 ; elapsed = 00:00:05 . Memory (MB): peak = 1440.250 ; gain = 82.293
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+add_files -fileset sim_1 -norecurse -scan_for_includes C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_alu_RV32I_01.vhd
+import_files -fileset sim_1 -norecurse C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_alu_RV32I_01.vhd
+update_compile_order -fileset sim_1
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'core' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj core_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "core_behav -key {Behavioral:sim_1:Functional:core} -tclbatch {core.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source core.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+xsim: Time (s): cpu = 00:00:13 ; elapsed = 00:00:06 . Memory (MB): peak = 1441.855 ; gain = 1.605
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'core_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:16 ; elapsed = 00:00:12 . Memory (MB): peak = 1441.855 ; gain = 1.605
+current_wave_config {Untitled 1}
+Untitled 1
+add_wave {{/core/decoder}} 
+set_property top tb_unit_alu_RV32I_01 [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+update_compile_order -fileset sim_1
+launch_simulation
+boost::filesystem::remove: 另一个程序正在使用此文件，进程无法访问。: "C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/simulate.log"
+launch_simulation
+boost::filesystem::remove: 另一个程序正在使用此文件，进程无法访问。: "C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/simulate.log"
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'tb_unit_alu_RV32I_01' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj tb_unit_alu_RV32I_01_vhdl.prj"
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'tb_unit_alu_RV32I_01'
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-3353] formal port 'i_epc' has no actual or default value [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:38]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit tb_unit_alu_rv32i_01 in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+set_property top alu_RV32I [current_fileset]
+update_compile_order -fileset sources_1
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'tb_unit_alu_RV32I_01' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj tb_unit_alu_RV32I_01_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-3353] formal port 'i_epc' has no actual or default value [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:38]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit tb_unit_alu_rv32i_01 in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+refresh_design
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1524.398 ; gain = 27.957
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'alu_RV32I' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:47]
+INFO: [Synth 8-226] default block is never used [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:63]
+INFO: [Synth 8-256] done synthesizing module 'alu_RV32I' (1#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:47]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[15]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[14]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[13]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[12]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[11]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[10]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1561.402 ; gain = 64.961
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1561.402 ; gain = 64.961
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1561.402 ; gain = 64.961
+---------------------------------------------------------------------------------
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+refresh_design: Time (s): cpu = 00:00:20 ; elapsed = 00:00:15 . Memory (MB): peak = 1672.246 ; gain = 175.805
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'tb_unit_alu_RV32I_01' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj tb_unit_alu_RV32I_01_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-3353] formal port 'i_epc' has no actual or default value [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:38]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit tb_unit_alu_rv32i_01 in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+set_property top core [current_fileset]
+update_compile_order -fileset sources_1
+close_design
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'tb_unit_alu_RV32I_01' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj tb_unit_alu_RV32I_01_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-3353] formal port 'i_epc' has no actual or default value [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:38]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit tb_unit_alu_rv32i_01 in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+close_project
+open_project C:/Users/chint/Desktop/RPU/RPU.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.1/data/ip'.
+update_compile_order -fileset sources_1
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'tb_unit_alu_RV32I_01' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj tb_unit_alu_RV32I_01_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_unit_alu_RV32I_01_behav xil_defaultlib.tb_unit_alu_RV32I_01 -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-3353] formal port 'i_epc' has no actual or default value [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:38]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit tb_unit_alu_rv32i_01 in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+set_property top core [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+update_compile_order -fileset sim_1
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'core' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj core_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "core_behav -key {Behavioral:sim_1:Functional:core} -tclbatch {core.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source core.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'core_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:05 ; elapsed = 00:00:08 . Memory (MB): peak = 1682.164 ; gain = 0.000
+add_bp {C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd} 78
+remove_bps -file {C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd} -line 78
+add_bp {C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd} 58
+remove_bps -file {C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd} -line 58
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd] -no_script -reset -force -quiet
+remove_files  -fileset sim_1 C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd
+file delete -force C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+add_files -fileset sim_1 -norecurse -scan_for_includes {C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_decoder_RV32_01.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_alu_RV32I_01.vhd}
+import_files -fileset sim_1 -norecurse {C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_decoder_RV32_01.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_alu_RV32I_01.vhd}
+update_compile_order -fileset sim_1
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'core' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj core_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "core_behav -key {Behavioral:sim_1:Functional:core} -tclbatch {core.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source core.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'core_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:05 ; elapsed = 00:00:07 . Memory (MB): peak = 1682.164 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+set_property default_lib work [current_project]
+synth_design -rtl -name rtl_1
+Command: synth_design -rtl -name rtl_1
+Starting synth_design
+Using part: xc7s50csga324-1
+Top: core
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1682.164 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'core' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:57]
+INFO: [Synth 8-3491] module 'mem_controller' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:30' bound to instance 'memctl' of component 'mem_controller' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:322]
+INFO: [Synth 8-638] synthesizing module 'mem_controller' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:55]
+INFO: [Synth 8-256] done synthesizing module 'mem_controller' (1#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:55]
+INFO: [Synth 8-3491] module 'pc_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:30' bound to instance 'pcunit' of component 'pc_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:345]
+INFO: [Synth 8-638] synthesizing module 'pc_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:40]
+INFO: [Synth 8-226] default block is never used [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:47]
+INFO: [Synth 8-256] done synthesizing module 'pc_unit' (2#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:40]
+INFO: [Synth 8-3491] module 'control_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:26' bound to instance 'control' of component 'control_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:353]
+INFO: [Synth 8-638] synthesizing module 'control_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:52]
+WARNING: [Synth 8-6014] Unused sequential element next_s_state_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:85]
+INFO: [Synth 8-256] done synthesizing module 'control_unit' (3#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:52]
+INFO: [Synth 8-3491] module 'decoder_RV32' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:27' bound to instance 'decoder' of component 'decoder_RV32' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:373]
+INFO: [Synth 8-638] synthesizing module 'decoder_RV32' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:48]
+WARNING: [Synth 8-614] signal 'I_int_ack' is read in the process but is not in the sensitivity list [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:54]
+INFO: [Synth 8-256] done synthesizing module 'decoder_RV32' (4#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:48]
+INFO: [Synth 8-3491] module 'alu_RV32I' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:28' bound to instance 'alu' of component 'alu_RV32I' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:393]
+INFO: [Synth 8-638] synthesizing module 'alu_RV32I' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:47]
+INFO: [Synth 8-226] default block is never used [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:63]
+INFO: [Synth 8-256] done synthesizing module 'alu_RV32I' (5#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:47]
+INFO: [Synth 8-3491] module 'register_set' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:27' bound to instance 'reg' of component 'register_set' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:410]
+INFO: [Synth 8-638] synthesizing module 'register_set' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:41]
+INFO: [Synth 8-256] done synthesizing module 'register_set' (6#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:41]
+INFO: [Synth 8-3491] module 'csr_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:27' bound to instance 'csru' of component 'csr_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:422]
+INFO: [Synth 8-638] synthesizing module 'csr_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:49]
+WARNING: [Synth 8-614] signal 'I_instRetTick' is read in the process but is not in the sensitivity list [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:140]
+INFO: [Synth 8-256] done synthesizing module 'csr_unit' (7#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:49]
+INFO: [Synth 8-3491] module 'lint_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:27' bound to instance 'lint' of component 'lint_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:450]
+INFO: [Synth 8-638] synthesizing module 'lint_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:47]
+WARNING: [Synth 8-6014] Unused sequential element int2_ack_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:75]
+WARNING: [Synth 8-6014] Unused sequential element int3_ack_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:76]
+INFO: [Synth 8-256] done synthesizing module 'lint_unit' (8#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:47]
+WARNING: [Synth 8-3848] Net O_int_ack in module/entity core does not have driver. [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:38]
+INFO: [Synth 8-256] done synthesizing module 'core' (9#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:57]
+WARNING: [Synth 8-3917] design core has port O_DBG[63] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[62] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[61] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[60] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[59] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[58] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[54] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[51] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[50] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[47] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[46] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[45] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[39] driven by constant 0
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[15]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[14]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[13]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[12]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[11]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[10]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_aluop[1]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_aluop[0]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[31]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[30]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[29]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[28]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[27]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[26]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[25]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[24]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[23]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[22]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[21]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[20]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[19]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[18]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[17]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[16]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[15]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[14]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[13]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[12]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[11]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[10]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[9]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[8]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[7]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[6]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[5]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[4]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[3]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[2]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[1]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[0]
+WARNING: [Synth 8-3331] design pc_unit has unconnected port I_intVec
+WARNING: [Synth 8-3331] design core has unconnected port O_int_ack
+WARNING: [Synth 8-3331] design core has unconnected port I_halt
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[31]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[30]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[29]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[28]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[27]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[26]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[25]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[24]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[23]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[22]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[21]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[20]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[19]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[18]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[17]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[16]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[15]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[14]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[13]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[12]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[11]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[10]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[9]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[8]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[7]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[6]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[5]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[4]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[3]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[2]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[1]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[0]
+WARNING: [Synth 8-3331] design core has unconnected port I_int
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1682.164 ; gain = 0.000
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1682.164 ; gain = 0.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1682.164 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-141] Inserted 14 OBUFs to IO ports without IO buffers.
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+INFO: [Opt 31-140] Inserted 1 IBUFs to IO ports without IO buffers.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1691.316 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+RTL Elaboration Complete:  : Time (s): cpu = 00:00:13 ; elapsed = 00:00:12 . Memory (MB): peak = 1691.316 ; gain = 9.152
+33 Infos, 95 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:13 ; elapsed = 00:00:12 . Memory (MB): peak = 1691.316 ; gain = 9.152
+set_property simulator_language VHDL [current_project]
+set_property -name {xsim.elaborate.rangecheck} -value {true} -objects [get_filesets sim_1]
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'core' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj core_vhdl.prj"
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/constants.vhd" into library work
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'control_unit'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'csr_unit'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'lint_unit'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'mem_controller'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'pc_unit'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'register_set'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'alu_RV32I'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'decoder_RV32'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'core'
+INFO: [USF-XSim-69] 'compile' step finished in '3' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L work -L secureip --snapshot core_behav work.core -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L work -L secureip --snapshot core_behav work.core -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package work.constants
+Compiling package ieee.numeric_std
+Compiling architecture behavioral of entity work.mem_controller [mem_controller_default]
+Compiling architecture behavioral of entity work.pc_unit [pc_unit_default]
+Compiling architecture behavioral of entity work.control_unit [control_unit_default]
+Compiling architecture behavioral of entity work.decoder_RV32 [decoder_rv32_default]
+Compiling architecture behavioral of entity work.alu_RV32I [alu_rv32i_default]
+Compiling architecture behavioral of entity work.register_set [register_set_default]
+Compiling architecture behavioral of entity work.csr_unit [csr_unit_default]
+Compiling architecture behavioral of entity work.lint_unit [lint_unit_default]
+Compiling architecture behavioral of entity work.core
+Built simulation snapshot core_behav
+
+****** Webtalk v2019.1 (64-bit)
+  **** SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+  **** IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/xsim.dir/core_behav/webtalk/xsim_webtalk.tcl -notrace
+INFO: [Common 17-186] 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/xsim.dir/core_behav/webtalk/usage_statistics_ext_xsim.xml' has been successfully sent to Xilinx on Wed Aug 28 09:13:46 2019. For additional details about this file, please refer to the WebTalk help file at C:/Xilinx/Vivado/2019.1/doc/webtalk_introduction.html.
+INFO: [Common 17-206] Exiting Webtalk at Wed Aug 28 09:13:46 2019...
+run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:11 . Memory (MB): peak = 1691.316 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '11' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "core_behav -key {Behavioral:sim_1:Functional:core} -tclbatch {core.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source core.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'core_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:05 ; elapsed = 00:00:17 . Memory (MB): peak = 1691.316 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd] -no_script -reset -force -quiet
+remove_files  C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd
+file delete -force C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd
+update_compile_order -fileset sources_1
+update_compile_order -fileset sim_1
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd] -no_script -reset -force -quiet
+remove_files  {C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd}
+file delete -force C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/constants.vhd] -no_script -reset -force -quiet
+remove_files  C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/constants.vhd
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd] -no_script -reset -force -quiet
+remove_files  -fileset sim_1 {C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd}
+file delete -force C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd
+close_design
+add_files -norecurse -scan_for_includes {C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/core.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/csr_unit.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/control_unit.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/pc_unit.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/constants.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/register_set.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/mem_controller.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/lint_unit.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/unit_alu_RV32_I.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/unit_decoder_RV32I.vhd}
+import_files -norecurse {C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/core.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/csr_unit.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/control_unit.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/pc_unit.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/constants.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/register_set.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/mem_controller.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/lint_unit.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/unit_alu_RV32_I.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/vhdl/unit_decoder_RV32I.vhd}
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+add_files -fileset sim_1 -norecurse -scan_for_includes {C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_decoder_RV32_01.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_alu_RV32I_01.vhd}
+import_files -fileset sim_1 -norecurse {C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_decoder_RV32_01.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_alu_RV32I_01.vhd}
+update_compile_order -fileset sim_1
+update_compile_order -fileset sim_1
+synth_design -rtl -name rtl_1
+Command: synth_design -rtl -name rtl_1
+Starting synth_design
+Using part: xc7s50csga324-1
+Top: core
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 1691.316 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'core' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:57]
+INFO: [Synth 8-3491] module 'mem_controller' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:30' bound to instance 'memctl' of component 'mem_controller' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:322]
+INFO: [Synth 8-638] synthesizing module 'mem_controller' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:55]
+INFO: [Synth 8-256] done synthesizing module 'mem_controller' (1#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/mem_controller.vhd:55]
+INFO: [Synth 8-3491] module 'pc_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:30' bound to instance 'pcunit' of component 'pc_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:345]
+INFO: [Synth 8-638] synthesizing module 'pc_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:40]
+INFO: [Synth 8-226] default block is never used [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:47]
+INFO: [Synth 8-256] done synthesizing module 'pc_unit' (2#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/pc_unit.vhd:40]
+INFO: [Synth 8-3491] module 'control_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:26' bound to instance 'control' of component 'control_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:353]
+INFO: [Synth 8-638] synthesizing module 'control_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:52]
+WARNING: [Synth 8-6014] Unused sequential element next_s_state_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:85]
+INFO: [Synth 8-256] done synthesizing module 'control_unit' (3#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/control_unit.vhd:52]
+INFO: [Synth 8-3491] module 'decoder_RV32' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:27' bound to instance 'decoder' of component 'decoder_RV32' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:373]
+INFO: [Synth 8-638] synthesizing module 'decoder_RV32' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:48]
+WARNING: [Synth 8-614] signal 'I_int_ack' is read in the process but is not in the sensitivity list [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:54]
+INFO: [Synth 8-256] done synthesizing module 'decoder_RV32' (4#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_decoder_RV32I.vhd:48]
+INFO: [Synth 8-3491] module 'alu_RV32I' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:28' bound to instance 'alu' of component 'alu_RV32I' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:393]
+INFO: [Synth 8-638] synthesizing module 'alu_RV32I' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:47]
+INFO: [Synth 8-226] default block is never used [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:63]
+INFO: [Synth 8-256] done synthesizing module 'alu_RV32I' (5#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd:47]
+INFO: [Synth 8-3491] module 'register_set' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:27' bound to instance 'reg' of component 'register_set' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:410]
+INFO: [Synth 8-638] synthesizing module 'register_set' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:41]
+INFO: [Synth 8-256] done synthesizing module 'register_set' (6#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/register_set.vhd:41]
+INFO: [Synth 8-3491] module 'csr_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:27' bound to instance 'csru' of component 'csr_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:422]
+INFO: [Synth 8-638] synthesizing module 'csr_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:49]
+WARNING: [Synth 8-614] signal 'I_instRetTick' is read in the process but is not in the sensitivity list [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:140]
+INFO: [Synth 8-256] done synthesizing module 'csr_unit' (7#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/csr_unit.vhd:49]
+INFO: [Synth 8-3491] module 'lint_unit' declared at 'C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:27' bound to instance 'lint' of component 'lint_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:450]
+INFO: [Synth 8-638] synthesizing module 'lint_unit' [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:47]
+WARNING: [Synth 8-6014] Unused sequential element int2_ack_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:75]
+WARNING: [Synth 8-6014] Unused sequential element int3_ack_reg was removed.  [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:76]
+INFO: [Synth 8-256] done synthesizing module 'lint_unit' (8#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/lint_unit.vhd:47]
+WARNING: [Synth 8-3848] Net O_int_ack in module/entity core does not have driver. [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:38]
+INFO: [Synth 8-256] done synthesizing module 'core' (9#1) [C:/Users/chint/Desktop/RPU/RPU.srcs/sources_1/imports/vhdl/core.vhd:57]
+WARNING: [Synth 8-3917] design core has port O_DBG[63] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[62] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[61] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[60] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[59] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[58] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[54] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[51] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[50] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[47] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[46] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[45] driven by constant 0
+WARNING: [Synth 8-3917] design core has port O_DBG[39] driven by constant 0
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[15]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[14]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[13]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[12]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[11]
+WARNING: [Synth 8-3331] design alu_RV32I has unconnected port I_aluFunc[10]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_aluop[1]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_aluop[0]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[31]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[30]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[29]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[28]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[27]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[26]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[25]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[24]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[23]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[22]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[21]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[20]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[19]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[18]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[17]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[16]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[15]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[14]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[13]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[12]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[11]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[10]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[9]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[8]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[7]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[6]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[5]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[4]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[3]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[2]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[1]
+WARNING: [Synth 8-3331] design control_unit has unconnected port I_int_mem_data[0]
+WARNING: [Synth 8-3331] design pc_unit has unconnected port I_intVec
+WARNING: [Synth 8-3331] design core has unconnected port O_int_ack
+WARNING: [Synth 8-3331] design core has unconnected port I_halt
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[31]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[30]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[29]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[28]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[27]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[26]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[25]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[24]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[23]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[22]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[21]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[20]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[19]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[18]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[17]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[16]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[15]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[14]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[13]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[12]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[11]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[10]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[9]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[8]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[7]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[6]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[5]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[4]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[3]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[2]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[1]
+WARNING: [Synth 8-3331] design core has unconnected port I_int_data[0]
+WARNING: [Synth 8-3331] design core has unconnected port I_int
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1691.316 ; gain = 0.000
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1691.316 ; gain = 0.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1691.316 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-141] Inserted 14 OBUFs to IO ports without IO buffers.
+
+Processing XDC Constraints
+Initializing timing engine
+Completed Processing XDC Constraints
+
+INFO: [Opt 31-140] Inserted 1 IBUFs to IO ports without IO buffers.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1702.961 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+RTL Elaboration Complete:  : Time (s): cpu = 00:00:23 ; elapsed = 00:00:22 . Memory (MB): peak = 1702.961 ; gain = 11.645
+33 Infos, 95 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:23 ; elapsed = 00:00:22 . Memory (MB): peak = 1702.961 ; gain = 11.645
+close_design
+set_property default_lib xil_defaultlib [current_project]
+set_property source_mgmt_mode DisplayOnly [current_project]
+reorder_files -fileset sim_1 -after C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd
+reorder_files -fileset sim_1 -front C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd
+reorder_files -fileset sim_1 -before C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'rpu_core_tb'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'tb_unit_decoder_RV32_01'
+INFO: [USF-XSim-69] 'compile' step finished in '3' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-664] expression has 32 elements ; expected 64 [C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd:67]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit rpu_core_tb in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+launch_simulation: Time (s): cpu = 00:00:00 ; elapsed = 00:00:05 . Memory (MB): peak = 1702.961 ; gain = 0.000
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+reorder_files -fileset sim_1 -front C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd
+reorder_files -fileset sim_1 -before C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-664] expression has 32 elements ; expected 64 [C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd:67]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit rpu_core_tb in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+close_project
+open_project C:/Users/chint/Desktop/RPU/RPU.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.1/data/ip'.
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-664] expression has 32 elements ; expected 64 [C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd:67]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit rpu_core_tb in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd] -no_script -reset -force -quiet
+export_ip_user_files -of_objects  [get_files C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd] -no_script -reset -force -quiet
+remove_files  -fileset sim_1 {C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd}
+file delete -force C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd
+launch_runs synth_1 -jobs 2
+[Wed Aug 28 09:38:14 2019] Launched synth_1...
+Run output will be captured here: C:/Users/chint/Desktop/RPU/RPU.runs/synth_1/runme.log
+launch_runs impl_1 -jobs 2
+[Wed Aug 28 09:39:49 2019] Launched impl_1...
+Run output will be captured here: C:/Users/chint/Desktop/RPU/RPU.runs/impl_1/runme.log
+open_run synth_1 -name synth_1
+Design is defaulting to impl run constrset: constrs_1
+Design is defaulting to synth run part: xc7s50csga324-1
+INFO: [Netlist 29-17] Analyzing 129 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2019.1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1702.961 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+open_run: Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 1708.660 ; gain = 5.699
+open_hw
+close_hw
+close_design
+launch_simulation -mode post-synthesis -type functional
+INFO: [Vivado 12-5682] Launching post-synthesis functional simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+Design is defaulting to impl run constrset: constrs_1
+Design is defaulting to synth run part: xc7s50csga324-1
+INFO: [Netlist 29-17] Analyzing 129 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2019.1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 2062.965 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [SIM-utils-24] Writing simulation netlist file for design 'synth_1'...
+INFO: [SIM-utils-26] write_vhdl -mode funcsim -nolib -force -file "C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim/rpu_core_tb_func_synth.vhd"
+INFO: [SIM-utils-36] Netlist generated:C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim/rpu_core_tb_func_synth.vhd
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+WARNING: [Vivado 12-818] No files matched '*'
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim/rpu_core_tb_func_synth.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'alu_RV32I'
+INFO: [VRFC 10-3107] analyzing entity 'control_unit'
+INFO: [VRFC 10-3107] analyzing entity 'csr_unit'
+INFO: [VRFC 10-3107] analyzing entity 'decoder_RV32'
+INFO: [VRFC 10-3107] analyzing entity 'lint_unit'
+INFO: [VRFC 10-3107] analyzing entity 'mem_controller'
+INFO: [VRFC 10-3107] analyzing entity 'pc_unit'
+INFO: [VRFC 10-3107] analyzing entity 'register_set'
+INFO: [VRFC 10-3107] analyzing entity 'core'
+INFO: [USF-XSim-69] 'compile' step finished in '4' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_func_synth xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_func_synth xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+ERROR: [XSIM 43-3225] Cannot find design unit xil_defaultlib.rpu_core_tb in library work located at xsim.dir/work.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/synth/func/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+launch_simulation: Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 2099.633 ; gain = 40.820
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+close_design
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-664] expression has 32 elements ; expected 64 [C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd:67]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit rpu_core_tb in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+set_property top core [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'core' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj core_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package xil_defaultlib.constants
+Compiling package ieee.numeric_std
+Compiling architecture behavioral of entity xil_defaultlib.mem_controller [mem_controller_default]
+Compiling architecture behavioral of entity xil_defaultlib.pc_unit [pc_unit_default]
+Compiling architecture behavioral of entity xil_defaultlib.control_unit [control_unit_default]
+Compiling architecture behavioral of entity xil_defaultlib.decoder_RV32 [decoder_rv32_default]
+Compiling architecture behavioral of entity xil_defaultlib.alu_RV32I [alu_rv32i_default]
+Compiling architecture behavioral of entity xil_defaultlib.register_set [register_set_default]
+Compiling architecture behavioral of entity xil_defaultlib.csr_unit [csr_unit_default]
+Compiling architecture behavioral of entity xil_defaultlib.lint_unit [lint_unit_default]
+Compiling architecture behavioral of entity xil_defaultlib.core
+Built simulation snapshot core_behav
+INFO: [USF-XSim-69] 'elaborate' step finished in '5' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "core_behav -key {Behavioral:sim_1:Functional:core} -tclbatch {core.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source core.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'core_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:06 ; elapsed = 00:00:11 . Memory (MB): peak = 2099.633 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+close_project
+****** Webtalk v2019.1 (64-bit)
+  **** SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+  **** IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source C:/Users/chint/Desktop/RPU/RPU.hw/webtalk/labtool_webtalk.tcl -notrace
+INFO: [Common 17-186] 'C:/Users/chint/Desktop/RPU/RPU.hw/webtalk/usage_statistics_ext_labtool.xml' has been successfully sent to Xilinx on Wed Aug 28 09:54:11 2019. For additional details about this file, please refer to the WebTalk help file at C:/Xilinx/Vivado/2019.1/doc/webtalk_introduction.html.
+INFO: [Common 17-206] Exiting Webtalk at Wed Aug 28 09:54:11 2019...
+close_project: Time (s): cpu = 00:00:00 ; elapsed = 00:00:07 . Memory (MB): peak = 2151.398 ; gain = 0.000
+open_project C:/Users/chint/Desktop/RPU/RPU.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.1/data/ip'.
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+add_files -fileset sim_1 -norecurse -scan_for_includes {C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_decoder_RV32_01.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_alu_RV32I_01.vhd}
+import_files -fileset sim_1 -norecurse {C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_decoder_RV32_01.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/rpu_core_tb.vhd C:/Users/chint/Desktop/RPU-master/RPU-master/tests/tb_unit_alu_RV32I_01.vhd}
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'core' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj core_vhdl.prj"
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_decoder_RV32_01.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'tb_unit_decoder_RV32_01'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'rpu_core_tb'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'tb_unit_alu_RV32I_01'
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot core_behav xil_defaultlib.core -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "core_behav -key {Behavioral:sim_1:Functional:core} -tclbatch {core.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source core.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'core_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:04 ; elapsed = 00:00:09 . Memory (MB): peak = 2240.547 ; gain = 8.398
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+set_property top rpu_core_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+set_property simulator_language Mixed [current_project]
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '3' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-664] expression has 32 elements ; expected 64 [C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd:67]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit rpu_core_tb in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+set_property -name {xsim.simulate.runtime} -value {100ns} -objects [get_filesets sim_1]
+set_property -name {xsim.simulate.add_positional} -value {true} -objects [get_filesets sim_1]
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-664] expression has 32 elements ; expected 64 [C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd:67]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit rpu_core_tb in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'rpu_core_tb'
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+ERROR: [VRFC 10-3311] expression has 32 elements ; formal 'o_dbg' expects 64 [C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd:219]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit rpu_core_tb in library work failed.
+INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
+INFO: [USF-XSim-99] Step results log file:'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log'
+ERROR: [USF-XSim-62] 'elaborate' step failed with error(s). Please check the Tcl console output or 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/elaborate.log' file for more information.
+ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation.
+ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/chint/Desktop/RPU/RPU.srcs/sim_1/imports/tests/rpu_core_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'rpu_core_tb'
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.numeric_std
+Compiling package xil_defaultlib.constants
+Compiling architecture behavioral of entity xil_defaultlib.mem_controller [mem_controller_default]
+Compiling architecture behavioral of entity xil_defaultlib.pc_unit [pc_unit_default]
+Compiling architecture behavioral of entity xil_defaultlib.control_unit [control_unit_default]
+Compiling architecture behavioral of entity xil_defaultlib.decoder_RV32 [decoder_rv32_default]
+Compiling architecture behavioral of entity xil_defaultlib.alu_RV32I [alu_rv32i_default]
+Compiling architecture behavioral of entity xil_defaultlib.register_set [register_set_default]
+Compiling architecture behavioral of entity xil_defaultlib.csr_unit [csr_unit_default]
+Compiling architecture behavioral of entity xil_defaultlib.lint_unit [lint_unit_default]
+Compiling architecture behavioral of entity xil_defaultlib.core [core_default]
+Compiling architecture behavioral of entity xil_defaultlib.rpu_core_tb
+Built simulation snapshot rpu_core_tb_behav
+
+****** Webtalk v2019.1 (64-bit)
+  **** SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+  **** IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/xsim.dir/rpu_core_tb_behav/webtalk/xsim_webtalk.tcl -notrace
+INFO: [Common 17-186] 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim/xsim.dir/rpu_core_tb_behav/webtalk/usage_statistics_ext_xsim.xml' has been successfully sent to Xilinx on Wed Aug 28 10:17:10 2019. For additional details about this file, please refer to the WebTalk help file at C:/Xilinx/Vivado/2019.1/doc/webtalk_introduction.html.
+INFO: [Common 17-206] Exiting Webtalk at Wed Aug 28 10:17:10 2019...
+run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:11 . Memory (MB): peak = 2240.547 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '11' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "rpu_core_tb_behav -key {Behavioral:sim_1:Functional:rpu_core_tb} -tclbatch {rpu_core_tb.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source rpu_core_tb.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 100ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'rpu_core_tb_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 100ns
+launch_simulation: Time (s): cpu = 00:00:06 ; elapsed = 00:00:17 . Memory (MB): peak = 2240.547 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+close_sim: Time (s): cpu = 00:00:01 ; elapsed = 00:00:09 . Memory (MB): peak = 2240.547 ; gain = 0.000
+close_project
+open_project C:/Users/chint/Desktop/RPU/RPU.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.1/data/ip'.
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "rpu_core_tb_behav -key {Behavioral:sim_1:Functional:rpu_core_tb} -tclbatch {rpu_core_tb.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source rpu_core_tb.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 100ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'rpu_core_tb_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 100ns
+launch_simulation: Time (s): cpu = 00:00:04 ; elapsed = 00:00:09 . Memory (MB): peak = 2240.547 ; gain = 0.000
+set_property -name {xsim.simulate.runtime} -value {1000ns} -objects [get_filesets sim_1]
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+close_sim: Time (s): cpu = 00:00:01 ; elapsed = 00:00:13 . Memory (MB): peak = 2240.547 ; gain = 0.000
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'rpu_core_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-100] Fetching design files from 'sources_1'...(this may take a while)...
+INFO: [USF-XSim-101] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xvhdl --incr --relax -prj rpu_core_tb_vhdl.prj"
+INFO: [USF-XSim-69] 'compile' step finished in '3' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+"xelab -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log"
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto b1328264cb6547ec90dea2a47a03ed09 --incr --debug typical --rangecheck --relax --mt 2 -L xil_defaultlib -L secureip --snapshot rpu_core_tb_behav xil_defaultlib.rpu_core_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/chint/Desktop/RPU/RPU.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "rpu_core_tb_behav -key {Behavioral:sim_1:Functional:rpu_core_tb} -tclbatch {rpu_core_tb.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2019.1
+Time resolution is 1 ps
+source rpu_core_tb.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'rpu_core_tb_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:05 ; elapsed = 00:00:11 . Memory (MB): peak = 2240.547 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+close_project
+open_project C:/Users/chint/Desktop/RPU/RPU.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.1/data/ip'.
+exit
+INFO: [Common 17-206] Exiting Vivado at Wed Sep  4 08:05:35 2019...
