@@ -23,4 +23,18 @@ package opcodes is
     constant R_I : opcode := "0010011";     -- SLLI, SRLI, SRAI
     constant R_R : opcode := "0110011";     -- ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND
 
+    -- The alu_op_t type is determined by funct7
+    type alu_op_t is (
+        ALU_ADD,
+        ALU_SUB,
+        ALU_SLL,    -- Shift left logical
+        ALU_SRL,    -- Shift right logical
+        ALU_SRA,    -- Shift right arithmetic
+        ALU_SLT,    -- Set less than
+        ALU_SLTU,   -- Set less than unsigned
+        ALU_XOR,
+        ALU_OR,
+        ALU_AND
+    );
+
 end opcodes;
