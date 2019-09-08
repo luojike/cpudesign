@@ -19,7 +19,7 @@ package opcodes is
     constant B_BR : opcode := "1100011";
     constant I_LOAD : opcode := "0000011";  -- LB, LH, LW, LBU, LHU
     constant S_STORE : opcode := "0100011"; -- SB, SH, SW
-    constant I_AL : opcode := "0010011";    -- Register/Immediate: ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI
+    constant I_AL : opcode := "0010011";    -- Register/Immediate and shifts: ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI
     constant R_R : opcode := "0110011";     -- Register/Register: ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND
 
     -- The alu_op_t type is determined by funct7
