@@ -2,22 +2,17 @@ library ieee;
 use ieee.std_logic_1164.all;
 use work.opcodes.all;
 
--- Subtype that represents a RISCV word.
-subtype word is std_logic_vector(31 downto 0);
--- Subtype that represents register index, ranging from 0 to 2^5 - 1.
-subtype reg_idx is std_logic_vector(4 downto 0);
-
 -- Used for opcode decoding.
 entity ir_decoder is
     port (
         -- Input.
-        ir : in word;
-        pc : in word;
+        ir : in std_logic_vector(31 downto 0);
+        pc : in std_logic_vector(31 downto 0);
 
         -- Output.
-        rs1 : out reg_idx;
-        rs2 : out reg_idx;
-        rd : out reg_idx;
+        rs1 : out std_logic_vector(4 downto 0);
+        rs2 : out std_logic_vector(4 downto 0);
+        rd : out std_logic_vector(4 downto 0);
 
         alu_op : out alu_op_t;
 
@@ -25,9 +20,8 @@ entity ir_decoder is
         -- We've chosen to use a vector here because this value
         -- will be input to a multiplexer.
         en_imm : out std_logic_vector(0 downto 0);
-        imm : out word;
+        imm : out std_logic_vector(31 downto 0);
 
-        ctnl_register : out std_logic_vector(1 downto 0);
         en_write_reg : out boolean;
         en_write_ram : out boolean;
     );
