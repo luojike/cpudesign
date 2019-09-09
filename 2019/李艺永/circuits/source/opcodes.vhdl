@@ -22,7 +22,11 @@ package opcodes is
     constant I_AL : opcode := "0010011";    -- Register/Immediate and shifts: ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI
     constant R_R : opcode := "0110011";     -- Register/Register: ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND
 
-    -- The alu_op_t type is determined by funct7
+    -- alu_op_t type is determined by opcodes, funct3 and funct7.
+    -- The purpose of this enumeration is to ignore the differences
+    -- between R-type and I-type encodings, e.g., the ALU treats ADD 
+    -- and ADDI as the same operation(namely ALU_ADD) regardless of 
+    -- where the two operands come from.
     type alu_op_t is (
         ALU_ADD,
         ALU_SUB,
@@ -35,5 +39,13 @@ package opcodes is
         ALU_OR,
         ALU_AND
     );
+
+    -- Flags for updating PC register.
+    -- NORMAL: simply point the PC to next instruction.
+    -- RELATIVE: PC-relative jumps.
+    -- ABSOLUTE: used by JALR.
+    constant NORMAL : std_logic_vector(1 downto 0) := "00";
+    constant RELATIVE : std_logic_vector(1 downto 0) := "01";
+    constant ABSOLUTE : std_logic_vector(1 downto 0) := "10";
 
 end opcodes;
