@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use work.opcodes.all;
+use work.pc.all;
 
 -- Entity ir_decoder:
 -- Determin alu_op_t from funct7, funct3 and opcodes.
@@ -10,11 +11,14 @@ entity ir_decoder is
         ir : in std_logic_vector(31 downto 0);
         pc : in std_logic_vector(31 downto 0);
 
+        br_flag : in boolean;   -- A flag emitted by ALU. Used for conditional branch.
+
         -- Output.
 
         op_t : out std_logic_vector(1 downto 0);    -- Operation type. See constant OP_XXX in archiecture body.
         alu_op : out alu_op_t;                      -- Used only when [op_t] is OP_ALU;
         pc_off : out std_logic_vector(31 downto 0); -- Used only when [op_t] is OP_PC;
+        br_mode : out std_logic_vector(1 downto 0); -- Used only when [op_t] is OP_PC;
 
         rs1 : out std_logic_vector(4 downto 0);
         rs2 : out std_logic_vector(4 downto 0);
@@ -64,6 +68,8 @@ begin
         en_imm <= EN_REG;
         en_write_ram <= false;
         en_write_reg <= false;
+
+        br_mode <= NORMAL;
 
         case opc is
             -- "0010011": I-type encoding. Arithmetic and Logical operations.
@@ -185,6 +191,81 @@ begin
                 pc_off(0) <= '0';
 
                 case funct3 is
+                    when "000" =>   -- BEQ
+                        -- We'll have to rely on the result on ALU_AND.
+                        alu_op <= ALU_AND;
+
+                        case br_flag is
+                            when true =>
+                                -- Branch taken.
+                                br_mode <= RELATIVE;
+                            when others =>
+                                -- Branch not taken.
+                                pc_off <= (others => '0');
+                        end case;
+
+                    when "001" =>   -- BNE
+                        alu_op <= ALU_AND;
+
+                        case br_flag is
+                            when false =>
+                                -- Branch taken.
+                                br_mode <= RELATIVE;
+                            when others =>
+                                -- Branch not taken.
+                                pc_off <= (others => '0');
+                        end case;
+                    
+                    when "100" =>   -- BLT
+                        alu_op <= ALU_SLT;
+                        case br_flag is
+                            when true =>
+                                -- Branch taken.
+                                br_mode <= RELATIVE;
+                            when others =>
+                                -- Branch not taken.
+                                pc_off <= (others => '0');
+                        end case;
+
+                    when "101" =>   -- BGT
+                        alu_op <= ALU_SLT;
+                        case br_flag is
+                            when false =>
+                                -- Branch taken.
+                                br_mode <= RELATIVE;
+                            when others =>
+                                -- Branch not taken.
+                                pc_off <= (others => '0');
+                        end case;
+
+                    when "110" =>   -- BLTU
+                        alu_op <= ALU_SLTU;
+                        case br_flag is
+                            when true =>
+                                -- Branch taken.
+                                br_mode <= RELATIVE;
+                            when others =>
+                                -- Branch not taken.
+                                pc_off <= (others => '0');
+                        end case;
+
+                    when "111" =>   -- BGEU
+                        alu_op <= ALU_SLTU;
+                        case br_flag is
+                            when false =>
+                                -- Branch taken.
+                                br_mode <= RELATIVE;
+                            when others =>
+                                -- Branch not taken.
+                                pc_off <= (others => '0');
+                        end case;
+
+                    when others =>
+                        pc_off <= (others => '0');
                 end case;
+            when J_JAL =>
+            when I_JALR =>
+            when U_LUI =>
+            when U_AUIPC =>
     end process;
 end behav;

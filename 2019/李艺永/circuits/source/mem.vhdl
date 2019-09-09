@@ -26,6 +26,8 @@ architecture mem_behav of mem is
     );
 
 begin
+    -- do_read must not use a clk for synchronization here, because
+    -- in that case, instruction read will need 4 clocks to finish.
     do_read: process(addrbus, en_read)
         variable i: integer;
     begin
