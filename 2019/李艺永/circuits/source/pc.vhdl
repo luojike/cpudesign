@@ -53,8 +53,10 @@ begin
     end process update_read_next;
 
     -- These assignments will run on both rising_edge & falling_edge.
+    
     read_next_next <= not read_next;
-    val_next <= std_logic_vector(unsigned(val) + 1);
+    -- The address of the next instruction.
+    val_next <= std_logic_vector(unsigned(val) + 4);
 
     q_val <= val;
 
