@@ -22,12 +22,12 @@ Date: 10/07/2019
 程序总体设计：每条指令实现之前将寄存器组赋初值，目前使用到的寄存器位regs(0),regs(1),regs(2)，其值分别位0x00000001,0x00000003,0x00000100
 使用regs(31 downto 0) 信号表示cpu可以调用的32个寄存器。
 
-指令1：inst=X"00100033" ADD regs(0) regs(1) regs(2) 
+指令1：inst <= X"00100033" ADD regs(0) regs(1) regs(2) 
 含义：将regs0的值加上regs1的值存入regs2中
 即：0x00000001+0x00000003=0x00000004，运算结束后regs2寄存器的值应为0x00000004
 
-指令2：inst=X"402000B3" SUB regs(2) regs(0) regs(1) 
+指令2：inst <= X"402000B3" SUB regs(2) regs(0) regs(1) 
 含义：将regs2的值减去regs0的值存入regs1中
 即：0x00000100-0x00000001=0x000000ff，运算结束后regs1寄存器的值应为0x000000ff
 
-指令
+指令3：inst <= 
