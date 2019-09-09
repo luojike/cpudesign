@@ -6,6 +6,7 @@ use ieee.numeric_std.all;
 -- Controls read to rs1 and rs2 and write to rd register
 entity registerfile is
     port(
+        clk : in std_logic;                     -- Needed for writing rd.
         rs1 : in std_logic_vector(4 downto 0);  -- The index of rs1
         rs2 : in std_logic_vector(4 downto 0);  -- The index of rs2
         rd : in std_logic_vector(4 downto 0);   -- The index of rd
@@ -27,7 +28,7 @@ architecture behav of registerfile is
     );
 
 begin
-    update_rs: process(rs1, rs2, reg_blocks)
+    update: process(clk, rd, rs1, rs2, reg_blocks)
     begin
         -- Update result of rs1 register
         if (unsigned(rs1) /= 0) then
@@ -44,12 +45,13 @@ begin
             -- register x0 is hardwired with all bits equals to 0.
             q_rs2 <= (others => '0');
         end if;
-    end process update_rs;
 
-    update_rd: process(en_write, rd, reg_blocks)
-    begin
-        if (en_write = true and (unsigned(rd) /= 0)) then
-            reg_blocks(to_integer(unsigned(rd))) <= i_data;
+        -- Synchronously update rd on certain condition upon rising edge.
+        -- Clk is important.
+        if rising_edge(clk) then
+            if (en_write = true and (unsigned(rd) /= 0)) then
+                reg_blocks(to_integer(unsigned(rd))) <= i_data;
+            end if;
         end if;
-    end process update_rd;
+    end process update;
 end behav;

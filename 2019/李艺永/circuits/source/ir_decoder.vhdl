@@ -263,9 +263,59 @@ begin
                     when others =>
                         pc_off <= (others => '0');
                 end case;
+            
+            -- "1101111": J-type encoding. Jump And Link.
             when J_JAL =>
+                -- Operation type must be OP_PC.
+                op_t <= OP_PC;
+                -- PC-relative
+                br_mode <= RELATIVE;
+                
+                -- Sign-extended
+                pc_off(31 downto 20) <= (others => ir(31));
+                pc_off(19 downto 12) <= ir(19 downto 12);
+                pc_off(11) <= ir(20);
+                pc_off(10 downto 1) <= ir(30 downto 21);
+                pc_off(0) <= '0';
+
+            -- "1100111": I-type encoding. Jump And Link Register.
             when I_JALR =>
+                -- Force the ALU to use pc register as rs1.
+                op_t <= OP_PC;
+                -- Force the ALU to use [imm] instead of rs2.
+                en_imm <= EN_IMM;
+
+                -- Target address is formed by adding the signed-extended immediate
+                -- to rs1.
+
+                -- Sign-extended.
+                imm(31 downto 12) <= (others => ir(31));
+                -- The actual 12-bit immdiate.
+                imm(11 downto 0) <= ir(31 downto 20);
+
+                -- Force the ALU to compute the target address.
+                alu_op <= ALU_ADD;
+                -- PC-absolute jump.
+                pc_mode <= ABSOLUTE;
+
+                -- TODO: ensure current pc value + 4 is written to rd.
+            -- U-type encoding.
             when U_LUI =>
+                -- Places the U-immediate value in top 20 bits of rd, filling the lowest
+                -- bits with 0.
+
+                -- Force ALU to use [imm] instead of rs2.
+                en_imm <= EN_IMM;
+                imm(31 downto 12) <= ir(31 downto 12);
+                imm(11 downto 0) <= (others => '0');
+
+                -- Set rs1 to 0.
+                rs1 <= (others => '0');
+
+                -- Go through ALU. The result will be written to
+                -- rd.
+                alu_op <= ALU_ADD;
+
             when U_AUIPC =>
     end process;
 end behav;
