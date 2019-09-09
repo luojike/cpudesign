@@ -9,3 +9,7 @@ Date: 08/07/2019
 Date: 10/07/2019
 
 尝试将含有部分指令的demo代码编写成工程测试和运行
+
+为了实现加减运算，需要将 std_logic_vector 转换成 integer 类型，而运算后的结果又要将整型转换成std_logic_vector。
+使用了库std_logic_unsigned 与 std_logic_signed ，其中的函数CONV_STD_LOGIC_VECTOR 与函数 CONV_INTEGER 可以实现。
+
