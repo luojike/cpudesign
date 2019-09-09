@@ -34,7 +34,7 @@ begin
             -- assume little-endian
             databus <= memdata(i+3) & memdata(i+2) & memdata(i+1) & memdata(i);
         else
-            databus <= "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
+            databus <= (others => 'Z');
         end if;
     end process do_read;
 
