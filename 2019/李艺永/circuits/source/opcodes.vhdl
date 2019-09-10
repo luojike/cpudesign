@@ -40,12 +40,4 @@ package opcodes is
         ALU_AND
     );
 
-    -- Flags for updating PC register.
-    -- NORMAL: simply point the PC to next instruction.
-    -- RELATIVE: PC-relative jumps.
-    -- ABSOLUTE: used by JALR.
-    constant NORMAL : std_logic_vector(1 downto 0) := "00";
-    constant RELATIVE : std_logic_vector(1 downto 0) := "01";
-    constant ABSOLUTE : std_logic_vector(1 downto 0) := "10";
-
 end opcodes;

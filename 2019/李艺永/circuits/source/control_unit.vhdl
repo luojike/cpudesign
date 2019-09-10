@@ -15,10 +15,10 @@ entity control_unit is
 
         -- Output.
 
-        op_t : out std_logic_vector(1 downto 0);    -- Operation type. See constant OP_XXX in archiecture body.
-        alu_op : out alu_op_t;                      -- Used only when [op_t] is OP_ALU;
-        pc_off : out std_logic_vector(31 downto 0); -- Used only when [op_t] is OP_PC;
-        br_mode : out std_logic_vector(1 downto 0); -- Used only when [op_t] is OP_PC;
+        res_sel : out std_logic_vector(1 downto 0); -- Result selector for writing to rd. Selecting results among ALU, value read from mem and PC register.
+        alu_op : out alu_op_t;                      -- Decoded ALU operation.
+        pc_off : out std_logic_vector(31 downto 0); -- Offset to add to PC register. This is wired to PC component.
+        pc_mode : out std_logic_vector(1 downto 0); -- 
 
         rs1 : out std_logic_vector(4 downto 0);
         rs2 : out std_logic_vector(4 downto 0);
@@ -33,18 +33,26 @@ entity control_unit is
 end control_unit;
 
 architecture behav of control_unit is
-    -- Types of the operations.
-    constant OP_ALU : std_logic_vector(1 downto 0) := "00";
-    constant OP_RAM : std_logic_vector(1 downto 0) := "01";
-    constant OP_PC : std_logic_vector(1 downto 0) := "10";
+    -- Sets [pc_mode].
+    constant PC_normal : std_logic_vector(1 downto 0) := "00";
+    constant PC_relative : std_logic_vector(1 downto 0) := "01";
+    constant PC_absolute : std_logic_vector(1 downto 0) := "10";
 
-    -- Values for en_imm
+    -- Selector values that select results among ALU, PC and RAM.
+    -- Sets [res_sel].
+    constant ALU_res : std_logic_vector(1 downto 0) := "00";
+    constant RAM_res : std_logic_vector(1 downto 0) := "01";
+    constant PC_res : std_logic_vector(1 downto 0) := "10";
+
+    -- Selector values that select between rs2 and immediate.
+    -- Sets [en_imm].
     constant EN_REG : std_logic_vector(0 downto 0) := "0";
     constant EN_IMM : std_logic_vector(0 downto 0) := "0";
 
     signal opc : opcode;
     signal funct3 : std_logic_vector(2 downto 0);
     signal funct7 : std_logic_vector(6 downto 0);
+
 begin
 
     -- Extract fields.
@@ -55,7 +63,7 @@ begin
     process(ir, funct3, funct7, opc)
     begin
         -- Some "default" values.
-        op_t <= OP_ALU;
+        res_sel <= ALU_res;
         rs1 <= ir(19 downto 15);
         rs2 <= ir(24 downto 20);
         rd <= ir(11 downto 7);
@@ -64,9 +72,9 @@ begin
         
         en_imm <= EN_REG;
         en_write_ram <= false;
-        en_write_reg <= false;
+        en_write_reg <= true;
 
-        br_mode <= NORMAL;
+        pc_mode <= pc_normal;
 
         case opc is
             -- "0010011": I-type encoding. Arithmetic and Logical operations.
@@ -154,21 +162,30 @@ begin
                 end case;
             -- "0000011": I-type encoding. Load from memory.
             when I_LOAD =>
-                op_t <= OP_RAM;
-                en_imm <= EN_IMM;
+                -- The effective byte address is obtained by adding rs1 to the 
+                -- sign-extended 12 bit offset.
 
+                -- Write result read from RAM to rd.
+                res_sel <= RAM_res;
+
+                -- Force ALU to use [imm] instead of rs2.
+                en_imm <= EN_IMM;
                 -- Sign-extended.
                 imm(31 downto 12) <= (others => ir(31));
                 -- Actual immediate.
                 imm(11 downto 0) <= ir(31 downto 20);
+
+                -- Compute address.
+                alu_op <= ALU_ADD;
+
+                -- Write RAM result to rd.
+                -- Writing to rd takes place by default.
 
             -- "0100011": S-type encoding. Store to memory.
             when S_STORE =>
                 -- The effective address is obtained by adding rs1 to the sign-extended
                 -- [imm]. The value to store is held in rs2.
                 
-                -- Be really careful about the order because this is executed sequentially.
-                op_t <= OP_RAM;
                 en_imm <= EN_IMM;
                 alu_op <= ALU_ADD;
 
@@ -179,13 +196,15 @@ begin
                 -- Low bits.
                 imm(4 downto 0) <= ir(7 downto 7);
 
-                -- The effective address shall be calculated in this place.
+                -- Write ALU result to RAM.
                 en_write_ram <= true;
+
+                -- Do not write rd.
                 en_write_reg <= false;
 
-            -- "1100011": B-type encoding. Conditional Branch.
+            -- "1100011": B-type encoding. Conditional Branches.
             when B_BR =>
-                op_t <= OP_PC;
+                res_sel <= PC_res;
 
                 -- Sign-extended.
                 pc_off(31 downto 12) <= (others => ir(31));
@@ -202,7 +221,7 @@ begin
                         case br_flag is
                             when true =>
                                 -- Branch taken.
-                                br_mode <= RELATIVE;
+                                pc_mode <= PC_relative;
                             when others =>
                                 -- Branch not taken.
                                 pc_off <= (others => '0');
@@ -214,7 +233,7 @@ begin
                         case br_flag is
                             when false =>
                                 -- Branch taken.
-                                br_mode <= RELATIVE;
+                                pc_mode <= PC_relative;
                             when others =>
                                 -- Branch not taken.
                                 pc_off <= (others => '0');
@@ -225,7 +244,7 @@ begin
                         case br_flag is
                             when true =>
                                 -- Branch taken.
-                                br_mode <= RELATIVE;
+                                pc_mode <= PC_relative;
                             when others =>
                                 -- Branch not taken.
                                 pc_off <= (others => '0');
@@ -236,7 +255,7 @@ begin
                         case br_flag is
                             when false =>
                                 -- Branch taken.
-                                br_mode <= RELATIVE;
+                                pc_mode <= PC_relative;
                             when others =>
                                 -- Branch not taken.
                                 pc_off <= (others => '0');
@@ -247,7 +266,7 @@ begin
                         case br_flag is
                             when true =>
                                 -- Branch taken.
-                                br_mode <= RELATIVE;
+                                pc_mode <= PC_relative;
                             when others =>
                                 -- Branch not taken.
                                 pc_off <= (others => '0');
@@ -258,7 +277,7 @@ begin
                         case br_flag is
                             when false =>
                                 -- Branch taken.
-                                br_mode <= RELATIVE;
+                                pc_mode <= PC_relative;
                             when others =>
                                 -- Branch not taken.
                                 pc_off <= (others => '0');
@@ -268,13 +287,19 @@ begin
                         pc_off <= (others => '0');
                 end case;
             
+                -- Write ALU result to rd.
+                -- Writing to rd takes place by default.
+
             -- "1101111": J-type encoding. Jump And Link.
             when J_JAL =>
-                -- Operation type must be OP_PC.
-                op_t <= OP_PC;
-                -- PC-relative
-                br_mode <= RELATIVE;
-                
+                -- The jump target address is formed by adding
+                -- [pc_off] to the address of this jump instruction.
+
+                -- curr PC + 4 will be written to rd.
+                res_sel <= PC_res;
+
+                pc_mode <= PC_relative;
+
                 -- Sign-extended
                 pc_off(31 downto 20) <= (others => ir(31));
                 pc_off(19 downto 12) <= ir(19 downto 12);
@@ -282,43 +307,74 @@ begin
                 pc_off(10 downto 1) <= ir(30 downto 21);
                 pc_off(0) <= '0';
 
+                -- Write to rd.
+                -- Writing to rd takes place by default.
+
             -- "1100111": I-type encoding. Jump And Link Register.
             when I_JALR =>
-                -- Force the ALU to use pc register as rs1.
-                op_t <= OP_PC;
-                -- Force the ALU to use [imm] instead of rs2.
-                en_imm <= EN_IMM;
-
                 -- Target address is formed by adding the signed-extended immediate
                 -- to rs1.
+
+                -- curr PC + 4 will be written to rd.
+                res_sel <= PC_res;
+
+                -- PC register will actually be updated on next rising_edge,
+                -- so don't worry 'bout it.
+                pc_mode <= PC_absolute;
+
+                -- Calculating the absolute address from ALU requires selecting imm
+                -- instead of rs2.
+                en_imm <= EN_IMM;
 
                 -- Sign-extended.
                 imm(31 downto 12) <= (others => ir(31));
                 -- The actual 12-bit immdiate.
                 imm(11 downto 0) <= ir(31 downto 20);
 
-                -- Force the ALU to compute the target address.
+                -- Target address = rs1 + imm
                 alu_op <= ALU_ADD;
-                -- PC-absolute jump.
-                pc_mode <= ABSOLUTE;
 
-                -- TODO: ensure current pc value + 4 is written to rd.
+                -- The ALU result is wired to PC component directly, so don't worry 'bout it.
+                
+                -- Write to rd.
+                -- Writing to rd takes place by default.
             -- U-type encoding.
             when U_LUI =>
                 -- Places the U-immediate value in top 20 bits of rd, filling the lowest
                 -- bits with 0.
+
+                -- Set rs1 to 0.
+                rs1 <= (others => '0');
 
                 -- Force ALU to use [imm] instead of rs2.
                 en_imm <= EN_IMM;
                 imm(31 downto 12) <= ir(31 downto 12);
                 imm(11 downto 0) <= (others => '0');
 
-                -- Set rs1 to 0.
-                rs1 <= (others => '0');
-
                 -- Go through ALU. The result will be written to rd.
                 alu_op <= ALU_ADD;
 
+                -- Write to rd.
+                -- Writing to rd takes place by default.
             when U_AUIPC =>
+                -- 32-bit offset is formed from 20-bit immediate. 
+                -- The target address is formed by curr pc + 32-bit offset.
+                -- The target address is written to rd.
+
+                -- The curr value of PC.
+                rs1(31 downto 0) <= pc(31 downto 0);
+
+                -- Force ALU to use [imm] instead of rs2.
+                en_imm <= EN_IMM;
+                imm(31 downto 12) <= ir(31 downto 12);
+                imm(11 downto 0) <= (others => '0');
+
+                alu_op <= ALU_ADD;
+
+                -- Write to rd.
+                -- Writing to rd takes place by default.
+            when others =>
+                null;
+        end case;
     end process;
 end behav;

@@ -9,14 +9,24 @@ entity pc is
     port(
         i_clk : in std_logic;
         i_reset : in std_logic;
-        i_mode : in std_logic_vector(1 downto 0); -- See below the arch body.
-        i_pc_off : in std_logic_vector(31 downto 0); -- The offset to add.
+        i_mode : in std_logic_vector(1 downto 0);       -- See below the arch body.
+        i_pc_off : in std_logic_vector(31 downto 0);    -- The offset to add.
+        i_abs_addr : in std_logic_vector(31 downto 0);  -- The absolute address wired directly from ALU.
 
-        q_val : out std_logic_vector(31 downto 0); -- The content of pc register.
+        q_val : out std_logic_vector(31 downto 0);      -- The val of pc register.
+        q_val_next : out std_logic_vector(31 downto 0); -- The next val of pc register in NORMAL mode. Used in branches.
     );
 end pc;
 
 architecture behav of pc is
+    -- Flags i_mode.
+    -- NORMAL: simply point the PC to next instruction.
+    -- RELATIVE: PC-relative jumps.
+    -- ABSOLUTE: used by JALR.
+    constant NORMAL : std_logic_vector(1 downto 0) := "00";
+    constant RELATIVE : std_logic_vector(1 downto 0) := "01";
+    constant ABSOLUTE : std_logic_vector(1 downto 0) := "10";
+
     -- The actual storage.
     signal val : std_logic_vector(31 downto 0);
     -- The next val. This is to avoid cyclics.
@@ -37,7 +47,7 @@ begin
                 elsif (i_mode = RELATIVE) then
                     val <= std_logic_vector(signed(val_next) + signed(i_pc_off));
                 elsif (i_mode = ABSOLUTE) then
-                    val(31 downto 1) <= i_pc_off(31 downto 1);
+                    val(31 downto 1) <= i_abs_addr(31 downto 1);
                     val(0) <= '0';
                 end if;
             end if;
@@ -55,9 +65,10 @@ begin
     -- These assignments will run on both rising_edge & falling_edge.
     
     read_next_next <= not read_next;
-    -- The address of the next instruction.
+    
+    -- This is q_val_next_next actually.
     val_next <= std_logic_vector(unsigned(val) + 4);
 
     q_val <= val;
-
+    q_val_next <= val_next;
 end behav;

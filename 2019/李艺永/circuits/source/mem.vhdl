@@ -4,8 +4,9 @@ use ieee.numeric_std.all;
 
 entity mem is
     port(
-        addrbus: in std_logic_vector(31 downto 0);
-        databus: inout std_logic_vector(31 downto 0);
+        clk : in std_logic;                             -- Controls write
+        addrbus: in std_logic_vector(31 downto 0);      -- The address to access.
+        databus: inout std_logic_vector(31 downto 0);   -- The data to write to or read from.
         en_read: in std_logic;
         en_write: in std_logic
     );
@@ -40,15 +41,17 @@ begin
         end if;
     end process do_read;
 
-    do_write: process(addrbus, en_write)
+    do_write: process(clk, addrbus, en_write)
         variable i: integer;
     begin
-        i := to_integer(unsigned(addrbus));
-        if (en_write = '1') then
-            memdata(i) <= databus(7 downto 0);
-            memdata(i + 1) <= databus(15 downto 8);
-            memdata(i + 2) <= databus(23 downto 16);
-            memdata(i + 3) <= databus(32 downto 24);
+        if rising_edge(clk) then
+            i := to_integer(unsigned(addrbus));
+            if (en_write = '1') then
+                memdata(i) <= databus(7 downto 0);
+                memdata(i + 1) <= databus(15 downto 8);
+                memdata(i + 2) <= databus(23 downto 16);
+                memdata(i + 3) <= databus(32 downto 24);
+            end if;
         end if;
     end process do_write;
 end;
