@@ -3,15 +3,15 @@ use ieee.std_logic_1164.all;
 use work.opcodes.all;
 use work.pc.all;
 
--- Entity ir_decoder:
+-- Entity control_unit:
 -- Determin alu_op_t from funct7, funct3 and opcodes.
-entity ir_decoder is
+entity control_unit is
     port (
         -- Input.
         ir : in std_logic_vector(31 downto 0);
         pc : in std_logic_vector(31 downto 0);
 
-        br_flag : in boolean;   -- A flag emitted by ALU. Used for conditional branch.
+        br_flag : in boolean;                       -- A flag emitted by ALU. Used for conditional branch.
 
         -- Output.
 
@@ -22,20 +22,17 @@ entity ir_decoder is
 
         rs1 : out std_logic_vector(4 downto 0);
         rs2 : out std_logic_vector(4 downto 0);
-        en_write_reg : out boolean;     -- Indicates whether to write to rd resgiter.
+        en_write_reg : out boolean;                 -- A flag that indicates whether to write result of ALU to register rd.
         rd : out std_logic_vector(4 downto 0);
 
-        -- Whether [imm] is used as output. 
-        -- We've chosen to use a vector here because this value
-        -- will be input to a multiplexer.
-        en_imm : out std_logic_vector(0 downto 0);
-        imm : out std_logic_vector(31 downto 0);
+        en_imm : out std_logic_vector(0 downto 0);  -- A flag that indicates whether [imm] is valid. Used in multiplexing between rs2 and imm.
+        imm : out std_logic_vector(31 downto 0);    -- The actual immediate value(sign-extended).
 
-        en_write_ram : out boolean;
+        en_write_ram : out boolean;                 -- A flag that indicates whether the result of ALU should be rewritten to memory.
     );
-end ir_decoder;
+end control_unit;
 
-architecture behav of ir_decoder is
+architecture behav of control_unit is
     -- Types of the operations.
     constant OP_ALU : std_logic_vector(1 downto 0) := "00";
     constant OP_RAM : std_logic_vector(1 downto 0) := "01";
@@ -167,10 +164,13 @@ begin
 
             -- "0100011": S-type encoding. Store to memory.
             when S_STORE =>
+                -- The effective address is obtained by adding rs1 to the sign-extended
+                -- [imm]. The value to store is held in rs2.
+                
+                -- Be really careful about the order because this is executed sequentially.
                 op_t <= OP_RAM;
                 en_imm <= EN_IMM;
-                en_write_ram <= true;
-                en_write_reg <= false;
+                alu_op <= ALU_ADD;
 
                 -- Sign-extended.
                 imm(31 downto 12) <= (others => ir(31));
@@ -178,6 +178,10 @@ begin
                 imm(11 downto 5) <= ir(31 downto 25);
                 -- Low bits.
                 imm(4 downto 0) <= ir(7 downto 7);
+
+                -- The effective address shall be calculated in this place.
+                en_write_ram <= true;
+                en_write_reg <= false;
 
             -- "1100011": B-type encoding. Conditional Branch.
             when B_BR =>
@@ -312,8 +316,7 @@ begin
                 -- Set rs1 to 0.
                 rs1 <= (others => '0');
 
-                -- Go through ALU. The result will be written to
-                -- rd.
+                -- Go through ALU. The result will be written to rd.
                 alu_op <= ALU_ADD;
 
             when U_AUIPC =>
