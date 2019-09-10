@@ -4,15 +4,29 @@ use ieee.numeric_std.all;
 
 entity mem is
     port(
-        clk : in std_logic;                             -- Controls write
-        addrbus: in std_logic_vector(31 downto 0);      -- The address to access.
-        databus: inout std_logic_vector(31 downto 0);   -- The data to write to or read from.
-        en_read: in std_logic;
-        en_write: in std_logic
+        -- Input.
+        clk : in std_logic;                             -- Controls write.
+        -- For Load.
+        i_addr : in std_logic_vector(31 downto 0);      -- Address to access.
+        i_ld_sz : in std_logic_vector(1 downto 0);      -- The size to load: BYTE_SZ, HALFW_SZ, or WRD_SZ.
+        i_sign_ex : in boolean;                         -- True for reading sign-extended value, false for reading unsigned.
+
+        -- For Store.
+        i_data : in std_logic_vector(31 downto 0);      -- Input data to store in [i_addr].
+        i_st_sz : in std_logic_vector(1 downto 0);      -- The size to store. Same as [i_ld_sz].
+        en_write : in boolean;                          -- Write gate.
+
+        -- Output.
+        q_data : out std_logic_vector(31 downto 0);     -- The 4-byte data output.
+        q_ir : out std_logic_vector(31 downto 0);       -- The instruction to load.
     );
 end entity;
 
 architecture mem_behav of mem is
+    constant BYTE_SZ : std_logic_vector(1 downto 0) := "00";
+    constant HALFW_SZ : std_logic_vector(1 downto 0) := "01";
+    constant WRD_SZ : std_logic_vector(1 downto 0) := "10";
+
     type memtype is array(natural range<>) of std_logic_vector(7 downto 0);
     signal memdata: memtype(4095 downto 0) := (
         0 => X"04",
@@ -27,32 +41,70 @@ architecture mem_behav of mem is
     );
 
 begin
-    -- do_read must not use a clk for synchronization here, because
-    -- in that case, instruction read will need 4 clocks to finish.
-    do_read: process(addrbus, en_read)
+    -- Load instructions.
+    load_data: process(i_addr, i_ld_sz)
         variable i: integer;
     begin
-        i := to_integer(unsigned(addrbus));
-        if (en_read = '1') then
-            -- assume little-endian
-            databus <= memdata(i+3) & memdata(i+2) & memdata(i+1) & memdata(i);
-        else
-            databus <= (others => 'Z');
-        end if;
-    end process do_read;
+        i := to_integer(unsigned(i_addr));
+        -- Little-endian
+        case i_ld_sz is
+            when WRD_SZ =>
+                q_data <= memdata(i + 3) & memdata(i + 2) & memdata(i + 1) & memdata(i);
+            when HALFW_SZ =>
+                q_data(15 downto 0) <= memdata(i + 1) & memdata(i);
+                case i_sign_ex is
+                    when true =>
+                        -- Sign-extended.
+                        q_data(31 downto 16) <= (others => q_data(15));
+                    when others =>
+                        -- Zero-extended.
+                        q_data(31 downto 16) <= (others => '0');
+                end case;
+            when BYTE_SZ =>
+                q_data(7 downto 0) <= memdata(i);
+                case i_sign_ex is
+                    when true =>
+                        -- Sign-extended.
+                        q_data(31 downto 8) <= (others => q_data(7));
+                    when others =>
+                        -- Zero-extended.
+                        q_data(31 downto 8) <= (others => '0');
+                end case;
+        end case;
+    end process load_data;
 
-    do_write: process(clk, addrbus, en_write)
+    -- Asynchronously read ir.
+    load_ir: process(i_addr)
+        variable i: integer;
+    then
+        i := to_integer(unsigned(i_addr));
+        q_ir <= memdata(i + 3) & memdata(i + 2) & memdata(i + 1) & memdata(i);
+    end process load_ir;
+
+    -- Write is limitted.
+    store_data: process(clk, i_addr, i_data, i_st_sz, en_write)
         variable i: integer;
     begin
+        i := to_integer(unsigned(i_addr));
+
         -- Write to RAM only takes place upon rising_edge.
         if rising_edge(clk) then
-            i := to_integer(unsigned(addrbus));
-            if (en_write = '1') then
-                memdata(i) <= databus(7 downto 0);
-                memdata(i + 1) <= databus(15 downto 8);
-                memdata(i + 2) <= databus(23 downto 16);
-                memdata(i + 3) <= databus(32 downto 24);
+            if (en_write = true) then
+                case i_st_sz is
+                    when BYTE_SZ =>
+                        memdata(i) <= i_data(7 downto 0);
+                    when HALFW_SZ =>
+                        memdata(i) <= i_data(7 downto 0);
+                        memdata(i + 1) <= i_data(15 downto 8);
+                    when WRD_SZ =>
+                        memdata(i) <= i_data(7 downto 0);
+                        memdata(i + 1) <= i_data(15 downto 8);
+                        memdata(i + 2) <= i_data(23 downto 16);
+                        memdata(i + 3) <= i_data(32 downto 24);
+                    when others =>
+                        null;
+                end case;
             end if;
         end if;
-    end process do_write;
+    end process store_data;
 end;

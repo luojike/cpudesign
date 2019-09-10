@@ -28,7 +28,10 @@ entity control_unit is
         en_imm : out std_logic_vector(0 downto 0);  -- A flag that indicates whether [imm] is valid. Used in multiplexing between rs2 and imm.
         imm : out std_logic_vector(31 downto 0);    -- The actual immediate value(sign-extended).
 
-        en_write_ram : out boolean;                 -- A flag that indicates whether the result of ALU should be rewritten to memory.
+        en_write_ram : out boolean;                 -- Input to en_write of mem entity.
+        ld_sign_ex : out boolean;                   -- Load sign-extended?
+        ld_sz : out std_logic_vector(1 downto 0);   -- Load size.
+        st_sz : out std_logic_vector(1 downto 0);   -- Store size.
     );
 end control_unit;
 
@@ -48,6 +51,10 @@ architecture behav of control_unit is
     -- Sets [en_imm].
     constant EN_REG : std_logic_vector(0 downto 0) := "0";
     constant EN_IMM : std_logic_vector(0 downto 0) := "0";
+
+    constant BYTE_SZ : std_logic_vector(1 downto 0) := "00";
+    constant HALFW_SZ : std_logic_vector(1 downto 0) := "01";
+    constant WRD_SZ : std_logic_vector(1 downto 0) := "10";
 
     signal opc : opcode;
     signal funct3 : std_logic_vector(2 downto 0);
@@ -178,7 +185,17 @@ begin
                 -- Actual immediate.
                 imm(11 downto 0) <= ir(31 downto 20);
 
-                -- TODO: Signals to RAM needed to be added.
+                -- Generate mem signal.
+                case funct3 is
+                    when "000" =>   -- LB
+                        ld_sign_ex <= true;
+                        ld_sz <= BYTE_SZ;
+                        
+                    when "001" =>   -- LH
+                    when "010" =>   -- LW
+                    when "100" =>   -- LBU
+                    when "101" =>   -- LHU
+                end case;
 
                 -- Write RAM result to rd.
                 -- Writing to rd takes place by default.
