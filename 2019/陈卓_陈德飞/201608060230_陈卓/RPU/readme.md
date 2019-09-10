@@ -6,6 +6,8 @@ Vivado 2019.1 64-bit
 芯片：xc7s50csga324-1
 
 硬件语言VHDL
+### 文件结构###
+RPU文件夹涵盖了整个工程，查看代码请点击RPU.srcs文件夹，其中VHDL文件夹下面是CPU的VHDL代码，tests文件夹下面是testbench文件，当然属性也是vhdl文件。由于vivado软件不支持自动编译，所以需要用户自己写testbench文件。
 ### 使用方法 ###
 下载好软件之后，直接将文件夹RPU导入，或者点击文件夹下面的RPU.xpr文件即可打开工程文件。
 点击软件左侧的Analyze即可，点击RTL可查看RPU的基本结构，点击Simulation之后选择第一项behavior simulation即可查看仿真波形图，在文件中选择不同的仿真文件即可查看对不同组件的仿真波形图。
