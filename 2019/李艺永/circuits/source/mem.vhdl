@@ -18,7 +18,7 @@ entity mem is
 
         -- Output.
         q_data : out std_logic_vector(31 downto 0);     -- The 4-byte data output.
-        q_ir : out std_logic_vector(31 downto 0);       -- The instruction to load.
+        q_ir : out std_logic_vector(31 downto 0)        -- The instruction to load.
     );
 end entity;
 
@@ -70,13 +70,15 @@ begin
                         -- Zero-extended.
                         q_data(31 downto 8) <= (others => '0');
                 end case;
+            when others =>
+                null;
         end case;
     end process load_data;
 
     -- Asynchronously read ir.
     load_ir: process(i_addr)
         variable i: integer;
-    then
+    begin
         i := to_integer(unsigned(i_addr));
         q_ir <= memdata(i + 3) & memdata(i + 2) & memdata(i + 1) & memdata(i);
     end process load_ir;
@@ -100,7 +102,7 @@ begin
                         memdata(i) <= i_data(7 downto 0);
                         memdata(i + 1) <= i_data(15 downto 8);
                         memdata(i + 2) <= i_data(23 downto 16);
-                        memdata(i + 3) <= i_data(32 downto 24);
+                        memdata(i + 3) <= i_data(31 downto 24);
                     when others =>
                         null;
                 end case;

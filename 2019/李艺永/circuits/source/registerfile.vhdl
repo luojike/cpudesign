@@ -14,7 +14,7 @@ entity registerfile is
         en_write : in boolean;  -- Indicates whether to write rd
 
         q_rs1 : out std_logic_vector(31 downto 0);  -- The result of reading from rs1
-        q_rs2 : out std_logic_vector(31 downto 0);  -- The result of reading from rs2
+        q_rs2 : out std_logic_vector(31 downto 0)   -- The result of reading from rs2
     );
 end registerfile;
 
@@ -24,7 +24,7 @@ architecture behav of registerfile is
     -- The actual register storage.
     signal reg_blocks : RegBlock := (
         -- Initialize all registers to 0
-        others => (others => '0)
+        others => (others => '0')
     );
 
 begin
