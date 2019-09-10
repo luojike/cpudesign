@@ -15,10 +15,10 @@ entity control_unit is
 
         -- Output.
 
-        res_sel : out std_logic_vector(1 downto 0); -- Result selector for writing to rd. Selecting results among ALU, value read from mem and PC register.
-        alu_op : out alu_op_t;                      -- Decoded ALU operation.
+        res_sel : out std_logic_vector(1 downto 0); -- Result selector for rd. Selecting results among ALU, value read from mem and PC register.
+        alu_op : out alu_op_t;                      -- Decoded ALU operation or used in address calculation.
         pc_off : out std_logic_vector(31 downto 0); -- Offset to add to PC register. This is wired to PC component.
-        pc_mode : out std_logic_vector(1 downto 0); -- 
+        pc_mode : out std_logic_vector(1 downto 0); -- See PC entity.
 
         rs1 : out std_logic_vector(4 downto 0);
         rs2 : out std_logic_vector(4 downto 0);
@@ -164,6 +164,9 @@ begin
             when I_LOAD =>
                 -- The effective byte address is obtained by adding rs1 to the 
                 -- sign-extended 12 bit offset.
+                
+                -- Compute address.
+                alu_op <= ALU_ADD;
 
                 -- Write result read from RAM to rd.
                 res_sel <= RAM_res;
@@ -175,8 +178,7 @@ begin
                 -- Actual immediate.
                 imm(11 downto 0) <= ir(31 downto 20);
 
-                -- Compute address.
-                alu_op <= ALU_ADD;
+                -- TODO: Signals to RAM needed to be added.
 
                 -- Write RAM result to rd.
                 -- Writing to rd takes place by default.
@@ -186,8 +188,8 @@ begin
                 -- The effective address is obtained by adding rs1 to the sign-extended
                 -- [imm]. The value to store is held in rs2.
                 
-                en_imm <= EN_IMM;
                 alu_op <= ALU_ADD;
+                en_imm <= EN_IMM;
 
                 -- Sign-extended.
                 imm(31 downto 12) <= (others => ir(31));
@@ -196,10 +198,13 @@ begin
                 -- Low bits.
                 imm(4 downto 0) <= ir(7 downto 7);
 
+                -- TODO: Signals to RAM needed to be added.
+
                 -- Write ALU result to RAM.
                 en_write_ram <= true;
 
-                -- Do not write rd.
+                -- Do not write rd since there's nothing to write.
+                -- Also do not worry about res_sel at all.
                 en_write_reg <= false;
 
             -- "1100011": B-type encoding. Conditional Branches.

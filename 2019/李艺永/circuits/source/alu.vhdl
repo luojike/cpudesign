@@ -12,7 +12,7 @@ entity alu is
         i_data2 : in std_logic_vector(31 downto 0); -- Data in rs2 or immediate.
         i_op : in alu_op_t;                         -- Operation to perform.
         q_res : out std_logic_vector(31 downto 0);  -- Result of the operation.
-        q_br : boolean;                               -- A flag that indicates whether the conditional branch will be taken. Used in ir_decoder.
+        q_br : out boolean;                         -- A flag that indicates whether the conditional branch will be taken. Used in ir_decoder.
     );
 end alu;
 

@@ -44,6 +44,7 @@ begin
     do_write: process(clk, addrbus, en_write)
         variable i: integer;
     begin
+        -- Write to RAM only takes place upon rising_edge.
         if rising_edge(clk) then
             i := to_integer(unsigned(addrbus));
             if (en_write = '1') then
