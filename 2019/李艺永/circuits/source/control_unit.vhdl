@@ -190,11 +190,23 @@ begin
                     when "000" =>   -- LB
                         ld_sign_ex <= true;
                         ld_sz <= BYTE_SZ;
-                        
+
                     when "001" =>   -- LH
+                        ld_sign_ex <= true;
+                        ld_sz <= HALFW_SZ;
+
                     when "010" =>   -- LW
+                        ld_sz <= WRD_SZ;
+
                     when "100" =>   -- LBU
+                        ld_sign_ex <= false;
+                        ld_sz <= BYTE_SZ;
+
                     when "101" =>   -- LHU
+                        ld_sign_ex <= false;
+                        ld_sz <= HALFW_SZ;
+                    when others =>
+                        null;
                 end case;
 
                 -- Write RAM result to rd.
@@ -215,7 +227,14 @@ begin
                 -- Low bits.
                 imm(4 downto 0) <= ir(7 downto 7);
 
-                -- TODO: Signals to RAM needed to be added.
+                case funct3 is
+                    when "000" =>   -- SB
+                        st_sz <= BYTE_SZ;
+                    when "001" =>   -- SH
+                        st_sz <= HALFW_SZ;
+                    when "010" =>   -- SW
+                        st_sz <= WRD_SZ;
+                end case;
 
                 -- Write ALU result to RAM.
                 en_write_ram <= true;
