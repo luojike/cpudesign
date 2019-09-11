@@ -1,10 +1,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use work.opcodes.all;
-use work.pc.all;
 
 -- Entity control_unit:
--- Determin alu_op_t from funct7, funct3 and opcodes.
+-- Control unit.
 entity control_unit is
     port (
         -- Input.
@@ -31,7 +31,7 @@ entity control_unit is
         en_write_ram : out boolean;                 -- Input to en_write of mem entity.
         ld_sign_ex : out boolean;                   -- Load sign-extended?
         ld_sz : out std_logic_vector(1 downto 0);   -- Load size.
-        st_sz : out std_logic_vector(1 downto 0);   -- Store size.
+        st_sz : out std_logic_vector(1 downto 0)   -- Store size.
     );
 end control_unit;
 
@@ -50,7 +50,7 @@ architecture behav of control_unit is
     -- Selector values that select between rs2 and immediate.
     -- Sets [en_imm].
     constant EN_REG : std_logic_vector(0 downto 0) := "0";
-    constant EN_IMM : std_logic_vector(0 downto 0) := "0";
+    constant EN_IMMED : std_logic_vector(0 downto 0) := "0";
 
     constant BYTE_SZ : std_logic_vector(1 downto 0) := "00";
     constant HALFW_SZ : std_logic_vector(1 downto 0) := "01";
@@ -67,7 +67,10 @@ begin
     funct3 <= ir(14 downto 12);
     funct7 <= ir(31 downto 25);
 
-    process(ir, funct3, funct7, opc)
+    process(ir, funct3, funct7, opc, br_flag, pc)
+        -- We need this variable for calculating an offset when interpreting
+        -- AUIPC instruction.
+        variable auipc_off : std_logic_vector(31 downto 0);
     begin
         -- Some "default" values.
         res_sel <= ALU_res;
@@ -86,7 +89,7 @@ begin
         case opc is
             -- "0010011": I-type encoding. Arithmetic and Logical operations.
             when I_AL =>
-                en_imm <= EN_IMM;
+                en_imm <= EN_IMMED;
                 -- Set alu_op.
                 case funct3 is
                     when "000" =>
@@ -106,10 +109,13 @@ begin
                                 alu_op <= ALU_SRL;
                             when others =>
                                 alu_op <= ALU_SRA;
+                        end case;
                     when "110" =>
                         alu_op <= ALU_OR;
                     when "111" =>
                         alu_op <= ALU_ADD;
+                    when others =>
+                        null;
                 end case;
 
                 -- Set immdiate.
@@ -165,7 +171,8 @@ begin
                         alu_op <= ALU_OR;
                     when "111" =>
                         alu_op <= ALU_AND;
-
+                    when others =>
+                        null;
                 end case;
             -- "0000011": I-type encoding. Load from memory.
             when I_LOAD =>
@@ -179,7 +186,7 @@ begin
                 res_sel <= RAM_res;
 
                 -- Force ALU to use [imm] instead of rs2.
-                en_imm <= EN_IMM;
+                en_imm <= EN_IMMED;
                 -- Sign-extended.
                 imm(31 downto 12) <= (others => ir(31));
                 -- Actual immediate.
@@ -218,7 +225,7 @@ begin
                 -- [imm]. The value to store is held in rs2.
                 
                 alu_op <= ALU_ADD;
-                en_imm <= EN_IMM;
+                en_imm <= EN_IMMED;
 
                 -- Sign-extended.
                 imm(31 downto 12) <= (others => ir(31));
@@ -234,6 +241,8 @@ begin
                         st_sz <= HALFW_SZ;
                     when "010" =>   -- SW
                         st_sz <= WRD_SZ;
+                    when others =>
+                        null;
                 end case;
 
                 -- Write ALU result to RAM.
@@ -365,7 +374,7 @@ begin
 
                 -- Calculating the absolute address from ALU requires selecting imm
                 -- instead of rs2.
-                en_imm <= EN_IMM;
+                en_imm <= EN_IMMED;
 
                 -- Sign-extended.
                 imm(31 downto 12) <= (others => ir(31));
@@ -384,11 +393,11 @@ begin
                 -- Places the U-immediate value in top 20 bits of rd, filling the lowest
                 -- bits with 0.
 
-                -- Set rs1 to 0.
+                -- x0 is hardwired to 0.
                 rs1 <= (others => '0');
 
                 -- Force ALU to use [imm] instead of rs2.
-                en_imm <= EN_IMM;
+                en_imm <= EN_IMMED;
                 imm(31 downto 12) <= ir(31 downto 12);
                 imm(11 downto 0) <= (others => '0');
 
@@ -402,16 +411,22 @@ begin
                 -- The target address is formed by curr pc + 32-bit offset.
                 -- The target address is written to rd.
 
-                -- The curr value of PC.
-                rs1(31 downto 0) <= pc(31 downto 0);
+                -- x0 is hardwired to 0.
+                rs1 <= (others => '0');
+
+                -- Immediate as the offset.
+                auipc_off := ir(31 downto 12) & (11 downto 0 => '0');
 
                 -- Force ALU to use [imm] instead of rs2.
-                en_imm <= EN_IMM;
-                imm(31 downto 12) <= ir(31 downto 12);
-                imm(11 downto 0) <= (others => '0');
+                en_imm <= EN_IMMED;
 
+                -- The target address.
+                imm <= std_logic_vector(signed(pc) + signed(auipc_off));
+
+                -- Plus 0 will remain the same.
                 alu_op <= ALU_ADD;
 
+                -- res_sel is the result of ALU.
                 -- Write to rd.
                 -- Writing to rd takes place by default.
             when others =>

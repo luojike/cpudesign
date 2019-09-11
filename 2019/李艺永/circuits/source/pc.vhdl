@@ -14,7 +14,7 @@ entity pc is
         i_abs_addr : in std_logic_vector(31 downto 0);  -- The absolute address wired directly from ALU.
 
         q_val : out std_logic_vector(31 downto 0);      -- The val of pc register.
-        q_val_next : out std_logic_vector(31 downto 0); -- The next val of pc register in NORMAL mode. Used in branches.
+        q_val_next : out std_logic_vector(31 downto 0)  -- The next val of pc register in NORMAL mode. Used in branches.
     );
 end pc;
 
@@ -36,11 +36,11 @@ architecture behav of pc is
 
 begin
     -- Upon rising_clock, update pc value and the flags.
-    update_pc: process(clk, i_reset)
+    update_pc: process(i_clk, i_reset)
     begin
         if (i_reset = '1') then
             val <= (others => '0');
-        elsif (rising_edge(clk)) then
+        elsif (rising_edge(i_clk)) then
             if (read_next = '1') then
                 if (i_mode = NORMAL) then
                     val <= val_next;
@@ -54,9 +54,9 @@ begin
         end if;
     end process update_pc;
 
-    update_read_next: process(clk)
+    update_read_next: process(i_clk)
     begin
-        if (rising_edge(clk)) then
+        if (rising_edge(i_clk)) then
             -- this value will be read on next time.
             read_next <= read_next_next;
         end if;
