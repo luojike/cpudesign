@@ -50,7 +50,7 @@ architecture behav of control_unit is
     -- Selector values that select between rs2 and immediate.
     -- Sets [en_imm].
     constant EN_REG : std_logic_vector(0 downto 0) := "0";
-    constant EN_IMMED : std_logic_vector(0 downto 0) := "0";
+    constant EN_IMMED : std_logic_vector(0 downto 0) := "1";
 
     constant BYTE_SZ : std_logic_vector(1 downto 0) := "00";
     constant HALFW_SZ : std_logic_vector(1 downto 0) := "01";

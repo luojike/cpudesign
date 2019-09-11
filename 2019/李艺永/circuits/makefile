@@ -3,10 +3,10 @@ COMPILER := ghdl
 
 ANALYSE = $(COMPILER) -a
 
-opcodes.o: $(SOURCE_DIR)/opcodes.vhdl
+%.o: $(SOURCE_DIR)/%.vhdl opcodes.o
 	@ $(ANALYSE) $<
 
-%.o: $(SOURCE_DIR)/%.vhdl opcodes.o
+opcodes.o: $(SOURCE_DIR)/opcodes.vhdl
 	@ $(ANALYSE) $<
 
 clean:
