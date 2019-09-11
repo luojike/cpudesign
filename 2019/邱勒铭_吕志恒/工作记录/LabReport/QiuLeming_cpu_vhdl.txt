@@ -11,9 +11,9 @@ entity my_cpu is
 		clk: in std_logic;
 		reset: in std_logic;
 		inst: in std_logic_vector(31 downto 0);	
-		inst_addr: out std_logic_vector(31 downto 0);  -- Ö¸ÁîµØÖ·
+		inst_addr: out std_logic_vector(31 downto 0);  -- æŒ‡ä»¤åœ°å€
 		inst_read: out std_logic;
-		data_addr: buffer std_logic_vector(31 downto 0);  -- Êı¾İµØÖ·
+		data_addr: buffer std_logic_vector(31 downto 0);  -- æ•°æ®åœ°å€
 		data: inout std_logic_vector(31 downto 0);
 		data_read: out std_logic;
 		data_write: out std_logic;
@@ -133,18 +133,18 @@ architecture cpu_simple_behav of my_cpu is
 		return t;
 	end;
 begin
-	-- ×éºÏÂß¼­²¿·Ö
+	-- ç»„åˆé€»è¾‘éƒ¨åˆ†
 	-- instruction fetch
-	inst_addr <= pc;  -- È¡Ö¸µØÖ·
-	inst_read <= '1' when reset = '0' else '0';  -- µ±resetÎŞĞ§Ê±·¢³öÖ¸Áî¶ÁÈ¡ĞÅºÅ;
-	ir <= inst;  -- µ±Ç°Ö¸Áî
-	-- Êı¾İ·ÃÎÊ
+	inst_addr <= pc;  -- å–æŒ‡åœ°å€
+	inst_read <= '1' when reset = '0' else '0';  -- å½“resetæ— æ•ˆæ—¶å‘å‡ºæŒ‡ä»¤è¯»å–ä¿¡å·;
+	ir <= inst;  -- å½“å‰æŒ‡ä»¤
+	-- æ•°æ®è®¿é—®
 	--BY QLM:source addr of reg1 add imm11,load_addr preserve the value of inst LB LH LW LBU LHU
 	load_addr <= std_logic_vector(to_signed((to_integer(signed(rs1)) + to_integer(signed(itype_imm11_0))),32)); --jalr
 	-- store_addr <= ...
 	data_addr <= load_addr when opcode=itype_load else
 		     store_addr;
-	data_read <= '1' when opcode=itype_load else '0';  -- µ±resetÎŞĞ§Ê±·¢³öÖ¸Áî¶ÁÈ¡ĞÅºÅ;
+	data_read <= '1' when opcode=itype_load else '0';  -- å½“resetæ— æ•ˆæ—¶å‘å‡ºæŒ‡ä»¤è¯»å–ä¿¡å·;
 	-- data_write <= ...
 	load_data <= data when funct3=itype_lw else
 		     signext8to32(data(7 downto 0)) when funct3=itype_lb else
@@ -211,7 +211,7 @@ begin
 	rd_write <= '1' when opcode = rtype_alu or opcode=jtype_jal or opcode=itype_load;
 	write_avi <= rd_write;
 	
-	-- ·ÖÖ§Ö¸Áî
+	-- åˆ†æ”¯æŒ‡ä»¤
 	branch_target(12 downto 0) <= btype_imm12_1 & '0' ;
 	branch_target(31 downto 14) <= ( others => btype_imm12_1(12) );
 	branch_taken <= '1' when 	(rs1 = rs2 and funct3 = btype_beq )
@@ -221,7 +221,7 @@ begin
 						or 		( signed(rs1) > signed(rs2) and funct3 = btype_bge)
 						or 		( unsigned(rs1) > unsigned(rs2) and funct3 = btype_bgeu)
 						else '0';
-	-- ÏÂÒ»ÌõÖ¸ÁîµØÖ·
+	-- ä¸‹ä¸€æ¡æŒ‡ä»¤åœ°å€
   	next_pc <= 
 				std_logic_vector( to_unsigned( (to_integer(unsigned(pc))+to_integer(unsigned(jal_offset))) , 32 )) 
 				when opcode = jtype_jal else --JAL inst add imm and pc
@@ -232,18 +232,18 @@ begin
 				std_logic_vector( to_unsigned( (to_integer(unsigned(pc))+to_integer(unsigned(branch_target))) , 32 ))
 				when opcode = btype_branch and branch_taken ='1' else
 				
-				std_logic_vector(to_unsigned(to_integer(unsigned(pc)) + 4,32)); -- Ğè²¹³äÆäËüÇé¿ö 
+				std_logic_vector(to_unsigned(to_integer(unsigned(pc)) + 4,32)); -- éœ€è¡¥å……å…¶å®ƒæƒ…å†µ 
 	is_jal <= '1' when opcode = jtype_jal else
 				'0';
-	-- ...... (ÆäËü×éºÏÂß¼­)
+	-- ...... (å…¶å®ƒç»„åˆé€»è¾‘)
 	
-	-- Ê±ĞòÂß¼­²¿·Ö
+	-- æ—¶åºé€»è¾‘éƒ¨åˆ†
 	-- pc
 	pc_update: process(clk)
 	begin
 		if(rising_edge(clk)) then
 			if(reset='1') then
-				pc <= X"00000000";  -- µ±resetĞÅºÅÓĞĞ§Ê±£¬pc±»ÖØÖÃÎª0
+				pc <= X"00000000";  -- å½“resetä¿¡å·æœ‰æ•ˆæ—¶ï¼Œpcè¢«é‡ç½®ä¸º0
 			else
 				pc <= next_pc;
 			end if;
