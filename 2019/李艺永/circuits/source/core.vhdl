@@ -15,6 +15,15 @@ entity core is
 end core;
 
 architecture structural of main is
+    component multiplexer 
+        generic (N : natural);
+        port(
+            selector : in std_logic_vector(N downto 0);                      
+            x : in array (natural range <>) of std_logic_vector(31 downto 0);
+            y : out std_logic_vector(31 downto 0)                            
+        );
+    end component;
+
     component pc port(
         i_clk : in std_logic;
         i_reset : in std_logic;
@@ -31,7 +40,6 @@ architecture structural of main is
     signal pc_val_next : std_logic_vector(31 downto 0);
     signal pc_mode : std_logic_vector(1 downto 0);
     signal pc_off : std_logic_vector(31 downto 0);
-
 
     component alu port(
         i_data1 : in std_logic_vector(31 downto 0); -- Wired to signal [rs1] defined below.
@@ -75,5 +83,7 @@ architecture structural of main is
     signal rd : std_logic_vector(4 downto 0);
     signal alu_op : alu_op_t;
     signal res_sel : std_logic_vector(1 downto 0);
-    signal 
+    signal pc_off : std_logic_vector(31 downto 0);
+    signal pc_mode : std_logic_vector(1 downto 0);
+
 end structural;
