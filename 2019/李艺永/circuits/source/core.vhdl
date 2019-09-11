@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use work.opcodes.all;
-use work.pc.all;
+use work.multiplexer_inp_type.all;
 
 -- Entity core:
 -- The core CPU + RAM.
@@ -10,11 +10,11 @@ use work.pc.all;
 entity core is
     port (
         clk : in std_logic;                         -- Clock signal.
-        reset_pc : in std_logic;
+        reset_pc : in std_logic
     );
 end core;
 
-architecture structural of main is
+architecture structural of core is
     component registerfile
         port(
             clk : in std_logic;
@@ -51,7 +51,7 @@ architecture structural of main is
         generic (N : natural);
         port(
             selector : in std_logic_vector(N downto 0);                      
-            x : in array (natural range <>) of std_logic_vector(31 downto 0);
+            x : in word_arr;
             y : out std_logic_vector(31 downto 0)                            
         );
     end component;
@@ -65,7 +65,7 @@ architecture structural of main is
             i_abs_addr : in std_logic_vector(31 downto 0);
 
             q_val : out std_logic_vector(31 downto 0);
-            q_val_next : out std_logic_vector(31 downto 0);
+            q_val_next : out std_logic_vector(31 downto 0)
         );
     end component;
 
@@ -138,9 +138,9 @@ architecture structural of main is
     signal pc_alu_res : std_logic_vector(31 downto 0);      -- Selected address.
     signal pc_val : std_logic_vector(31 downto 0);          -- Current PC value.
 
-    signal ld_sz : std_logic_vector(31 downto 0);           -- Load size for mem.
+    signal ld_sz : std_logic_vector(1 downto 0);           -- Load size for mem.
     signal ld_sign_ex : boolean;                            -- Load for size-extended.
-    signal st_sz : std_logic_vector(31 downto 0);         -- Store size.
+    signal st_sz : std_logic_vector(1 downto 0);         -- Store size.
 
 begin
     -- Registers.
@@ -150,7 +150,7 @@ begin
             rs1 => rs1,
             rs2 => rs2,
             rd => rd,
-            i_data => mem_reg_pc_res,     -- data to write to rd register.
+            i_data => alu_mem_pc_res,     -- data to write to rd register.
             en_write => en_write_reg,
 
             q_rs1 => rs1_data,
@@ -211,7 +211,7 @@ begin
             en_write_ram => en_write_ram,
             ld_sign_ex => ld_sign_ex,
             ld_sz => ld_sz,
-            st_sz
+            st_sz => st_sz
         );
 
     -- The result is used as a memory address(for loading data or instruction).
@@ -240,7 +240,7 @@ begin
         generic map(N => 2)
         port map(
             selector => imm_rs2_sel,
-            x(0) => r2_data,
+            x(0) => rs2_data,
             x(1) => ir_imm,
             y => rs2_imm_res
         );
