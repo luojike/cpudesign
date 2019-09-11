@@ -1,4 +1,4 @@
-## TODOs:
+## Intro
 
-- (Yiyong Li): RV32I ISA design in VHDL.
-- (Yiyong Li): An emulator written in a compiled language.
+- `circuits` directory contains a hardware design of a basic RV32I core.
+- `simulator` directory contains a simulator of a basic RV32I core written in Dlang.
