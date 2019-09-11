@@ -1,4 +1,5 @@
 ///     Module regs.d
+///     This module contains register file of RV32I core.
 ///     Copyright 2019 Yiyong Li.
 
 module regs;
