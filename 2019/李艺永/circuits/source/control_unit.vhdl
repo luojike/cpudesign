@@ -85,7 +85,7 @@ begin
         rd <= ir(11 downto 7);
         alu_op <= ALU_ADD;
         imm <= (others => '0');     -- all '0'
-        
+
         en_imm <= EN_REG;
         en_write_ram <= false;
         en_write_reg <= true;
@@ -185,7 +185,7 @@ begin
             when I_LOAD =>
                 -- The effective byte address is obtained by adding rs1 to the 
                 -- sign-extended 12 bit offset.
-                
+
                 -- Compute address.
                 alu_op <= ALU_ADD;
 

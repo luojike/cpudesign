@@ -38,11 +38,20 @@ begin
         q_val_next => q_val_next
     );
 
-    clk <= not clk after 50 ns;
+    clk <= not clk after 10 ns;
 
     process
     begin
-        wait for 600 ns;
-        i_reset <= '1', '0' after 300 ns;
+        -- Test for reset
+        wait for 50 ns;
+        i_reset <= '1';
+        wait for 10 ns;
+        i_reset <= '0';
+        wait for 40 ns;
+
+        -- Test for PC-relative jump.
+        i_mode <= "01";
+        i_pc_off <= std_logic_vector(to_unsigned(8, 32));  -- forward 8 bytes.
+        wait for 50 ns;
     end process;
 end behav;

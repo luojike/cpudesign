@@ -57,6 +57,8 @@ begin
     begin
         wait for 300 ns;
         reset_pc <= '1';
+        wait for 200 ns;
+        
     end process;
 
 end behav;

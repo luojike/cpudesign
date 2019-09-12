@@ -9,7 +9,7 @@
 
 ### Requirements
 
-- POSIX compliant OS(I've been developing this under OS X. All other *nix should be the same)
+- POSIX compliant OS(I've been developing this under OS X. Other *nix should be the same)
 - GHDL version 0.36
 - GNU make
 - Gtkwave(optional) for viewing the vcd wave file

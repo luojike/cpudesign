@@ -190,7 +190,7 @@ begin
     c_alu : alu
         port map(
             i_data1 => rs1_data,
-            i_data2 => rs2_data,
+            i_data2 => rs2_imm_res,
             i_op => alu_op,
             q_res => alu_res,
             q_br => alu_br_flag

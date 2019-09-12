@@ -29,20 +29,31 @@ architecture mem_behav of mem is
 
     type memtype is array(natural range<>) of std_logic_vector(7 downto 0);
     signal memdata: memtype(4095 downto 0) := (
-        0 => X"04",
-        1 => X"00",
-        2 => X"00",
+        -- LW x1, x0, 12
+        0 => X"83",
+        1 => X"20",
+        2 => X"C0",
         3 => X"00",
-        4 => X"08",
-        5 => X"00",
-        6 => X"00",
+
+        -- ADDI x2, x1, 2
+        4 => X"13",
+        5 => X"81",
+        6 => X"20",
         7 => X"00",
+
+        -- Holes.
+        8 => X"00",
+        9 => X"00",
+        10 => X"00",
+        11 => X"00",
+        
+        12 => X"02",
         others => X"11"
     );
 
 begin
     -- Load instructions.
-    load_data: process(i_addr, i_ld_sz)
+    load_data: process(i_addr, memdata, i_ld_sz)
         variable i: integer;
     begin
         i := to_integer(unsigned(i_addr));
@@ -76,7 +87,7 @@ begin
     end process load_data;
 
     -- Asynchronously read ir.
-    load_ir: process(i_addr)
+    load_ir: process(i_addr, memdata)
         variable i: integer;
     begin
         i := to_integer(unsigned(i_addr));
@@ -106,7 +117,6 @@ begin
                         memdata(i + 2) <= i_data(23 downto 16);
                         memdata(i + 3) <= i_data(31 downto 24);
                     when others =>
-                        null;
                 end case;
             end if;
         end if;
