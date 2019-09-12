@@ -14,11 +14,23 @@ core			\
 control_unit	\
 alu				\
 
-TESTBENCH = core_testbench
+TESTBENCH = 			\
+core_testbench			\
+mem_testbench			\
+multiplexer_testbench	\
+pc_mem_testbench		\
+pc_testbench			\
+registerfile_testbench	\
 
 simulate: elaborate
 	@ printf "Running core_testbench...\n"
 	@ $(SIM) core_testbench --vcd=core_testbench.vcd
+
+%_testbench: anaylse
+	@ printf "Elaborating %s\n" $@
+	@ $(ELAB) $@
+	@ printf "Running %s...\n" $@
+	@ $(SIM) $@ --vcd=$@.vcd
 
 elaborate: anaylse
 	@ printf "Elaborating core_testbench...\n"

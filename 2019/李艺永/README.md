@@ -10,8 +10,14 @@
 - POSIX compliant OS(I've been developing this under OS X. All other *nix should be the same)
 - GHDL version 0.36
 - GNU make
+- Gtkwave(optional) for viewing the vcd wave file
 
-Once you've cloned this repo, make sure your cwd is set to `circuits`, which should be at the same level as this README.md file. Run `make` to analyse, elaborate and run testbench on RV32I core. If you change the those source file, you can run `make analyse` to analyse(compile) the circuits and `make elaborate` to elaborate(link).
+Once you've cloned this repo, make sure your cwd is set to `circuits`, which should be at the same level as this README.md file. 
+Run `make` to analyse, elaborate and run testbench on RV32I core. If you change the those source file, you can run `make analyse` to analyse(compile) the circuits and `make elaborate` to elaborate(link).
+
+Also run `make %_testbench` to elaborate and run component testbenches, where `%_testbench` is any file that matches the pattern `xxx_testbench.vhdl`.
+
+You'll have to press `ctrl + c` to terminate it.
 
 ## Simulator
 
