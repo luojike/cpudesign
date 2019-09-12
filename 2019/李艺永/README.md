@@ -2,6 +2,8 @@
 
 - `circuits` directory contains a hardware design of a basic RV32I core.
 - `simulator` directory contains a simulator of a basic RV32I core written in Dlang.
+- `devnotes` directory contains my design decisions or miscs during development.
+- `labreport` directory contains the formal reports.
 
 ## Circuits
 
