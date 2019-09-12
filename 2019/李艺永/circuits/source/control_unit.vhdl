@@ -17,6 +17,7 @@ entity control_unit is
 
         res_sel : out std_logic_vector(1 downto 0); -- Result selector for rd. Selecting results among ALU, value read from mem and PC register.
         alu_op : out alu_op_t;                      -- Decoded ALU operation or used in address calculation.
+        pc_alu_sel : out std_logic_vector(0 downto 0);  -- Selector for address to access memory.
         pc_off : out std_logic_vector(31 downto 0); -- Offset to add to PC register. This is wired to PC component.
         pc_mode : out std_logic_vector(1 downto 0); -- See PC entity.
 
@@ -56,6 +57,11 @@ architecture behav of control_unit is
     constant HALFW_SZ : std_logic_vector(1 downto 0) := "01";
     constant WRD_SZ : std_logic_vector(1 downto 0) := "10";
 
+    -- Use PC value as address.
+    constant PC_addr : std_logic_vector(0 downto 0) := "0";
+    -- Use ALU result as address.
+    constant ALU_addr : std_logic_vector(0 downto 0) := "1";
+
     signal opc : opcode;
     signal funct3 : std_logic_vector(2 downto 0);
     signal funct7 : std_logic_vector(6 downto 0);
@@ -85,6 +91,7 @@ begin
         en_write_reg <= true;
 
         pc_mode <= pc_normal;
+        pc_alu_sel <= PC_addr;
 
         case opc is
             -- "0010011": I-type encoding. Arithmetic and Logical operations.
@@ -184,6 +191,9 @@ begin
 
                 -- Write result read from RAM to rd.
                 res_sel <= RAM_res;
+
+                -- Address from ALU.
+                pc_alu_sel <= ALU_addr;
 
                 -- Force ALU to use [imm] instead of rs2.
                 en_imm <= EN_IMMED;

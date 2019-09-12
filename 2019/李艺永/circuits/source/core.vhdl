@@ -87,7 +87,8 @@ architecture structural of core is
             br_flag : in boolean;                       -- Wired to signal [alu_br_flag] defined above.
 
             res_sel : out std_logic_vector(1 downto 0);
-            alu_op : out alu_op_t;                     
+            alu_op : out alu_op_t;
+            pc_alu_sel : out std_logic_vector(0 downto 0);
             pc_off : out std_logic_vector(31 downto 0);
             pc_mode : out std_logic_vector(1 downto 0);
 
@@ -200,6 +201,7 @@ begin
             br_flag => alu_br_flag,
             res_sel => alu_mem_pc_sel,
             alu_op => alu_op,
+            pc_alu_sel => pc_alu_sel,
             pc_off => pc_off,
             pc_mode => pc_mode,
             rs1 => rs1,
@@ -216,7 +218,7 @@ begin
 
     -- The result is used as a memory address(for loading data or instruction).
     mux_pc_alu : multiplexer
-        generic map(N => 2)
+        generic map(N => 0)
         port map(
             selector => pc_alu_sel,
             x(0) => pc_val,
@@ -226,7 +228,7 @@ begin
 
     -- The result multiplexer is used for writing rd register.
     mux_alu_mem_pc : multiplexer
-        generic map(N => 4)
+        generic map(N => 1)
         port map(
             selector => alu_mem_pc_sel,
             x(0) => alu_res,
@@ -237,7 +239,7 @@ begin
 
     -- The result multiplexer is used as the 2nd operands to ALU.
     mux_rs2_imm : multiplexer
-        generic map(N => 2)
+        generic map(N => 0)
         port map(
             selector => imm_rs2_sel,
             x(0) => rs2_data,

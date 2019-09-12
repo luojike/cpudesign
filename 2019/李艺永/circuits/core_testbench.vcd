@@ -1,0 +1,136 @@
+$date
+  Thu Sep 12 10:33:50 2019
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$scope module standard $end
+$upscope $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module opcodes $end
+$upscope $end
+$scope module numeric_std $end
+$upscope $end
+$scope module multiplexer_inp_type $end
+$upscope $end
+$scope module core_testbench $end
+$var reg 1 ! clk $end
+$var reg 1 " reset_pc $end
+$scope module c_core $end
+$var reg 1 # clk $end
+$var reg 1 $ reset_pc $end
+$comment alu_op is not handled $end
+$var reg 1 % alu_br_flag $end
+$var reg 2 & alu_mem_pc_sel[1:0] $end
+$var reg 32 ' alu_mem_pc_res[31:0] $end
+$var reg 32 ( alu_res[31:0] $end
+$var reg 32 ) mem_res[31:0] $end
+$var reg 32 * pc_val_next[31:0] $end
+$var reg 1 + imm_rs2_sel[0:0] $end
+$var reg 32 , rs2_imm_res[31:0] $end
+$var reg 32 - ir_imm[31:0] $end
+$var reg 5 . rs1[4:0] $end
+$var reg 5 / rs2[4:0] $end
+$var reg 32 0 rs1_data[31:0] $end
+$var reg 32 1 rs2_data[31:0] $end
+$var reg 5 2 rd[4:0] $end
+$var reg 32 3 pc_off[31:0] $end
+$var reg 2 4 pc_mode[1:0] $end
+$var reg 1 5 en_write_reg $end
+$var reg 1 6 en_write_ram $end
+$var reg 32 7 ir[31:0] $end
+$var reg 1 8 pc_alu_sel[0:0] $end
+$var reg 32 9 pc_alu_res[31:0] $end
+$var reg 32 : pc_val[31:0] $end
+$var reg 2 ; ld_sz[1:0] $end
+$var reg 1 < ld_sign_ex $end
+$var reg 2 = st_sz[1:0] $end
+$scope module c_reg_file $end
+$var reg 1 > clk $end
+$var reg 5 ? rs1[4:0] $end
+$var reg 5 @ rs2[4:0] $end
+$var reg 5 A rd[4:0] $end
+$var reg 32 B i_data[31:0] $end
+$var reg 1 C en_write $end
+$var reg 32 D q_rs1[31:0] $end
+$var reg 32 E q_rs2[31:0] $end
+$comment reg_blocks is not handled $end
+$upscope $end
+$scope module c_alu $end
+$var reg 32 F i_data1[31:0] $end
+$var reg 32 G i_data2[31:0] $end
+$comment i_op is not handled $end
+$var reg 32 H q_res[31:0] $end
+$var reg 1 I q_br $end
+$var reg 1 J br $end
+$upscope $end
+$scope module c_mem $end
+$var reg 1 K clk $end
+$var reg 32 L i_addr[31:0] $end
+$var reg 2 M i_ld_sz[1:0] $end
+$var reg 1 N i_sign_ex $end
+$var reg 32 O i_data[31:0] $end
+$var reg 2 P i_st_sz[1:0] $end
+$var reg 1 Q en_write $end
+$var reg 32 R q_data[31:0] $end
+$var reg 32 S q_ir[31:0] $end
+$comment memdata is not handled $end
+$upscope $end
+$scope module c_pc $end
+$var reg 1 T i_clk $end
+$var reg 1 U i_reset $end
+$var reg 2 V i_mode[1:0] $end
+$var reg 32 W i_pc_off[31:0] $end
+$var reg 32 X i_abs_addr[31:0] $end
+$var reg 32 Y q_val[31:0] $end
+$var reg 32 Z q_val_next[31:0] $end
+$var reg 32 [ val[31:0] $end
+$var reg 32 \ val_next[31:0] $end
+$var reg 1 ] read_next $end
+$var reg 1 ^ read_next_next $end
+$upscope $end
+$scope module c_control_unit $end
+$var reg 32 _ ir[31:0] $end
+$var reg 32 ` pc[31:0] $end
+$var reg 1 a br_flag $end
+$var reg 2 b res_sel[1:0] $end
+$comment alu_op is not handled $end
+$var reg 1 c pc_alu_sel[0:0] $end
+$var reg 32 d pc_off[31:0] $end
+$var reg 2 e pc_mode[1:0] $end
+$var reg 5 f rs1[4:0] $end
+$var reg 5 g rs2[4:0] $end
+$var reg 1 h en_write_reg $end
+$var reg 5 i rd[4:0] $end
+$var reg 1 j en_imm[0:0] $end
+$var reg 32 k imm[31:0] $end
+$var reg 1 l en_write_ram $end
+$var reg 1 m ld_sign_ex $end
+$var reg 2 n ld_sz[1:0] $end
+$var reg 2 o st_sz[1:0] $end
+$var reg 7 p opc[6:0] $end
+$var reg 3 q funct3[2:0] $end
+$var reg 7 r funct7[6:0] $end
+$upscope $end
+$scope module mux_pc_alu $end
+$var reg 1 s selector[0:0] $end
+$comment x is not handled $end
+$var reg 32 t y[31:0] $end
+$upscope $end
+$scope module mux_alu_mem_pc $end
+$var reg 2 u selector[1:0] $end
+$comment x is not handled $end
+$var reg 32 v y[31:0] $end
+$upscope $end
+$scope module mux_rs2_imm $end
+$var reg 1 w selector[0:0] $end
+$comment x is not handled $end
+$var reg 32 x y[31:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
