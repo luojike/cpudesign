@@ -28,11 +28,11 @@ architecture behav of pc is
     constant ABSOLUTE : std_logic_vector(1 downto 0) := "10";
 
     -- The actual storage.
-    signal val : std_logic_vector(31 downto 0);
+    signal val : std_logic_vector(31 downto 0) := (others => '0');
     -- The next val. This is to avoid cyclics.
     signal val_next : std_logic_vector(31 downto 0);
     signal read_next : std_logic := '0';
-    signal read_next_next : std_logic;
+    signal read_next_next : std_logic := '1';
 
 begin
     -- Upon rising_clock, update pc value and the flags.
@@ -42,13 +42,13 @@ begin
             val <= (others => '0');
         elsif (rising_edge(i_clk)) then
             if (read_next = '1') then
-                if (i_mode = NORMAL) then
-                    val <= val_next;
-                elsif (i_mode = RELATIVE) then
+                if (i_mode = RELATIVE) then
                     val <= std_logic_vector(signed(val_next) + signed(i_pc_off));
                 elsif (i_mode = ABSOLUTE) then
                     val(31 downto 1) <= i_abs_addr(31 downto 1);
                     val(0) <= '0';
+                else
+                    val <= val_next;
                 end if;
             end if;
         end if;

@@ -21,7 +21,8 @@ end registerfile;
 
 architecture behav of registerfile is
     -- The actual type of register storage.
-    type RegBlock is array(1 to 32) of std_logic_vector(31 downto 0);
+    -- TODO: array(1 to 32).
+    type RegBlock is array(0 to 32) of std_logic_vector(31 downto 0);
     -- The actual register storage.
     signal reg_blocks : RegBlock := (
         -- Initialize all registers to 0

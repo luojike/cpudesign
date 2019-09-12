@@ -36,3 +36,6 @@ opcodes.o: $(SOURCE_DIR)/opcodes.vhdl
 clean:
 	@ rm -f *.o
 	@ rm -f *obj93.cf
+	@ rm -f *.vcd
+	@ rm -f $(COMPONENTS)
+	@ rm -f *_testbench

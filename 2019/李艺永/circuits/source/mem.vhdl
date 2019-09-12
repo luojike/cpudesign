@@ -80,7 +80,9 @@ begin
         variable i: integer;
     begin
         i := to_integer(unsigned(i_addr));
-        q_ir <= memdata(i + 3) & memdata(i + 2) & memdata(i + 1) & memdata(i);
+        if (i <= 4095 and i >= 0) then
+            q_ir <= memdata(i + 3) & memdata(i + 2) & memdata(i + 1) & memdata(i);
+        end if;
     end process load_ir;
 
     -- Write is limitted.

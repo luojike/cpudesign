@@ -22,7 +22,12 @@ begin
             reset_pc => reset_pc
         );
 
-    reset_pc <= '1', '0' after 300 ns;
     clk <= not clk after 50 ns;
+
+    process
+    begin
+        wait for 300 ns; 
+        reset_pc <= '1';
+    end process;
 
 end behav;
