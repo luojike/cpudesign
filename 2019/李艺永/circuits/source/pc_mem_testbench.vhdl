@@ -85,6 +85,6 @@ begin
     process
     begin
         wait for 600 ns;
-        i_reset <= '1', '0' after 300 ns;
+        -- i_reset <= '1', '0' after 300 ns;
     end process;
 end behav;
