@@ -144,19 +144,38 @@ architecture structural of core is
     signal st_sz : std_logic_vector(1 downto 0);         -- Store size.
 
 begin
-    -- Registers.
-    c_reg_file : registerfile
-        port map(
-            clk => clk,
-            rs1 => rs1,
-            rs2 => rs2,
-            rd => rd,
-            i_data => alu_mem_pc_res,     -- data to write to rd register.
-            en_write => en_write_reg,
 
-            q_rs1 => rs1_data,
-            q_rs2 => rs2_data
+    -- The result is used as a memory address(for loading data or instruction).
+    mux_pc_alu : multiplexer
+        generic map(N => 0)
+        port map(
+            selector => pc_alu_sel,
+            x(0) => pc_val,
+            x(1) => alu_res,
+            y => pc_alu_res
         );
+
+    -- The result multiplexer is used for writing rd register.
+    mux_alu_mem_pc : multiplexer
+        generic map(N => 1)
+        port map(
+            selector => alu_mem_pc_sel,
+            x(0) => alu_res,
+            x(1) => mem_res,
+            x(2) => pc_val_next,
+            y => alu_mem_pc_res
+        );
+
+    -- The result multiplexer is used as the 2nd operands to ALU.
+    mux_rs2_imm : multiplexer
+        generic map(N => 0)
+        port map(
+            selector => imm_rs2_sel,
+            x(0) => rs2_data,
+            x(1) => ir_imm,
+            y => rs2_imm_res
+        );
+
 
     c_alu : alu
         port map(
@@ -216,35 +235,18 @@ begin
             st_sz => st_sz
         );
 
-    -- The result is used as a memory address(for loading data or instruction).
-    mux_pc_alu : multiplexer
-        generic map(N => 0)
-        port map(
-            selector => pc_alu_sel,
-            x(0) => pc_val,
-            x(1) => alu_res,
-            y => pc_alu_res
-        );
+    -- Registers.
+    c_reg_file : registerfile
+    port map(
+        clk => clk,
+        rs1 => rs1,
+        rs2 => rs2,
+        rd => rd,
+        i_data => alu_mem_pc_res,     -- data to write to rd register.
+        en_write => en_write_reg,
 
-    -- The result multiplexer is used for writing rd register.
-    mux_alu_mem_pc : multiplexer
-        generic map(N => 1)
-        port map(
-            selector => alu_mem_pc_sel,
-            x(0) => alu_res,
-            x(1) => mem_res,
-            x(2) => pc_val_next,
-            y => alu_mem_pc_res
-        );
-
-    -- The result multiplexer is used as the 2nd operands to ALU.
-    mux_rs2_imm : multiplexer
-        generic map(N => 0)
-        port map(
-            selector => imm_rs2_sel,
-            x(0) => rs2_data,
-            x(1) => ir_imm,
-            y => rs2_imm_res
-        );
+        q_rs1 => rs1_data,
+        q_rs2 => rs2_data
+    );
 
 end structural;
