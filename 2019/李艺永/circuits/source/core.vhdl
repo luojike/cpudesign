@@ -20,7 +20,7 @@ entity core is
         q_ir            : out std_logic_vector(31 downto 0);
         q_rs1_data      : out std_logic_vector(31 downto 0);
         q_rs2_data      : out std_logic_vector(31 downto 0);
-        q_pc_val        : out std_logic_vector(31 downto 0);
+        q_pc_val        : out std_logic_vector(31 downto 0)
     );
 end core;
 
