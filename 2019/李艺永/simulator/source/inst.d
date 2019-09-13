@@ -470,11 +470,26 @@ Inst decode(uint ir)
 
         static if (type == 'B')
         {
-            // TODO:
-            return 0;
-            // int res = (ir >> 7) & 0x1E;
-            // ir << 
+            int res = (ir >> 8) & 0x0F;
+            res = res << 1;                     // The last bit is 0.
+            res = res | ((ir >> 19) & 0x0FC0);  // 10:5
+            res = res | ((ir << 4) & 0x0800);   // 11.
+            res = res | ((ir >> 19) & 0x1000);  // 12.
+            res = (res << 19) >> 19;            // sign-extend.
+            return res;
         }
+
+        static if (type == 'J')
+        {
+            int res = 0;
+            res = res | (ir & 0x0FF000);       // 19:12
+            res = res | ((ir >> 9) & 0x0800);   // 11
+            res = res | ((ir >> 20) & 0x07FE);  // 10:1
+            res = res | ((ir >> 11)  & 0x100000); // 20
+            res = (res << 11) >> 11;            // sign-extend.
+            return res;
+        }
+
         else
             assert(false);
     }
