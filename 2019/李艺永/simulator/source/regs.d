@@ -4,8 +4,6 @@
 
 module regs;
 
-import consts;
-
 /// Class represents register file of a RV32I core,
 /// including 31 general-purpose registers and a PC register.
 class Regs
@@ -57,16 +55,13 @@ class Regs
 
         return (vecs[idx] = val);
     }
-
-    /// Increment PC register.
-    void incrPC()
-    {
-        pc += INSTR_LEN;
-    }
 }
 
 unittest
 {
+    import std.stdio;
+    writeln("///    regs.d unittest begins");
+
     auto regs = new Regs;
 
     assert(regs.pc == 0);
@@ -74,4 +69,6 @@ unittest
     
     regs[1] = 0x20;
     assert(regs[1] = 0x20);
+
+    writeln("///    regs.d unittest ends");
 }

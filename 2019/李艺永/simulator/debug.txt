@@ -1,3 +1,4 @@
+///    interp.d unittest begins
 interp:	ADDI x1, x0, 4
 ==== regs begin ====
 pc:   0
@@ -220,3 +221,6 @@ x30:    0
 x31:    0
 ==== regs end ====
 
+///    interp.d unittest ends
+///    regs.d unittest begins
+///    regs.d unittest ends

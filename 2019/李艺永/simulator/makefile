@@ -7,7 +7,6 @@ BIN = rv32i
 DEBUG_BIN = rv32i-debug
 
 MODULES = 		\
-consts			\
 inst			\
 interp			\
 regs			\

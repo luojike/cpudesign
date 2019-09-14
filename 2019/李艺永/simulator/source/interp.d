@@ -24,12 +24,16 @@ class Context
     /// Assume the code starts from offset 0.
     static const CODE_START = 0;
 
+    /// Length of each instruction representation.
+    static const INSTR_LEN = uint.sizeof;
+
     /// 4MB of RAM.
     char[RAM_SIZE] ram;
 
     /// Constructor.
     this(char[] code, ulong sz)
     {
+        assert(INSTR_LEN == 4);
         regs = new Regs;
 
         memcpy(cast(char*)ram, cast(char*)code, sz);
@@ -121,7 +125,7 @@ int interpIR(Context ctx, Inst inst)
             return Context.RAM_SIZE;
     }
 
-    return uint.sizeof;
+    return Context.INSTR_LEN;
 }
 
 /// Interprets the given arithmetic or logical instruction.
@@ -356,12 +360,12 @@ int interpBr(Context ctx, Inst inst)
 
     switch (binst.kind)
     {
-        case BInst.BEQ: return (opnd1 == opnd2) ? imm : uint.sizeof;
-        case BInst.BNE: return (opnd1 != opnd2) ? imm : uint.sizeof;
-        case BInst.BLT: return (opnd1 < opnd2) ? imm : uint.sizeof;
-        case BInst.BGE: return (opnd1 > opnd2) ? imm : uint.sizeof;
-        case BInst.BLTU: return (cast(uint)opnd1 < cast(uint)opnd2) ? imm : uint.sizeof;
-        case BInst.BGEU: return (cast(uint)opnd1 > cast(uint)opnd2) ? imm : uint.sizeof;
+        case BInst.BEQ: return (opnd1 == opnd2) ? imm : Context.INSTR_LEN;
+        case BInst.BNE: return (opnd1 != opnd2) ? imm : Context.INSTR_LEN;
+        case BInst.BLT: return (opnd1 < opnd2) ? imm : Context.INSTR_LEN;
+        case BInst.BGE: return (opnd1 > opnd2) ? imm : Context.INSTR_LEN;
+        case BInst.BLTU: return (cast(uint)opnd1 < cast(uint)opnd2) ? imm : Context.INSTR_LEN;
+        case BInst.BGEU: return (cast(uint)opnd1 > cast(uint)opnd2) ? imm : Context.INSTR_LEN;
         default:
             assert(false, "Unknown branch");
     }
@@ -395,6 +399,8 @@ int interpJALR(Context ctx, Inst inst)
 
 unittest 
 {
+    writeln("///    interp.d unittest begins");
+
     uint[] code = [
         0x400093,   // ADDI x1, x0, 0x4
         0x102123,   // SW x0, x1, 0x2
@@ -406,7 +412,9 @@ unittest
 
     auto ctx = new Context(
         cast(char[])code, 
-        code.length * uint.sizeof
+        code.length * Context.INSTR_LEN
     );
     interp(ctx);
+
+    writeln("///    interp.d unittest ends");
 }
