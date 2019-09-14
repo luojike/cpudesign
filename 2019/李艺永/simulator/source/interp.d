@@ -40,6 +40,7 @@ void dumpContext(Context ctx)
     // auto ram = ctx.ram;
 
     writeln("==== regs begin ====");
+    writef("pc:   %s\n", regs.pc);
     for (auto i = 0; i < regs.XLEN; i++)
     {
         writef("x%s:    %s\n", i, regs[i]);
@@ -67,9 +68,27 @@ void interp(Context ctx, uint ir)
             ctx.interpStore(inst);
             break;
 
+        case Inst.U_TYPE_LUI, Inst.U_TYPE_AUIPC:
+            ctx.interpUty(inst);
+            break;
+
+        case Inst.B_TYPE:
+            ctx.interpBr(inst);
+            break;
+
+        case Inst.J_TYPE_JAL:
+            ctx.interpJAL(inst);
+            break;
+
+        case Inst.I_TYPE_JALR:
+            ctx.interpJALR(inst);
+            break;
+
         default:
             assert(false, "Not implemented");
     }
+    ctx.regs.pc += 4;
+    assert(ctx.regs.pc <= ctx.ramSize, "PC exceled max RAM address.");
 
     debug ctx.dumpContext();
 }
@@ -265,6 +284,107 @@ void interpStore(Context ctx, Inst inst)
     }
 }
 
+/// Interprets LUI and AUIPC.
+void interpUty(Context ctx, Inst inst)
+{
+    assert(
+        inst.opcode == Inst.U_TYPE_AUIPC || 
+        inst.opcode == Inst.U_TYPE_LUI
+    );
+
+    auto uinst = cast(UInst)inst;
+    assert(uinst !is null);
+    
+    const imm = uinst.imm;
+    size_t rd = uinst.rd;
+
+    if (uinst.opcode == Inst.U_TYPE_LUI)
+    {
+        ctx.regs[rd] = imm;
+    }
+
+    else
+    {
+        // We're in the middle of executing this instruction,
+        // the pc points to this one for now.
+        ctx.regs[rd] = imm + ctx.regs.pc;
+    }
+}
+
+/// Interprets the given conditional branch.
+void interpBr(Context ctx, Inst inst)
+{
+    auto binst = cast(BInst)inst;
+
+    assert(binst !is null);
+    assert(binst.opcode == Inst.B_TYPE);
+
+    int opnd1 = ctx.regs[binst.rs1];
+    int opnd2 = ctx.regs[binst.rs2];
+    int imm = binst.imm;
+
+    switch (binst.kind)
+    {
+        case BInst.BEQ:
+        if (opnd1 == opnd2)
+            ctx.regs.pc += imm;
+        return;
+
+        case BInst.BNE:
+        if (opnd1 != opnd2)
+            ctx.regs.pc += imm;
+        return;
+
+        case BInst.BLT:
+        if (opnd1 < opnd2)
+            ctx.regs.pc += imm;
+        return;
+
+        case BInst.BGE:
+        if (opnd1 > opnd2)
+            ctx.regs.pc += imm;
+        return;
+
+        case BInst.BLTU:
+        if (cast(uint)opnd1 < cast(uint)opnd2)
+            ctx.regs.pc += imm;
+        return;
+
+        case BInst.BGEU:
+        if (cast(uint)opnd1 > cast(uint)opnd2)
+            ctx.regs.pc += imm;
+        return;
+
+        default:
+            assert(false, "Unknown branch");
+    }
+}
+
+/// Interprets JAL.
+void interpJAL(Context ctx, Inst inst)
+{
+    auto jinst = cast(JInst)inst;
+
+    assert(jinst !is null);
+    assert(jinst.opcode == Inst.J_TYPE_JAL);
+
+    ctx.regs[jinst.rd] = ctx.regs.pc + 4;
+    ctx.regs.pc += jinst.offset;
+}
+
+/// Interprets JALR.
+void interpJALR(Context ctx, Inst inst)
+{
+    auto iinst = cast(IInst)inst;
+
+    assert(iinst !is null);
+    assert(iinst.opcode == Inst.I_TYPE_JALR);
+
+    ctx.regs[iinst.rd] = ctx.regs.pc + 4;
+    // Absolute address.
+    ctx.regs.pc = ctx.regs[iinst.rs1] + iinst.imm;
+}
+
 unittest 
 {
     auto ctx = new Context;
@@ -281,5 +401,17 @@ unittest
     // LB x1, x2, 0x2
     // (Load ram[x2 + 0x2] to x1)
     ir = 0x210083;
+    interp(ctx, ir);
+
+    // LUI x1, 2^12
+    ir = 0x20B7;
+    interp(ctx, ir);
+
+    /// BEQ x1, x2, 0x20
+    ir = 0x02208063;
+    interp(ctx, ir);
+
+    /// JAL x1, 0x20
+    ir = 0x020000EF;
     interp(ctx, ir);
 }
