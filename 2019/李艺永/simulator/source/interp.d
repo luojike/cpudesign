@@ -6,6 +6,7 @@ module interp;
 import std.format;
 import std.array;
 import std.conv;
+import core.stdc.string;
 import regs;
 import inst;
 
@@ -17,19 +18,53 @@ class Context
     /// Registers.
     Regs regs;
 
-    /// 4GB of RAM.
-    char[4096] ram;
+    /// RAM size in bytes.
+    static const RAM_SIZE = 4096;
+
+    /// Assume the code starts from offset 0.
+    static const CODE_START = 0;
+
+    /// 4MB of RAM.
+    char[RAM_SIZE] ram;
 
     /// Constructor.
-    this()
+    this(char[] code, ulong sz)
     {
         regs = new Regs;
+
+        memcpy(cast(char*)ram, cast(char*)code, sz);
+        regs.pc = CODE_START;
+    }
+}
+
+/// Executes code within the given [ctx].
+void interp(Context ctx)
+{
+    uint loadIR()
+    {
+        uint ir;
+        auto ramStart = cast(char*)ctx.ram;
+        if (ctx.regs.pc + 4 < Context.RAM_SIZE)
+        {
+            memcpy(&ir, ramStart + ctx.regs.pc, 4);
+            return ir;
+        }
+        return -1;
     }
 
-    /// RAM size.
-    size_t ramSize()
+    uint ir;
+    while ((ir = loadIR()) != -1)
     {
-        return 4096;
+        auto inst = decode(ir);
+        debug writeln("interp:\t", inst);
+        auto offset = interpIR(ctx, inst);
+        debug ctx.dumpContext();
+
+        // Done executing all code.
+        if (offset == Context.RAM_SIZE)   break;
+
+        // Update PC.
+        ctx.regs.pc += offset;
     }
 }
 
@@ -48,12 +83,11 @@ void dumpContext(Context ctx)
     writeln("==== regs end ====\n");
 }
 
-/// Interprets the given [inst].
-void interp(Context ctx, uint ir)
+/// Interprets the given instruction [ir].
+/// Returns the number of offset PC should increment.
+/// Returns Context.RAM_SIZE means we've done executing.
+int interpIR(Context ctx, Inst inst)
 {
-    Inst inst = decode(ir);
-    debug writeln("interp:\t", inst);
-
     switch (inst.opcode)
     {
         case Inst.I_TYPE_AL, Inst.R_TYPE:
@@ -73,24 +107,21 @@ void interp(Context ctx, uint ir)
             break;
 
         case Inst.B_TYPE:
-            ctx.interpBr(inst);
-            break;
+            return ctx.interpBr(inst);
 
         case Inst.J_TYPE_JAL:
-            ctx.interpJAL(inst);
-            break;
+            return ctx.interpJAL(inst);
 
         case Inst.I_TYPE_JALR:
-            ctx.interpJALR(inst);
-            break;
+            return ctx.interpJALR(inst);
 
         default:
-            assert(false, "Not implemented");
+            /// If we've encountered any unknown instruction,
+            /// this is the end.
+            return Context.RAM_SIZE;
     }
-    ctx.regs.pc += 4;
-    assert(ctx.regs.pc <= ctx.ramSize, "PC exceled max RAM address.");
 
-    debug ctx.dumpContext();
+    return uint.sizeof;
 }
 
 /// Interprets the given arithmetic or logical instruction.
@@ -218,7 +249,7 @@ void interpLoad(Context ctx, Inst inst)
     {
         // TODO: Remove these asserts.
         case IInst.LB, IInst.LBU:
-            assert(addr >= 0 && addr < ctx.ramSize);
+            assert(addr >= 0 && addr < Context.RAM_SIZE);
             res = ram[addr];
 
             if (iinst.kind == IInst.LB)
@@ -226,7 +257,7 @@ void interpLoad(Context ctx, Inst inst)
             break;
         
         case IInst.LH, IInst.LHU: 
-            assert(addr >= 0 && addr + 1 < ctx.ramSize);
+            assert(addr >= 0 && addr + 1 < Context.RAM_SIZE);
             res = (ram[addr + 1] << 8) | ram[addr]; 
 
             if (iinst.kind == IInst.LH)
@@ -234,7 +265,7 @@ void interpLoad(Context ctx, Inst inst)
             break;
         
         case IInst.LW: 
-            assert(addr >= 0 && addr + 3 < ctx.ramSize);
+            assert(addr >= 0 && addr + 3 < Context.RAM_SIZE);
             res = (ram[addr + 3] << 24) | (ram[addr + 2] << 16) | (ram[addr + 1] << 8) | ram[addr]; 
             break;
   
@@ -261,18 +292,18 @@ void interpStore(Context ctx, Inst inst)
     switch (sinst.width)
     {
         case 1:
-            assert(addr > 0 && addr < ctx.ramSize);
+            assert(addr > 0 && addr < Context.RAM_SIZE);
             ram[addr] = srcval & 0xFF;
             break;
 
         case 2: 
-            assert(addr > 0 && addr + 1 < ctx.ramSize);
+            assert(addr > 0 && addr + 1 < Context.RAM_SIZE);
             ram[addr] = srcval & 0xFF;
             ram[addr + 1] = (srcval >> 8) & 0xFF;
             break;
         
         case 4:
-            assert(addr > 0 && addr + 4 < ctx.ramSize);
+            assert(addr > 0 && addr + 4 < Context.RAM_SIZE);
             ram[addr] = srcval & 0xFF;
             ram[addr + 1] = (srcval >> 8) & 0xFF;
             ram[addr + 2] = (srcval >> 16) & 0xFF;
@@ -312,56 +343,32 @@ void interpUty(Context ctx, Inst inst)
 }
 
 /// Interprets the given conditional branch.
-void interpBr(Context ctx, Inst inst)
+int interpBr(Context ctx, Inst inst)
 {
     auto binst = cast(BInst)inst;
 
     assert(binst !is null);
     assert(binst.opcode == Inst.B_TYPE);
 
-    int opnd1 = ctx.regs[binst.rs1];
-    int opnd2 = ctx.regs[binst.rs2];
-    int imm = binst.imm;
+    const opnd1 = ctx.regs[binst.rs1];
+    const opnd2 = ctx.regs[binst.rs2];
+    const imm = binst.imm;
 
     switch (binst.kind)
     {
-        case BInst.BEQ:
-        if (opnd1 == opnd2)
-            ctx.regs.pc += imm;
-        return;
-
-        case BInst.BNE:
-        if (opnd1 != opnd2)
-            ctx.regs.pc += imm;
-        return;
-
-        case BInst.BLT:
-        if (opnd1 < opnd2)
-            ctx.regs.pc += imm;
-        return;
-
-        case BInst.BGE:
-        if (opnd1 > opnd2)
-            ctx.regs.pc += imm;
-        return;
-
-        case BInst.BLTU:
-        if (cast(uint)opnd1 < cast(uint)opnd2)
-            ctx.regs.pc += imm;
-        return;
-
-        case BInst.BGEU:
-        if (cast(uint)opnd1 > cast(uint)opnd2)
-            ctx.regs.pc += imm;
-        return;
-
+        case BInst.BEQ: return (opnd1 == opnd2) ? imm : uint.sizeof;
+        case BInst.BNE: return (opnd1 != opnd2) ? imm : uint.sizeof;
+        case BInst.BLT: return (opnd1 < opnd2) ? imm : uint.sizeof;
+        case BInst.BGE: return (opnd1 > opnd2) ? imm : uint.sizeof;
+        case BInst.BLTU: return (cast(uint)opnd1 < cast(uint)opnd2) ? imm : uint.sizeof;
+        case BInst.BGEU: return (cast(uint)opnd1 > cast(uint)opnd2) ? imm : uint.sizeof;
         default:
             assert(false, "Unknown branch");
     }
 }
 
 /// Interprets JAL.
-void interpJAL(Context ctx, Inst inst)
+int interpJAL(Context ctx, Inst inst)
 {
     auto jinst = cast(JInst)inst;
 
@@ -369,11 +376,11 @@ void interpJAL(Context ctx, Inst inst)
     assert(jinst.opcode == Inst.J_TYPE_JAL);
 
     ctx.regs[jinst.rd] = ctx.regs.pc + 4;
-    ctx.regs.pc += jinst.offset;
+    return jinst.offset;
 }
 
 /// Interprets JALR.
-void interpJALR(Context ctx, Inst inst)
+int interpJALR(Context ctx, Inst inst)
 {
     auto iinst = cast(IInst)inst;
 
@@ -383,35 +390,23 @@ void interpJALR(Context ctx, Inst inst)
     ctx.regs[iinst.rd] = ctx.regs.pc + 4;
     // Absolute address.
     ctx.regs.pc = ctx.regs[iinst.rs1] + iinst.imm;
+    return 0;
 }
 
 unittest 
 {
-    auto ctx = new Context;
+    uint[] code = [
+        0x400093,   // ADDI x1, x0, 0x4
+        0x102123,   // SW x0, x1, 0x2
+        0x210083,   // LB x1, x2, 0x2
+        0x20B7,     // LUI x1, 2^12
+        0x02208063, // BEQ x1, x2, 0x20
+        0x020000EF, // JAL x1, 0x20
+    ];
 
-    // ADDI x1, x0, 0x4
-    auto ir = 0x400093;
-    interp(ctx, ir);
-
-    // SW x0, x1, 0x2
-    // (Store x1 to ram[x0 + 0x2])
-    ir = 0x102123;
-    interp(ctx, ir);
-
-    // LB x1, x2, 0x2
-    // (Load ram[x2 + 0x2] to x1)
-    ir = 0x210083;
-    interp(ctx, ir);
-
-    // LUI x1, 2^12
-    ir = 0x20B7;
-    interp(ctx, ir);
-
-    /// BEQ x1, x2, 0x20
-    ir = 0x02208063;
-    interp(ctx, ir);
-
-    /// JAL x1, 0x20
-    ir = 0x020000EF;
-    interp(ctx, ir);
+    auto ctx = new Context(
+        cast(char[])code, 
+        code.length * uint.sizeof
+    );
+    interp(ctx);
 }

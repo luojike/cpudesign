@@ -17,7 +17,7 @@ class Regs
     size_t XLEN = 32;
 
     /// PC register.
-    uint pc;
+    int pc;
 
     /// Constructor.
     this() {
