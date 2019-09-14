@@ -8,6 +8,8 @@ import std.conv;
 import regs;
 import inst;
 
+debug import std.stdio;
+
 /// Contains status info for simulation.
 class Context
 {
@@ -22,6 +24,37 @@ class Context
     {
         regs = new Regs;
     }
+
+    /// Load ram[offset] with [sz] size of bytes.
+    int loadRAM(size_t offset, int sz, bool signed = true)
+    {
+        /// TODO: add constraints(data and code segment)
+        assert(offset >= 0 && offset < 4096);
+        uint res = 0;
+
+        switch (sz)
+        {
+            case IInst.LB: res = ram[offset] & 0x0F; break;
+            case IInst.LH: res = ram[offset] & 0xFFFF; break;
+            case IInst.LW: res = ram[offset]; break;
+            default:
+                assert(false, "Not supported load");
+        }
+
+        if (signed)
+        {
+            // Sign-extend.
+            switch (sz)
+            {
+                case IInst.LB: return (cast(int)(res << 24) >> 24);
+                case IInst.LH: return (cast(int)(res << 16) >> 16);
+                case IInst.LW: break;
+                default:
+                    assert(false, "Not supported load");
+            }
+        }
+        return cast(int)res;
+    }
 }
 
 /// Interprets the given [inst].
@@ -32,7 +65,12 @@ void interp(Context ctx, uint ir)
     switch (inst.opcode)
     {
         case Inst.I_TYPE_AL, Inst.R_TYPE:
-            return interpAL(ctx, inst);
+            debug writeln("interp:\t", inst);
+            return ctx.interpAL(inst);
+
+        case Inst.I_TYPE_LOAD:
+            debug writeln("interp:\t", inst);
+            return ctx.interpLoad(inst);
 
         default:
             assert(false, "Not implemented");
@@ -144,10 +182,29 @@ void interpAL(Context ctx, Inst inst)
     assert(false, "Inst must be either IInst or RInst");
 }
 
+/// Interprets the given load instruction.
+void interpLoad(Context ctx, Inst inst)
+{
+    auto regs = ctx.regs;
+    auto iinst = cast(IInst)inst;
+
+    assert(iinst !is null);
+    assert(iinst.opcode == Inst.I_TYPE_LOAD);
+
+    regs[iinst.rd] = ctx.loadRAM(
+        iinst.imm/* offset(signed) */ + regs[iinst.rs1]/* base(signed) */,
+        iinst.kind,
+        (iinst.kind != IInst.LBU && iinst.kind != IInst.LHU)
+    );
+}
+
 unittest 
 {
     auto ctx = new Context;
     /// ADDI x1, x0, 0x4
     auto ir = 0x400093;
+    interp(ctx, ir);
+
+    ir = 0x210083;
     interp(ctx, ir);
 }

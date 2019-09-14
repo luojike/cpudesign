@@ -11,7 +11,7 @@ import consts;
 class Regs
 {
     /// 31 general-purpose registers.
-    uint[32] vecs;
+    int[32] vecs;
 
     /// width of each register.
     size_t XLEN = 32;
@@ -37,7 +37,7 @@ class Regs
     }
 
     /// E.g. auto regval = regs[0];
-    uint opIndex(size_t idx)
+    int opIndex(size_t idx)
     {
         assert(
             idx >= 0 && idx < 31,
@@ -48,7 +48,7 @@ class Regs
     }
 
     /// E.g. regs[1] = 0x10;
-    uint opIndexAssign(uint val, size_t idx)
+    int opIndexAssign(int val, size_t idx)
     {
         assert(
             idx > 0 && idx <= 31,
