@@ -104,7 +104,7 @@ class UInst : Inst
 
     override string toString() const
     {
-        return format!"%s x%s %s"(
+        return format!"%s x%s, %s"(
             (opcode == U_TYPE_LUI ? "LUI" : "AUIPC"),
             rd,
             imm,
@@ -129,7 +129,7 @@ class IInst : Inst
     alias Kind = int;
     enum : Kind
     {
-        LB,
+        LB = 0,
         LH,
         LW,
         LBU,
@@ -198,7 +198,7 @@ class IInst : Inst
             default:
                 assert(false);
         }
-        return format!"%s x%s x%s %s"(
+        return format!"%s x%s, x%s, %s"(
             opstr,
             rd,
             rs1,
@@ -228,7 +228,7 @@ class JInst : Inst
 
     override string toString() const
     {
-        return format!"%s x%s %s"(
+        return format!"%s x%s, %s"(
             "JAL",
             rd,
             offset
@@ -295,7 +295,7 @@ class BInst : Inst
                 assert(false);
         }
 
-        return format!"%s x%s x%s %s"(
+        return format!"%s x%s, x%s, %s"(
             opstr,
             rs1,
             rs2,
@@ -319,7 +319,7 @@ class RInst : Inst
     alias Kind = int;
     enum : Kind
     {
-        ADD,
+        ADD = 0,
         SUB,
         SLL,    // Shift Left Logical
         SLT,    // Set Less Than
@@ -396,7 +396,7 @@ class SInst : Inst
             default:
                 assert(false);
         }
-        return format!"%s x%s x%s %s"(
+        return format!"%s x%s, x%s, %s"(
             opstr,
             base,
             src,

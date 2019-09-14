@@ -36,19 +36,26 @@ class Regs
         pc = 0;
     }
 
-    /// Write [val] to register x[n].
-    void write(size_t n, uint val)
+    /// E.g. auto regval = regs[0];
+    uint opIndex(size_t idx)
     {
-        assert(n > 0 && n < 31);
+        assert(
+            idx >= 0 && idx < 31,
+            "Invalid reg index!"
+        );
 
-        vecs[n] = val;
+        return vecs[idx];
     }
 
-    /// Read register x[n].
-    uint read(size_t n)
+    /// E.g. regs[1] = 0x10;
+    uint opIndexAssign(uint val, size_t idx)
     {
-        assert(n >= 0 && n < 31);
-        return vecs[n];
+        assert(
+            idx > 0 && idx <= 31,
+            "Invalid reg assignment!"
+        );
+
+        return (vecs[idx] = val);
     }
 
     /// Increment PC register.
@@ -63,5 +70,8 @@ unittest
     auto regs = new Regs;
 
     assert(regs.pc == 0);
-    assert(regs.read(0) == 0);
+    assert(regs[0] == 0);
+    
+    regs[1] = 0x20;
+    assert(regs[1] = 0x20);
 }
