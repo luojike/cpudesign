@@ -17,17 +17,17 @@ class Inst
     {
         // Use conversion to deal with numerics starting from 0.
 
-        I_TYPE_JALR     = to!uint("1100111", 10/* convert 10 decimal. */),
-        I_TYPE_LOAD     = to!uint("0000011", 10),
-        I_TYPE_AL       = to!uint("0010011", 10),
+        I_TYPE_JALR     = 0b1100111,
+        I_TYPE_LOAD     = 0b0000011,
+        I_TYPE_AL       = 0b0010011,
 
-        U_TYPE_AUIPC    = to!uint("0010111", 10),
-        U_TYPE_LUI      = to!uint("0110111", 10),
+        U_TYPE_AUIPC    = 0b0010111,
+        U_TYPE_LUI      = 0b0110111,
 
-        J_TYPE_JAL      = to!uint("1101111", 10),
-        B_TYPE          = to!uint("1100011", 10),
-        S_TYPE          = to!uint("0100011", 10),
-        R_TYPE          = to!uint("0110011", 10),  // AL_type.
+        J_TYPE_JAL      = 0b1101111,
+        B_TYPE          = 0b1100011,
+        S_TYPE          = 0b0100011,
+        R_TYPE          = 0b0110011,
     }
 
     Opcode opcode;
@@ -364,7 +364,7 @@ class SInst : Inst
     size_t width;
 
     /// rs2 index. rs2 stores the value to write to RAM.
-    size_t reg_idx;
+    size_t src;
 
     /// Constructor.
     this(
@@ -372,7 +372,7 @@ class SInst : Inst
         int offset, 
         size_t base, 
         size_t width, 
-        size_t reg_idx
+        size_t src
     )
     {
         assert(opcode == S_TYPE);
@@ -381,7 +381,7 @@ class SInst : Inst
         this.offset = offset;
         this.base = base;
         this.width = width;
-        this.reg_idx = reg_idx;
+        this.src = src;
     }
 
     override string toString() const
@@ -398,8 +398,8 @@ class SInst : Inst
         }
         return format!"%s x%s x%s %s"(
             opstr,
-            reg_idx,
             base,
+            src,
             offset
         );
     }
@@ -470,9 +470,9 @@ Inst decode(uint ir)
 
         static if (type == 'B')
         {
-            int res = (ir >> 8) & 0x0F;
+            int res = (ir >> 8) & 0xF;
             res = res << 1;                     // The last bit is 0.
-            res = res | ((ir >> 19) & 0x0FC0);  // 10:5
+            res = res | ((ir >> 20) & 0x07E0);  // 10:5
             res = res | ((ir << 4) & 0x0800);   // 11.
             res = res | ((ir >> 19) & 0x1000);  // 12.
             res = (res << 19) >> 19;            // sign-extend.
@@ -530,9 +530,12 @@ Inst decode(uint ir)
                 switch (funct!7(ir))
                 {
                     case 0: kind = IInst.SRLI; break;
-                    case 2: kind = IInst.SRAI; break;
+                    case 0x20: kind = IInst.SRAI; break;
                     default:
-                        assert(false);
+                        assert(
+                            false,
+                            "funct7 field for shift must be either 0 or 0x20"
+                        );
                 }
                 imm_val = 0x1F & imm_val;
                 break;
@@ -605,7 +608,11 @@ Inst decode(uint ir)
                         case 0: kind = RInst.ADD; break;
                         case 0x20: kind = RInst.SUB; break;
                         default:
-                            assert(false);
+                            assert(
+                                false, 
+                                "funct7 for SUB should be 0x20; 
+                                funct7 for ADD should be 0"
+                            );
                     }
                 }
                 break;
@@ -665,7 +672,12 @@ Inst decode(uint ir)
                 case 0: width = 1; break;   // SB
                 case 1: width = 2; break;   // SH
                 case 2: width = 4; break;   // SW
-                default: assert(false);
+                default: assert(
+                    false,
+                    "funct3 should be 0 for SB;
+                    1 for SH;
+                    2 for SW"
+                );
             }
             return new SInst(
                 opcode,
@@ -695,7 +707,10 @@ Inst decode(uint ir)
                 case 6: kind = BInst.BLTU; break;
                 case 7: kind = BInst.BGEU; break;
                 default:
-                    assert(false);
+                    assert(
+                        false,
+                        "Inappropriate funct3 field for B-type"
+                    );
             }
             return new BInst(
                 opcode,
@@ -715,11 +730,86 @@ Inst decode(uint ir)
             );
 
         default:
-            assert(false);
+            assert(false, "Unknown opcode!");
     }
 }
 
 unittest
 {
 
+    /// LUI x1, 2^12
+    uint ir = 0x20B7;
+    Inst inst = decode(ir);
+    auto uinst = cast(UInst)inst;
+    assert(uinst !is null);
+    assert(uinst.opcode == Inst.U_TYPE_LUI);
+    assert(uinst.imm == (2 << 12));
+    assert(uinst.rd == 1);
+    // Cannot cast to any other type.
+    assert(cast(IInst)inst is null);
+
+    /// ADDI x1, x0, 0x4
+    ir = 0x400093;
+    inst = decode(ir);
+    auto iinst = cast(IInst)inst;
+    assert(iinst !is null);
+    assert(iinst.opcode == Inst.I_TYPE_AL);
+    assert(iinst.rd == 1);
+    assert(iinst.rs1 == 0);
+    assert(iinst.imm == 4);
+
+    /// SLTIU x3, x2, 0x20
+    ir = 0x02013193;
+    inst = decode(ir);
+    iinst = cast(IInst)inst;
+    assert(iinst !is null);
+    assert(iinst.opcode == Inst.I_TYPE_AL);
+    assert(iinst.rd == 3);
+    assert(iinst.rs1 == 2);
+    assert(iinst.imm == 0x20);
+    assert(iinst.imm_signed == false);
+
+    /// ADD x1, x0, x2
+    ir = 0x2000B3;
+    inst = decode(ir);
+    auto rinst = cast(RInst)inst;
+    assert(rinst !is null);
+    assert(rinst.opcode == Inst.R_TYPE);
+    assert(rinst.rd == 1);
+    assert(rinst.rs1 == 0);
+    assert(rinst.rs2 == 2);
+
+    /// SUB x1, x0, x2
+    ir = 0x402000B3;
+    inst = decode(ir);
+    rinst = cast(RInst)inst;
+
+    /// SH x2, x1, 0x20
+    ir = 0x02111023;
+    inst = decode(ir);
+    auto sinst = cast(SInst)inst;
+    assert(sinst !is null);
+    assert(sinst.opcode == Inst.S_TYPE);
+    assert(sinst.base == 2);
+    assert(sinst.width == 2);
+    assert(sinst.src == 1);
+
+    /// JAL x1, 0x20
+    ir = 0x020000EF;
+    inst = decode(ir);
+    auto jinst = cast(JInst)inst;
+    assert(jinst !is null);
+    assert(jinst.opcode == Inst.J_TYPE_JAL);
+    assert(jinst.rd == 1);
+    assert(jinst.offset == 0x20);
+
+    /// BEQ x1, x2, 0x20
+    ir = 0x02208063;
+    inst = decode(ir);
+    auto binst = cast(BInst)inst;
+    assert(binst !is null);
+    assert(binst.kind == BInst.BEQ);
+    assert(binst.rs1 == 1);
+    assert(binst.rs2 == 2);
+    assert(binst.imm == 0x20);
 }
