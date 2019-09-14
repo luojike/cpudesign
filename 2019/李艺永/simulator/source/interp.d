@@ -24,37 +24,6 @@ class Context
     {
         regs = new Regs;
     }
-
-    /// Load ram[offset] with [sz] size of bytes.
-    int loadRAM(size_t offset, int sz, bool signed = true)
-    {
-        /// TODO: add constraints(data and code segment)
-        assert(offset >= 0 && offset < 4096);
-        uint res = 0;
-
-        switch (sz)
-        {
-            case IInst.LB: res = ram[offset] & 0x0F; break;
-            case IInst.LH: res = ram[offset] & 0xFFFF; break;
-            case IInst.LW: res = ram[offset]; break;
-            default:
-                assert(false, "Not supported load");
-        }
-
-        if (signed)
-        {
-            // Sign-extend.
-            switch (sz)
-            {
-                case IInst.LB: return (cast(int)(res << 24) >> 24);
-                case IInst.LH: return (cast(int)(res << 16) >> 16);
-                case IInst.LW: break;
-                default:
-                    assert(false, "Not supported load");
-            }
-        }
-        return cast(int)res;
-    }
 }
 
 /// Interprets the given [inst].
@@ -186,25 +155,46 @@ void interpAL(Context ctx, Inst inst)
 void interpLoad(Context ctx, Inst inst)
 {
     auto regs = ctx.regs;
+    auto ram = ctx.ram;
     auto iinst = cast(IInst)inst;
+    uint res;
 
     assert(iinst !is null);
     assert(iinst.opcode == Inst.I_TYPE_LOAD);
 
-    regs[iinst.rd] = ctx.loadRAM(
-        iinst.imm/* offset(signed) */ + regs[iinst.rs1]/* base(signed) */,
-        iinst.kind,
-        (iinst.kind != IInst.LBU && iinst.kind != IInst.LHU)
-    );
+    switch (iinst.kind)
+    {
+        case IInst.LB: res = ram[iinst.imm] & 0x0F; break;
+        case IInst.LH: res = ram[iinst.imm] & 0xFFFF; break;
+        case IInst.LW: res = ram[iinst.imm]; break;
+        default:
+            assert(false, "Not supported load");
+    }
+
+    if (iinst.kind != iinst.LBU && iinst.kind != IInst.LHU)
+    {
+        // Sign-extend.
+        switch (iinst.kind)
+        {
+            case IInst.LB: res = (cast(int)(res << 24) >> 24); break;
+            case IInst.LH: res = (cast(int)(res << 16) >> 16); break;
+            case IInst.LW: break;
+            default:
+                assert(false, "Not supported load");
+        }
+    }
+
+    regs[iinst.rd] = res;
 }
 
 unittest 
 {
     auto ctx = new Context;
-    /// ADDI x1, x0, 0x4
+    // ADDI x1, x0, 0x4
     auto ir = 0x400093;
     interp(ctx, ir);
 
+    // LB x1, x2, 0x2
     ir = 0x210083;
     interp(ctx, ir);
 }
