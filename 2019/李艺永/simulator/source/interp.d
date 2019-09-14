@@ -73,7 +73,7 @@ void interp(Context ctx)
 }
 
 /// Dumps context object for debugging.
-void dumpContext(Context ctx)
+debug void dumpContext(Context ctx)
 {
     auto regs = ctx.regs;
     // auto ram = ctx.ram;
