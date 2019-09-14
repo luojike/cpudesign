@@ -40,7 +40,7 @@ class Regs
     int opIndex(size_t idx)
     {
         assert(
-            idx >= 0 && idx < 31,
+            idx >= 0 && idx < 32,
             "Invalid reg index!"
         );
 

@@ -25,26 +25,53 @@ class Context
     {
         regs = new Regs;
     }
+
+    /// RAM size.
+    size_t ramSize()
+    {
+        return 4096;
+    }
+}
+
+/// Dumps context object for debugging.
+void dumpContext(Context ctx)
+{
+    auto regs = ctx.regs;
+    // auto ram = ctx.ram;
+
+    writeln("==== regs begin ====");
+    for (auto i = 0; i < regs.XLEN; i++)
+    {
+        writef("x%s:    %s\n", i, regs[i]);
+    }
+    writeln("==== regs end ====\n");
 }
 
 /// Interprets the given [inst].
 void interp(Context ctx, uint ir)
 {
     Inst inst = decode(ir);
+    debug writeln("interp:\t", inst);
 
     switch (inst.opcode)
     {
         case Inst.I_TYPE_AL, Inst.R_TYPE:
-            debug writeln("interp:\t", inst);
-            return ctx.interpAL(inst);
+            ctx.interpAL(inst);
+            break;
 
         case Inst.I_TYPE_LOAD:
-            debug writeln("interp:\t", inst);
-            return ctx.interpLoad(inst);
+            ctx.interpLoad(inst);
+            break;
+
+        case Inst.S_TYPE:
+            ctx.interpStore(inst);
+            break;
 
         default:
             assert(false, "Not implemented");
     }
+
+    debug ctx.dumpContext();
 }
 
 /// Interprets the given arithmetic or logical instruction.
@@ -164,38 +191,36 @@ void interpLoad(Context ctx, Inst inst)
     assert(iinst.opcode == Inst.I_TYPE_LOAD);
 
     size_t addr = cast(size_t)iinst.imm;
+    
+    // Store reg and sign-extend it.
+    // Note that 'char' type in D is unsigned:
+    // https://dlang.org/spec/type.html
     switch (iinst.kind)
     {
-        // TODO: Add memory contraints.
-        case IInst.LB: 
-            assert(addr >= 0 && addr < 4096);
-            res = ram[addr]; break;
+        // TODO: Remove these asserts.
+        case IInst.LB, IInst.LBU:
+            assert(addr >= 0 && addr < ctx.ramSize);
+            res = ram[addr];
+
+            if (iinst.kind == IInst.LB)
+                res = (res << 24) >> 24;
+            break;
         
-        case IInst.LH: 
-            assert(addr >= 0 && addr + 1 < 4096);
-            res = (ram[addr + 1] << 8) | ram[addr]; break;
+        case IInst.LH, IInst.LHU: 
+            assert(addr >= 0 && addr + 1 < ctx.ramSize);
+            res = (ram[addr + 1] << 8) | ram[addr]; 
+
+            if (iinst.kind == IInst.LH)
+                res = (res << 16) >> 16;
+            break;
         
         case IInst.LW: 
-            assert(addr >= 0 && addr + 3 < 4096);
-            res = (ram[addr + 3] << 24) | (ram[addr + 2] << 16) | (ram[addr + 1] << 8) | ram[addr]; break;
-        
+            assert(addr >= 0 && addr + 3 < ctx.ramSize);
+            res = (ram[addr + 3] << 24) | (ram[addr + 2] << 16) | (ram[addr + 1] << 8) | ram[addr]; 
+            break;
+  
         default:
             assert(false, "Not supported load");
-    }
-
-    if (iinst.kind != iinst.LBU && iinst.kind != IInst.LHU)
-    {
-        // Sign-extend.
-        // Note that 'char' type in D is unsigned:
-        // https://dlang.org/spec/type.html
-        switch (iinst.kind)
-        {
-            case IInst.LB: res = (res << 24) >> 24; break;
-            case IInst.LH: res = (res << 16) >> 16; break;
-            case IInst.LW: break;
-            default:
-                assert(false, "Not supported load");
-        }
     }
 
     regs[iinst.rd] = res;
@@ -214,20 +239,47 @@ void interpStore(Context ctx, Inst inst)
     auto srcval = regs[sinst.src];
     auto addr = regs[sinst.base] + sinst.offset;
     
-    // switch (sinst.width)
-    // {
-    //     case 1: ram[addr] = 
-    // }
+    switch (sinst.width)
+    {
+        case 1:
+            assert(addr > 0 && addr < ctx.ramSize);
+            ram[addr] = srcval & 0xFF;
+            break;
+
+        case 2: 
+            assert(addr > 0 && addr + 1 < ctx.ramSize);
+            ram[addr] = srcval & 0xFF;
+            ram[addr + 1] = (srcval >> 8) & 0xFF;
+            break;
+        
+        case 4:
+            assert(addr > 0 && addr + 4 < ctx.ramSize);
+            ram[addr] = srcval & 0xFF;
+            ram[addr + 1] = (srcval >> 8) & 0xFF;
+            ram[addr + 2] = (srcval >> 16) & 0xFF;
+            ram[addr + 3] = (srcval >> 24) & 0xFF;
+            break;
+
+        default:
+            assert(false, "Invalid width of store instruction");
+    }
 }
 
 unittest 
 {
     auto ctx = new Context;
+
     // ADDI x1, x0, 0x4
     auto ir = 0x400093;
     interp(ctx, ir);
 
+    // SW x0, x1, 0x2
+    // (Store x1 to ram[x0 + 0x2])
+    ir = 0x102123;
+    interp(ctx, ir);
+
     // LB x1, x2, 0x2
+    // (Load ram[x2 + 0x2] to x1)
     ir = 0x210083;
     interp(ctx, ir);
 }

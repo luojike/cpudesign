@@ -22,7 +22,9 @@ all:
 debug:
 	@ printf "Compiling rv32i and running unittest...\n"
 	@ $(DC) $(TESTOPTS) -of=$(DEBUG_BIN) $(SRC)
-	@ ./$(DEBUG_BIN)
+	@ ./$(DEBUG_BIN) > debug.txt
+	@ printf "Done unittesting. See ./debug.text for details.\n"
 
 clean:
 	@ rm -f $(BIN) $(DEBUG_BIN) $(BIN).o $(DEBUG_BIN).o $(addsuffix .o,$(MODULES)) 
+	@ rm -f debug.txt
