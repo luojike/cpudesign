@@ -9,7 +9,7 @@
 
 ### Requirements
 
-- POSIX compliant OS(I've been developing this under OS X. Other *nix should be the same)
+- POSIX compliant OS(FreeBSD, Linux, macOS)
 - GHDL version 0.36
 - GNU make
 - Gtkwave(optional) for viewing the vcd wave file
@@ -25,15 +25,18 @@ You'll have to press `ctrl + c` to terminate it.
 
 ### Rquirements
 
-- POSIX compliant OS(I've been developing this under OS X. All other *nix should be the same)
+- POSIX compliant OS(FreeBSD, Linux, macOS)
 - D compiler(preferrably [DMD](http://dlang.org/download.html))
 - GNU make
 
-Allow me to explain why D as the chosen language:
+The reasons that D was chosen:
 
-- You're instantly capable of reading D code if you're familiar with C++, thanks to its familarity. I've only used a limited subset of D, which should be concise and simple.
-- No header files or namespaces are needed.
-- Garbage collector is on by default, freeing from managing memory manually.
-- D is much simpler but way as powerful as C++.
+- Similarity with C/C++. Much simpler that C++.
+- Blazing fast compilation compared to C++.
+- Header files are not mandatory, thanks to D's intuitive and convient module system.
+- Auto memory management with garbage collector on by default.
 
-TODO: finish the simulator.
+This simulator is an interpreter in essence. You can easily scan through the code and grasp the idea. Once you've cloned this repo, make sure your cwd is set to `simulator`, which should be at the same level as this README.md file.
+
+Run `make` to build the executable and `rv32i example.bin` to run the interpreter.
+Also run `make debug` to run unittests on modules.

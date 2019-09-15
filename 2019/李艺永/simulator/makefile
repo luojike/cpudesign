@@ -22,7 +22,7 @@ all: genbin
 debug: genbin
 	@ printf "Compiling rv32i and running unittest...\n"
 	@ $(DC) $(TESTOPTS) -of=$(DEBUG_BIN) $(SRC)
-	@ ./$(DEBUG_BIN) > debug.txt
+	@ ./$(DEBUG_BIN) $(SIM_BIN_NAME) > debug.txt
 	@ printf "Done unittesting. See ./debug.text for details.\n"
 
 SIM_BIN_NAME = example.bin
