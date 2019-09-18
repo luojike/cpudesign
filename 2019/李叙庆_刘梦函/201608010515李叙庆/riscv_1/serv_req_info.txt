@@ -1,8 +1,0 @@
-<internal_error>
-	<executable>quartus_sim.exe</executable>
-	<sub_system>MEM</sub_system>
-	<error>*** Fatal Error: Out of memory in module quartus_sim.exe (4283 megabytes used)</error>
-	<date>Mon Sep 02 15:02:49 2019</date>
-	<version>Version 9.0 Build 184 04/29/2009 Service Pack 1 SJ Web Edition</version>
-</internal_error>
-

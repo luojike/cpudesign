@@ -1,1 +1,0 @@
--wto "b1328264cb6547ec90dea2a47a03ed09" --incr --debug "typical" --rangecheck --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "rpu_core_tb_behav" "xil_defaultlib.rpu_core_tb" -log "elaborate.log" 
