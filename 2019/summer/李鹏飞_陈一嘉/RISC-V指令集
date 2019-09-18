@@ -1,0 +1,195 @@
+1. 寄存器
+
+32个x寄存器，RV32下x reg是32位宽
+
+x0：硬连线 常数0 专门的零寄存器
+
+x1-x31：31个通用reg
+
+返回地址：没有强制要求那一个x作为lr，但是一般用x1
+
+pc：额外的用户可见寄存器
+
+ 
+
+2. 基本指令格式
+
+四种基础指令格式 R/I/S/U
+
+imm：立即数
+
+rs1：源寄存器1
+
+rs2：源寄存器2
+
+rd：目标寄存器
+
+opcode：操作码
+
+example: C.LI 指令被扩展为 addi rd, x0, imm[5:0]。 
+
+ 
+
+3 整形运算
+
+使用R或者I类指令
+
+R类：寄存器-立即数
+
+I类：寄存器-寄存器
+
+整数计算不会造成运算异常
+
+ 
+
+寄存器-立即数:
+
+ADDI：将12位有符号立即数和rs相加，溢出忽略，直接使用结果的最低32bit，并存入rd
+
+伪指令MV："MV rd,rs"实际上是"ADDI rd, rs, 0"
+
+SLTI：如果rs小于立即数(都是有符号整数),将rd置1,否则置0
+
+SLTIU：和SLTI一致，不过都是无符号数
+
+伪指令SEQZ："SEQZ rd, rs" 实际上是 "SLTIU rd, rs1, 1"
+
+ANDI/ORI/XORI：rs与有符号12位立即数进行and,or,xor操作
+
+伪指令NOT："NOT rd, rs"实际上是"XORI rd, rs1, -1"
+
+ 
+
+shift是I类指令格式
+
+SLLI：逻辑左移，低位移入0
+
+SRLI：逻辑右移，高位移入0
+
+SRAI：算数右移，符号移入高位
+
+ 
+
+u类指令格式
+
+LUI：创建32位无符号整数，存放立即数到rd的高20位，低12位置0
+
+AUIPC：创建pc的相对地址，pc+无符号立即数(偏移量)=>rd
+
+ 
+
+寄存器-寄存器:
+
+ADD/SUB:rs1(+/-)rs2 => rd
+
+SLT/SLTU: 如果rs1<rs2，rd写1; 否则rd为0
+
+AND/OR/XOR: rs1与rs2进行and,or,xor操作
+
+SLL/SRL/SRA: 和"寄存器-立即数"指令一致，将r2的低5位作为立即数即可
+
+ 
+
+NOP指令:
+
+实际上是ADDI x0,x0,0
+
+ 
+
+4. 控制传输指令
+
+1）非条件跳转: 
+
+JAL：J类指令，立即数+pc为跳转目标，rd存放pc+4（返回地址）
+
+跳转范围为pc(+/-)1MB
+
+JALR：I类指令，rs+立即数为跳转目标，rd存放pc+4（返回地址）
+
+实现远跳转
+
+ 
+
+2）条件跳转
+
+所有分支指令使用B类指令格式，12位立即数+pc作为目标
+
+跳转范围为pc(+/-)4KB
+
+ 
+
+BEQ/BNE：rs1(==/!=)rs2, 分别在相等或者不等时，发生跳转
+
+BLT：rs1 < rs2, 跳转
+
+BGE：rs1 >= rs2, 跳转
+
+ 
+
+5 加载存储指令
+
+ 
+
+RV32I是一个加载/存储架构，只有load/store能访问内存，运算指令只操作寄存器
+
+load是I类指令，store是S类指令
+
+ 
+
+LOAD：rs作为基地址，加上有符号的偏移，读取到rd寄存器
+
+STORE：rs1作为基地址加上有符号的偏移，作为内存地址，写入内容为rs2
+
+ 
+
+6. 控制状态寄存器指令
+
+寄存器-寄存器：读/写/修改 CSR
+
+CSRRW：Atomic Read/Write CSR
+
+读取CSR的值存入rd寄存器，并将rs存入CSR
+
+另外：如果rd为x0,将不会执行
+
+ 
+
+CSRRS：Atomic Read and Set Bits in CSR
+
+读取CSR的值存入rd寄存器，并根据rs中高位对CSR置1
+
+另外：如果rs为x0,将不会执行
+
+ 
+
+CSRRC：Atomic Read and Clear Bits in CSR
+
+读取CSR的值存入rd寄存器，并根据rs中高位对CSR置0
+
+另外：如果rs为x0,将不会执行
+
+ 
+
+立即数-寄存器：读/写/修改 CSR
+
+CSRRWI/CSRRSI/CSRRCI
+
+将CSRRW类寄存器中的rs换成立即数
+
+另外：如果立即数为0,将不会执行
+
+ 
+
+用户级系统指令：时钟和计数器
+
+RV32I提供三个64位只读用户级寄存器：RDCYCLE[H]/RDTIME[H]/RDINSTRET[H]
+
+使用CSRRS读取这三个寄存器的高32 bit
+
+ 
+
+RDCYCLE：时钟周期计数
+
+RDTIME：时间 tick数
+
+RDINSTRET：指令数

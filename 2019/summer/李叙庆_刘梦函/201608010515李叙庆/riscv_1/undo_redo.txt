@@ -1,0 +1,13 @@
+GED
+
+	Undo Commands
+	     1.	Delete
+	     2.	Move
+	     3.	Move
+	     4.	Move
+	     5.	Delete
+	     6.	Move
+	     7.	Move
+	     8.	Move
+
+

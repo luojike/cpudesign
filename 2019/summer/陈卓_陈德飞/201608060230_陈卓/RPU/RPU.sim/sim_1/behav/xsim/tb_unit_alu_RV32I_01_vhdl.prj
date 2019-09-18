@@ -1,0 +1,8 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../RPU.srcs/sources_1/imports/vhdl/constants.vhd" \
+"../../../../RPU.srcs/sources_1/imports/vhdl/unit_alu_RV32_I.vhd" \
+"../../../../RPU.srcs/sim_1/imports/tests/tb_unit_alu_RV32I_01.vhd" \
+
+# Do not sort compile order
+nosort
