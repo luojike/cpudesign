@@ -12,8 +12,8 @@ end entity;
 
 architecture crom_behav of crom is
 		type cromtype is array(natural range<>) of std_logic_vector(14 downto 0);
-		signal cromdata: cromtype(4095 downto 0) := (
-			48 => B"00000_00000_00101",  -- for add
+		signal cromdata: cromtype(2047 downto 0) := (
+			48 => B"00000_00000_00101",  -- for add assuming 000 for alusel
 			others => B"00000_00000_00000"
 		);
 
