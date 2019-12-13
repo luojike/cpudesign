@@ -2,25 +2,25 @@
 from head import*
 
 def R_type(op,rd,rs1,rs2):
-    print("{0:032b}".format(op|(rd<<7)|(rs1<<15)|(rs2<<20)))
+    return "{0:032b}".format(op|(rd<<7)|(rs1<<15)|(rs2<<20))
 
 def I_type(op,rd,rs1,imm):
-    print("{0:032b}".format(op|(rd<<7)|(rs1<<15)|(imm<<20)))
+    return "{0:032b}".format(op|(rd<<7)|(rs1<<15)|(imm<<20))
 
 def S_type(op,rs1,rs2,imm):
-    print("{0:032b}".format(op|(rs1<<15)|(rs2<<20)|((imm&0xfe0)<<20)|((imm&0x1f)<<7)))
+    return "{0:032b}".format(op|(rs1<<15)|(rs2<<20)|((imm&0xfe0)<<20)|((imm&0x1f)<<7))
 
 def U_type(op,rd,imm):
-    print("{0:032b}".format(op|(rd<<7)|(imm<<12)))
+    return "{0:032b}".format(op|(rd<<7)|(imm<<12))
 
 def SB_type(op,rs1,rs2,imm):
-    print("{0:032b}".format(op|(rs1<<15)|(rs2<<20)|((imm&(1<<11))<<20)|((imm&0x3f0)<<21)|((imm&(1<<10))>>3)|((imm&0xf)<<8)))
+    return "{0:032b}".format(op|(rs1<<15)|(rs2<<20)|((imm&(1<<11))<<20)|((imm&0x3f0)<<21)|((imm&(1<<10))>>3)|((imm&0xf)<<8))
 
 def UJA_type(op,rd,imm):
-    print("{0:032b}".format(op|(rd<<7)|((imm&(1<<19))<<12)|((imm&0x3ff)<<21)|((imm&(1<<10))<<10)|((imm&0x7f800)<<1)))
+    return "{0:032b}".format(op|(rd<<7)|((imm&(1<<19))<<12)|((imm&0x3ff)<<21)|((imm&(1<<10))<<10)|((imm&0x7f800)<<1))
 
 def UJAR_type(op,rd,rs1,imm):
-    print("{0:032b}".format(op|(rd<<7)|(rs1<<15)|(imm<<20)))
+    return "{0:032b}".format(op|(rd<<7)|(rs1<<15)|(imm<<20))
 
 d = []
 def getnum(s):
@@ -52,18 +52,19 @@ def main():
         op=line[0]
         s=line[1]
         d=getnum(s)
-        if op in list1:
-            R_type(opcode[op],d[0],d[1],d[2])
-        elif op in list2:
-            I_type(opcode[op],d[0],d[1],d[2])
-        elif op in list3:
-            S_type(opcode[op],d[0],d[1],d[2])
-        elif op in list4:
-            U_type(opcode[op],d[0],d[1])
-        elif op in list5:
-            SB_type(opcode[op],d[0],d[1],d[2])
-        elif op in list6:
-            UJA_type(opcode[op],d[0],d[1])
+        with open("output.txt","a") as t:
+            if op in list1:
+                t.write(R_type(opcode[op],d[0],d[1],d[2])+'\n')
+            elif op in list2:
+                t.write(I_type(opcode[op],d[0],d[1],d[2])+'\n')
+            elif op in list3:
+                t.write(S_type(opcode[op],d[0],d[1],d[2])+'\n')
+            elif op in list4:
+                t.write(U_type(opcode[op],d[0],d[1])+'\n')
+            elif op in list5:
+                t.write(SB_type(opcode[op],d[0],d[1],d[2])+'\n')
+            elif op in list6:
+                t.write(UJA_type(opcode[op],d[0],d[1])+'\n')
 
 if __name__=="__main__":
     main()
