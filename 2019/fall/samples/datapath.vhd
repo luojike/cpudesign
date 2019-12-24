@@ -129,37 +129,43 @@ architecture cpu_simple_behav of cpu_simple is
     return t;
   end;
   
-
+  function unsignext(x: std_logic_vector, n: integer) return std_logic_vector is
+    variable t: std_logic_vector;
+  begin
+    t(n-1 downto x'length) <= '0';
+    t(x'length-1 downto 0) <= x;
+    return t;
+  end;
+  
 begin
-	-- 组合逻辑部分
-	-- instruction fetch
+
+        -- PC寄存器的更新
+        pcplus4 <= pc+4;
+      
+        next_pc <= pcplus4 when pcsel='0' else
+                   branch_target;
+
+	pc_update: process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(reset='1') then
+				pc <= X"00000000";  -- 当reset信号有效时，pc被重置为0
+			else
+				pc <= next_pc;
+			end if;
+		end if;
+	end process pc_update;
+      
+        -- 从指令存储器取指
 	inst_addr <= pc;  -- 取指地址
 	inst_read <= '1' when reset = '0' else '0';  -- 当reset无效时发出指令读取信号;
 	ir <= inst;  -- 当前指令
-
-	-- 数据访问
-	load_addr <= std_logic_vector(unsigned(rs1) + unsigned(X"00000" & itype_imm11_0));
-	-- store_addr <= ...
-	data_addr <= load_addr when opcode=itype_load else
-		     store_addr;
-	data_read <= '1' when opcode=itype_load else '0';  -- 当reset无效时发出指令读取信号;
-	-- data_write <= ...
-	load_data <= data when funct3=itype_lw else
-		     signext8to32(data(7 downto 0)) when funct3=itype_lb else
-		     signext16to32(data(15 downto 0)) when funct3=itype_lh else
-		     X"000000" & data(7 downto 0) when funct3=itype_lbu else
-		     X"0000" & data(15 downto 0) when funct3=itype_lhu else
-		     X"00000000";
-	-- data <= ...
-
-	-- decode
-	opcode <= ir(6 downto 0);
+      
+        -- 译码
+      	opcode <= ir(6 downto 0);
 	rd <= ir(11 downto 7);
 	rs1 <= ir(19 downto 15);
 	rs2 <= ir(24 downto 20);
-
-	rs1_data <= regs(to_integer(unsigned(rs1)));
-	rs2_data <= regs(to_integer(unsigned(rs2)));
 
 	funct3 <= ir(14 downto 12);
 	funct7 <= ir(31 downto 25);
@@ -173,9 +179,49 @@ begin
 	itype_imm11_0 <= ir(31 downto 20);
 
 	btype_imm12_1 <= ir(31) & ir(7) & ir(30 downto 25) & ir(11 downto 8);
-	
-	-- ......
 
+        -- 从寄存器组读取操作数
+	rs1_data <= regs(to_integer(unsigned(rs1)));
+	rs2_data <= regs(to_integer(unsigned(rs2)));
+
+        -- 分支比较
+        b_eq <= '1' when rs1_data = rs2_data else '0';
+        b_lt <= '1' when rs1_data < rs2_data else '0';
+      
+        -- 生成立即数
+        itype_imm_signed <= signext(itype_imm11_0, 32);
+        itype_imm_unsigned <= unsignext(itype_imm11_0, 32);
+      
+        itype_imm <= itype_imm_signext when imm_sel = '0' else
+                     itype_imm_unsignext;
+      
+        -- 算术逻辑运算
+        src1 <= rs1_data when src1_sel = '00' else
+                pcplus4;
+        src2 <= rs2_data when src2_sel = '00' else
+                imm;
+	alu_result <= src1+src2 when alu_sel = '000' else
+                      src1-src2 when alu_sel = '001' else
+                      src1+src2;
+
+	-- 访问数据存储器
+	-- store_addr <= ...
+	data_addr <= load_addr when opcode=itype_load else
+		     store_addr;
+	data_read <= '1' when opcode=itype_load else '0';  -- 当reset无效时发出指令读取信号;
+	-- data_write <= ...
+	load_data <= data when funct3=itype_lw else
+		     signext8to32(data(7 downto 0)) when funct3=itype_lb else
+		     signext16to32(data(15 downto 0)) when funct3=itype_lh else
+		     X"000000" & data(7 downto 0) when funct3=itype_lbu else
+		     X"0000" & data(15 downto 0) when funct3=itype_lhu else
+		     X"00000000";
+	-- data <= ...
+
+	-- 写回
+	rd_data <= alu_result when wb_sel = '0' else
+                   data;
+	
 	-- R-type ALU operations
 	rtype_alu_result <= std_logic_vector(signed(rs1_data) + signed(rs2_data)) when funct3 = rtype_addsub and funct7 = rtype_add else
 			    std_logic_vector(signed(rs1_data) - signed(rs2_data)) when funct3 = rtype_addsub and funct7 = rtype_sub else
@@ -222,17 +268,7 @@ begin
 
 
 	-- 时序逻辑部分
-	-- pc
-	pc_update: process(clk)
-	begin
-		if(rising_edge(clk)) then
-			if(reset='1') then
-				pc <= X"00000000";  -- 当reset信号有效时，pc被重置为0
-			else
-				pc <= next_pc;
-			end if;
-		end if;
-	end process pc_update;
+
 
 	-- regs
 	reg_update: process(clk)
