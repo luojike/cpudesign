@@ -1,0 +1,330 @@
+库 IEEE;
+使用 ieee.std_logic_1164。全部 ;
+使用 ieee.numeric_std。全部 ;
+
+-使用ieee.std_logic_arith.all;
+-使用IEEE.std_logic_unsigned.ALL;
+-使用ieee.std_logic_arith.all;
+
+实体 my_cpu  是
+	端口（
+		clk：在 std_logic中；
+		reset：在 std_logic中；
+		inst：在 std_logic_vector中（31  降至 0）;	
+		inst_addr：出 std_logic_vector（31  DOWNTO  0）;  -指令地址
+		inst_read：出 std_logic ;
+		DATA_ADDR：缓冲 std_logic_vector（31  DOWNTO  0）;  -数据地址
+		数据：inout  std_logic_vector（31  降至 0）;
+		data_read：出 std_logic ;
+		data_write：出 std_logic ;
+		write_avi：出 std_logic ;
+		is_alu：出 std_logic ;
+		reg_val：出 std_logic_vector（31  DOWNTO  0）;
+		is_jal：输出 std_logic ;
+		opcode_val：输出 std_logic_vector（6  降至 0）
+	    ）;
+终端 实体 ;
+
+ my_cpu  的 架构cpu_simple_behav  为
+	-使用操作码的utype指令
+	恒定 utype_lui：std_logic_vector（6  DOWNTO  0）：=  B “0110111” ;
+	恒定 utype_auipc：std_logic_vector（6  DOWNTO  0）：=  B “0010111” ;
+
+	-因为Jtype
+	恒定 jtype_jal：std_logic_vector（6  DOWNTO  0）：=  B “1101111” ;
+	
+	- ITYPE加载指令，操作码使用，funct3
+	恒定 itype_load：std_logic_vector（6  DOWNTO  0）：=  B “0000011” ;
+	恒定 itype_jalr：std_logic_vector（6  DOWNTO  0）：=  B “1100111” ;
+	恒定 itype_lb：std_logic_vector（2  DOWNTO  0）：=  B “000” ;
+	恒定 itype_lh：std_logic_vector（2  DOWNTO  0）：=  B “001” ;
+	恒定 itype_lw：std_logic_vector（2  DOWNTO  0）：=  B “010” ;
+	恒定 itype_lbu：std_logic_vector（2  DOWNTO  0）：=  B “100” ;
+	恒定 itype_lhu：std_logic_vector（2  DOWNTO  0）：=  B “101” ;
+	
+	-舍入类型ALU操作，使用操作码，funct3，funct7
+	恒定 rtype_alu：std_logic_vector（6  DOWNTO  0）：=  B “0110011” ;
+	恒定 rtype_addsub：std_logic_vector（2  DOWNTO  0）：=  B “000” ;
+	恒定 rtype_add：std_logic_vector（6  DOWNTO  0）：=  B “0000000” ;
+	恒定 rtype_sub：std_logic_vector（6  DOWNTO  0）：=  B “0100000” ;
+	恒定 rtype_sll：std_logic_vector（2  DOWNTO  0）：=  B “001” ;
+	恒定 rtype_slt：std_logic_vector（2  DOWNTO  0）：=  B “010” ;
+	恒定 rtype_sltu：std_logic_vector（2  DOWNTO  0）：=  B “011” ;
+	恒定 rtype_xor：std_logic_vector（2  DOWNTO  0）：=  B “100” ;
+	恒定 rtype_srlsra：std_logic_vector（2  DOWNTO  0）：=  B “101” ;
+	恒定 rtype_srl：std_logic_vector（6  DOWNTO  0）：=  B “0000000” ;
+	恒定 rtype_sra：std_logic_vector（6  DOWNTO  0）：=  B “0100000” ;
+	恒定 rtype_or：std_logic_vector（2  DOWNTO  0）：=  B “110” ;
+	恒定 rtype_and：std_logic_vector（2  DOWNTO  0）：=  B “111” ;
+
+	- BTYPE分支，使用操作码，funct3
+	恒定 btype_branch：std_logic_vector（6  DOWNTO  0）：=  B “1100011” ;
+	恒定 btype_beq：std_logic_vector（2  DOWNTO  0）：=  B “000” ;
+	恒定 btype_bne：std_logic_vector（2  DOWNTO  0）：=  B “001” ;
+	恒定 btype_blt：std_logic_vector（2  DOWNTO  0）：=  B “100” ;
+	恒定 btype_bge：std_logic_vector（2  DOWNTO  0）：=  B “101” ;
+	恒定 btype_bltu：std_logic_vector（2  DOWNTO  0）：=  B “110” ;
+	恒定 btype_bgeu：std_logic_vector（2  DOWNTO  0）：=  B “111” ;
+	- L-型分支，使用操作码，funct3
+	恒定 ltype_branch：std_logic_vector（6  DOWNTO  0）：=  B “0000011” ;
+	恒定 ltype_lb：std_logic_vector（2  DOWNTO  0）：=  B “000” ;
+	恒定 ltype_lh：std_logic_vector（2  DOWNTO  0）：=  B “001” ;
+	恒定 ltype_lw：std_logic_vector（2  DOWNTO  0）：=  B “010” ;
+	恒定 ltype_lbu：std_logic_vector（2  DOWNTO  0）：=  B “100” ;
+	恒定 ltype_lhu：std_logic_vector（2  DOWNTO  0）：=  B “101” ;
+	
+	型 REGFILE  是 阵列（天然 范围<> ）的 std_logic_vector（31  DOWNTO  0）;
+	信号 regs：regfile（31  downto  0）;
+	
+	型 memoryfile  是 阵列（天然 范围<> ）的 std_logic_vector（31  DOWNTO  0）;
+	信号记忆：memoryfile（3  downto  0）;
+
+	信号 rd_write：std_logic ;
+	信号 rd_data：std_logic_vector（31  DOWNTO  0）;
+
+	信号操作码：std_logic_vector（6  降至 0）;
+
+	信号 RD：std_logic_vector（4  DOWNTO  0）;
+	信号 rs1：std_logic_vector（4  降至 0）;
+	信号 rs2：std_logic_vector（4  降至 0）;
+	信号 rs1_data：std_logic_vector（31  DOWNTO  0）;
+	信号 rs2_data：std_logic_vector（31  DOWNTO  0）;
+
+	信号 funct3：std_logic_vector（2  DOWNTO  0）;
+	信号 funct7：std_logic_vector（6  DOWNTO  0）;
+
+	信号 jal_imm20_1：std_logic_vector（20  DOWNTO  1）;
+	信号 jal_offset：std_logic_vector（31  DOWNTO  0）;
+
+	信号 utype_imm31_12：std_logic_vector（31  DOWNTO  12）;
+	信号 utype_full_imm31_0：std_logic_vector（31  downto  0）;
+
+	信号 itype_imm11_0：std_logic_vector（11  DOWNTO  0）;
+	信号 itype_all_imm：std_logic_vector（32  DOWNTO  0）;
+
+	信号 btype_imm12_1：std_logic_vector（12  DOWNTO  1）;
+	
+	信号 ltype_imm11_0：std_logic_vector（11  DOWNTO  0）;
+
+	信号 rtype_alu_result：std_logic_vector（31  DOWNTO  0）;
+	
+	
+
+	信号 pc：std_logic_vector（31  downto  0）;
+	信号 ir：std_logic_vector（31  降至 0）;
+
+	信号 next_pc：std_logic_vector（31  DOWNTO  0）;
+
+	信号 load_addr：std_logic_vector（31  DOWNTO  0）;
+	信号 load_data：std_logic_vector（31  DOWNTO  0）;
+	信号 store_addr：std_logic_vector（31  DOWNTO  0）;
+
+	信号 branch_target：std_logic_vector（31  DOWNTO  0）;
+	信号 branch_taken：std_logic ;
+	
+
+	函数 bool2logic32（b：boolean）return  std_logic_vector  is
+	开始
+		如果 b 然后
+			返回 X“ 00000001”；
+		其他
+			返回 X“ 00000000” ;
+		 如果结束 ;
+	结束 ;
+	函数 signext8to32（b：std_logic_vector（7  downto  0））返回 std_logic_vector  是
+		变量 t：std_logic_vector（31  降至 0）;
+	开始
+		吨（7  DOWNTO  0）：= B;
+		吨（31  DOWNTO  8）：=（他人=> B（7））;
+		返回 t
+	结束 ;
+	函数 signext16to32（h：std_logic_vector（15  downto  0））返回 std_logic_vector  是
+		变量 t：std_logic_vector（31  降至 0）;
+	开始
+		吨（15  DOWNTO  0）：= H;
+		吨（31  DOWNTO  16）：=（他人=> H（15））;
+		返回 t
+	结束 ;
+开始
+	-组合逻辑部分
+	-取指令
+	inst_addr <= pc;  -取指地址
+	inst_read <=  '1'  当 reset =  '0'时 否则为 '0' ;  -当重置无效时发出指令读取信号；
+	ir <= inst;  -当前指令
+	-数据访问
+	
+	
+	- store_addr <= ...
+	DATA_ADDR <= load_addr 当操作码= itype_load 别的
+		     store_addr;
+当操作码= itype_load 否则为'0' 时， 	data_read <=  '1  ' ;  -当重置无效时发出指令读取信号； 
+	- data_write <= ...
+	load_data <=数据时 funct3 = itype_lw 别的
+当 funct3 = itype_lb else 时 		     signext8to32（data（7  downto  0））
+		     signext16to32（数据（15  DOWNTO  0））时 funct3 = itype_lh 别的
+		     X “000000”  ＆的数据（7  DOWNTO  0）时 funct3 = itype_lbu 别的
+		     X “0000”  ＆数据（15  DOWNTO  0）时 funct3 = itype_lhu 别的
+		     X“ 00000000”；
+	-数据<= ...
+	- ********************通过QLM直接从指令解码
+	操作码<= ir（6  降至 0）;
+	RD <= IR（11  DOWNTO  7）;
+	RS1 <= IR（19  DOWNTO  15）;
+	RS2 <= IR（24  DOWNTO  20）;
+	funct3 <= IR（14  DOWNTO  12）;
+	funct7 <= IR（31  DOWNTO  25）;
+	- ********************通过QLM直接从指令解码
+	-通过 QLM：寄存器1和2中的值
+	rs1_data <= regs（to_integer（unsigned（rs1）））;
+	rs2_data <= regs（to_integer（unsigned（rs2）））;
+	
+	jal_imm20_1 <= ir（31）＆ ir（19  降至 12）＆ ir（20）＆ ir（30  降至 21）;
+	jal_offset（20  DOWNTO  0）<= jal_imm20_1 ＆ '0' ;
+	jal_offset（31  DOWNTO  21）<= （他人=> jal_imm20_1（20））; -签名扩展
+	
+	- *****************通过QLM：特定类型的确切立即值直接符合指令*******************
+	utype_imm31_12 <= IR（31  DOWNTO  12）;
+	
+	itype_imm11_0 <= IR（31  DOWNTO  20）;	
+	itype_all_imm（31  DOWNTO  12）<= （他人=> itype_imm11_0（11））;
+	load_addr <=  std_logic_vector（to_signed（（to_integer（有符号（rs1_data））+  to_integer（有符号（itype_imm11_0））），32））; -贾尔
+	
+	btype_imm12_1 <= IR（31）＆ IR（7）＆ IR（30  DOWNTO  25）＆ IR（11  DOWNTO  8）;
+	
+	ltype_imm11_0 <= IR（31  DOWNTO  20）;
+	
+	
+	- *****************通过QLM：特定类型的确切立即值直接符合指令*******************
+	- ......
+	- R型ALU操作
+	- RS
+	rtype_alu_result <=  std_logic_vector（to_unsigned（（to_integer（unsigned（rs1_data））+  to_integer（unsigned（rs2_data））），32））
+						当 funct3 = rtype_addsub 和 funct7 = rtype_add else
+						std_logic_vector（to_unsigned（（to_integer（unsigned（rs1_data））-  to_integer（unsigned（rs2_data））），32））
+						当 funct3 = rtype_addsub 和 funct7 = rtype_sub 其他
+						std_logic_vector（   shift_left（无符号（rs1_data），to_integer（无符号（rs2_data））））
+						当 funct3 = rtype_sll else时
+						X“ 00000001” 
+						when（有符号（rs1_data）<有 符号（rs2_data））并且 funct3 = rtype_slt else
+						X“ 00000001”
+						when（unsigned（rs1_data）<  unsigned（rs2_data））和 funct3 = rtype_sltu else
+  						rs1_data xor rs2_data
+						当 funct3 = rtype_xor else时
+						std_logic_vector（shift_right（无符号（rs1_data），to_integer（无符号（rs2_data））））
+						当 funct3 = rtype_srlsra 和 funct7 = rtype_srl 其他
+						std_logic_vector（shift_right（有符号（rs1_data），to_integer（有符号（rs2_data））））
+						当 funct3 = rtype_srlsra 和 funct7 = rtype_sra 其他
+						rs1_data 或 rs2_data
+						当 funct3 = rtype_or else时
+						rs1_data 和 rs2_data
+						当 funct3 = rtype_and 其他时
+  						X“ 00000000”；  -默认的ALU结果
+	-通过 QLM：使用操作码确定应将哪个值放入rd_data
+	utype_full_imm31_0 <= utype_imm31_12 ＆ X“ 000”
+							当操作码= utype_lui 或操作码= utype_auipc时；
+								
+	rd_data <=  	rtype_alu_result 	
+				当操作码= rtype_alu 其他 
+				
+				std_logic_vector（to_unsigned（（to_integer（unsigned（pc））+ 4），32）） 	
+				当操作码= jtype_jal 或操作码= itype_jalr	 其他
+				
+				utype_full_imm31_0 
+				当操作码= utype_lui else
+				
+				std_logic_vector（to_unsigned（（to_integer（unsigned（utype_full_imm31_0））+  to_integer（unsigned（pc）），32））
+				当操作码= utype_auipc 其他
+
+				mems（to_integer（unsigned（data_addr））） 			
+				当操作码= itype_load else
+				X“ 00000000”；  -默认rd数据
+				
+当操作码= rtype_alu 时 	rd_write <=  '  1'   - Qlm：写操作信号
+						或操作码= utype_lui
+						或操作码= utype_auipc
+						或操作码= jtype_jal
+						或操作码= itype_load;
+						
+	write_avi <= rd_write;	- QLM：调试，看，如果rd_write是即时拍摄
+	
+	-分支指令
+	branch_target（12  DOWNTO  0）<= btype_imm12_1 ＆ '0' ;
+	branch_target（31  DOWNTO  14）<= （他人 => btype_imm12_1（12））;
+当  	（rs1 = rs2 和 funct3 = btype_beq）时 	branch_taken <=  '1' 
+						或  		（rs1 // rs2 和 funct3 = btype_bne）
+						或   	（有符号（rs1）<有 符号（rs2）和 funct3 = btype_blt）
+						或 		（unsigned（rs1）<  unsigned（rs2）和 funct3 = btype_bltu）
+						或  		（有符号（rs1）>有 符号（rs2）且 funct3 = btype_bge）
+						或  		（unsigned（rs1）>  unsigned（rs2）和 funct3 = btype_bgeu）
+						否则为 '0' ;
+	-加载
+	
+	-下一条指令地址
+  	next_pc <= 
+				std_logic_vector（to_unsigned（（to_integer（unsigned（pc））+ to_integer（unsigned（jal_offset））），32））
+				当操作码= jtype_jal 其他 - JAL研究所附加IMM和PC
+				
+				load_addr
+				当操作码= itype_jalr 其他 - JALR研究所
+				
+				std_logic_vector（to_unsigned（（to_integer（unsigned（pc））+ to_integer（unsigned（branch_target））），32））
+				当操作码= btype_branch 和 branch_taken = '1'  否则
+				
+				std_logic_vector（to_unsigned（to_integer（无符号（PC））+  4，32））; -需补充其他情况
+				
+				
+	is_jal <=  '1'  时的操作码= jtype_jal 别的	- QLM：调试手表如果JAL instrution即时拍摄
+				'0' ;
+	- ......（其它组合逻辑）
+	
+	-时序逻辑部分
+	-电脑
+	pc_update：进程（clk）
+	开始
+		如果（上升边缘（clk））然后
+			如果（reset = '1'）然后
+				pc <=  X“ 00000000” ;  -当重置信号有效时，pc被重置为0
+			其他
+				pc <= next_pc;
+			 如果结束 ;
+		 如果结束 ;
+	结束 过程 pc_update ;
+
+	-法规
+	reg_update：进程（clk）
+		变量 I：整数 ;
+		变量 K：整数 ;
+	开始
+		i ：=  to_integer（unsigned（rd））;
+
+		如果（上升边缘（clk））然后
+			如果（reset = '1'）然后
+				-将除reg [0]以外的所有regs重置为0
+				适用于 1  至 31  循环中的 k
+					regs（k）<=  X“ 00000000” ;  -重置为0
+				末端 循环 ;	
+- 				个REG（0）<= X “00000001”;
+- 				暂存器（1）<= X “00000003”;
+- 				暂存器（2）<= X “00000100”;
+- 				MEMS（0）<= X “00000006”;
+- 				MEMS（1）<= X “00000007”;
+- 				MEMS（2）<= X “00000008”;
+		- BY QLM：当写信号是可用的，把例如结果，附加研究所的结果到寄存器（i）
+			elsif（rd_write = '1'  并且 i / =  0）然后
+				regs（i）<= rd_data;
+				reg_val <= regs（i）;
+				
+				如果（funct3 = rtype_addsub 和 funct7 = rtype_add），则
+				is_alu <=  '1' ;
+				 如果结束 ;
+				
+				opcode_val <=操作码;
+				
+			 如果结束 ;
+		
+		 如果结束 ;
+	结束 过程 reg_update ;
+
+- ......（其它时序逻辑）
+
+结束 ;
