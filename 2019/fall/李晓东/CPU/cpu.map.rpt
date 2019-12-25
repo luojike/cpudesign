@@ -1,0 +1,379 @@
+Analysis & Synthesis report for cpu
+Tue Nov 24 08:33:20 2009
+Version 5.0 Build 148 04/26/2005 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Analysis & Synthesis Source Files Read
+  5. Analysis & Synthesis Resource Usage Summary
+  6. Analysis & Synthesis Resource Utilization by Entity
+  7. User-Specified and Inferred Latches
+  8. General Register Statistics
+  9. Inverted Register Statistics
+ 10. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 11. Parameter Settings for User Entity Instance: exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB
+ 12. Analysis & Synthesis Equations
+ 13. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2005 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic       
+functions, and any output files any of the foregoing           
+(including device programming or simulation files), and any    
+associated documentation or information are expressly subject  
+to the terms and conditions of the Altera Program License      
+Subscription Agreement, Altera MegaCore Function License       
+Agreement, or other applicable license agreement, including,   
+without limitation, that your use is for the sole purpose of   
+programming logic devices manufactured by Altera and sold by   
+Altera or its authorized distributors.  Please refer to the    
+applicable agreement for further details.
+
+
+
++------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                           ;
++-----------------------------+------------------------------------------+
+; Analysis & Synthesis Status ; Successful - Tue Nov 24 08:33:20 2009    ;
+; Quartus II Version          ; 5.0 Build 148 04/26/2005 SJ Full Version ;
+; Revision Name               ; cpu                                      ;
+; Top-level Entity Name       ; cpu                                      ;
+; Family                      ; Cyclone                                  ;
+; Total logic elements        ; 1,160                                    ;
+; Total pins                  ; 61                                       ;
+; Total virtual pins          ; 0                                        ;
+; Total memory bits           ; 0                                        ;
+; Total PLLs                  ; 0                                        ;
++-----------------------------+------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                     ;
++--------------------------------------------------------------------+--------------+---------------+
+; Option                                                             ; Setting      ; Default Value ;
++--------------------------------------------------------------------+--------------+---------------+
+; Device                                                             ; EP1C6Q240C8  ;               ;
+; Top-level entity name                                              ; cpu          ; cpu           ;
+; Family name                                                        ; Cyclone      ; Stratix       ;
+; Use smart compilation                                              ; Off          ; Off           ;
+; Restructure Multiplexers                                           ; Auto         ; Auto          ;
+; Create Debugging Nodes for IP Cores                                ; off          ; off           ;
+; Preserve fewer node names                                          ; On           ; On            ;
+; Disable OpenCore Plus hardware evaluation                          ; Off          ; Off           ;
+; Verilog Version                                                    ; Verilog_2001 ; Verilog_2001  ;
+; VHDL Version                                                       ; VHDL93       ; VHDL93        ;
+; State Machine Processing                                           ; Auto         ; Auto          ;
+; Extract Verilog State Machines                                     ; On           ; On            ;
+; Extract VHDL State Machines                                        ; On           ; On            ;
+; Add Pass-Through Logic to Inferred RAMs                            ; On           ; On            ;
+; NOT Gate Push-Back                                                 ; On           ; On            ;
+; Power-Up Don't Care                                                ; On           ; On            ;
+; Remove Redundant Logic Cells                                       ; Off          ; Off           ;
+; Remove Duplicate Registers                                         ; On           ; On            ;
+; Ignore CARRY Buffers                                               ; Off          ; Off           ;
+; Ignore CASCADE Buffers                                             ; Off          ; Off           ;
+; Ignore GLOBAL Buffers                                              ; Off          ; Off           ;
+; Ignore ROW GLOBAL Buffers                                          ; Off          ; Off           ;
+; Ignore LCELL Buffers                                               ; Off          ; Off           ;
+; Ignore SOFT Buffers                                                ; On           ; On            ;
+; Limit AHDL Integers to 32 Bits                                     ; Off          ; Off           ;
+; Optimization Technique -- Cyclone                                  ; Balanced     ; Balanced      ;
+; Carry Chain Length -- Stratix/Stratix GX/Cyclone/MAX II/Cyclone II ; 70           ; 70            ;
+; Auto Carry Chains                                                  ; On           ; On            ;
+; Auto Open-Drain Pins                                               ; On           ; On            ;
+; Remove Duplicate Logic                                             ; On           ; On            ;
+; Perform WYSIWYG Primitive Resynthesis                              ; Off          ; Off           ;
+; Perform gate-level register retiming                               ; Off          ; Off           ;
+; Allow register retiming to trade off Tsu/Tco with Fmax             ; On           ; On            ;
+; Auto ROM Replacement                                               ; On           ; On            ;
+; Auto RAM Replacement                                               ; On           ; On            ;
+; Auto Shift Register Replacement                                    ; On           ; On            ;
+; Auto Clock Enable Replacement                                      ; On           ; On            ;
+; Allows Synchronous Control Signal Usage in Normal Mode Logic Cells ; On           ; On            ;
+; Auto RAM Block Balancing                                           ; On           ; On            ;
+; Auto Resource Sharing                                              ; Off          ; Off           ;
+; Allow Any RAM Size For Recognition                                 ; Off          ; Off           ;
+; Allow Any ROM Size For Recognition                                 ; Off          ; Off           ;
+; Allow Any Shift Register Size For Recognition                      ; Off          ; Off           ;
+; Maximum Number of M512 Memory Blocks                               ; -1           ; -1            ;
+; Maximum Number of M4K Memory Blocks                                ; -1           ; -1            ;
+; Maximum Number of M-RAM Memory Blocks                              ; -1           ; -1            ;
+; Ignore translate_off and translate_on Synthesis Directives         ; Off          ; Off           ;
+; Show Parameter Settings Tables in Synthesis Report                 ; On           ; On            ;
++--------------------------------------------------------------------+--------------+---------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                        ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                        ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------+
+; exe_unit.bdf                     ; yes             ; User Block Diagram/Schematic File  ; D:/lm/cpu/exe_unit.bdf                                              ;
+; timer.vhd                        ; yes             ; User VHDL File                     ; D:/lm/cpu/timer.vhd                                                 ;
+; mem_unit.vhd                     ; yes             ; User VHDL File                     ; D:/lm/cpu/mem_unit.vhd                                              ;
+; id_unit.vhd                      ; yes             ; User VHDL File                     ; D:/lm/cpu/id_unit.vhd                                               ;
+; debug_unit.vhd                   ; yes             ; User VHDL File                     ; D:/lm/cpu/debug_unit.vhd                                            ;
+; cpu.bdf                          ; yes             ; Other                              ; D:/lm/cpu/cpu.bdf                                                   ;
+; flagreg.vhd                      ; yes             ; Other                              ; D:/lm/cpu/flagreg.vhd                                               ;
+; alu.vhd                          ; yes             ; Other                              ; D:/lm/cpu/alu.vhd                                                   ;
+; lpm_add_sub.tdf                  ; yes             ; Megafunction                       ; d:/altera/quartus50/libraries/megafunctions/lpm_add_sub.tdf         ;
+; addcore.inc                      ; yes             ; Other                              ; d:/altera/quartus50/libraries/megafunctions/addcore.inc             ;
+; look_add.inc                     ; yes             ; Other                              ; d:/altera/quartus50/libraries/megafunctions/look_add.inc            ;
+; bypassff.inc                     ; yes             ; Other                              ; d:/altera/quartus50/libraries/megafunctions/bypassff.inc            ;
+; altshift.inc                     ; yes             ; Other                              ; d:/altera/quartus50/libraries/megafunctions/altshift.inc            ;
+; alt_stratix_add_sub.inc          ; yes             ; Other                              ; d:/altera/quartus50/libraries/megafunctions/alt_stratix_add_sub.inc ;
+; alt_mercury_add_sub.inc          ; yes             ; Other                              ; d:/altera/quartus50/libraries/megafunctions/alt_mercury_add_sub.inc ;
+; aglobal50.inc                    ; yes             ; Other                              ; d:/altera/quartus50/libraries/megafunctions/aglobal50.inc           ;
+; addcore.tdf                      ; yes             ; Megafunction                       ; d:/altera/quartus50/libraries/megafunctions/addcore.tdf             ;
+; a_csnbuffer.inc                  ; yes             ; Other                              ; d:/altera/quartus50/libraries/megafunctions/a_csnbuffer.inc         ;
+; a_csnbuffer.tdf                  ; yes             ; Megafunction                       ; d:/altera/quartus50/libraries/megafunctions/a_csnbuffer.tdf         ;
+; altshift.tdf                     ; yes             ; Megafunction                       ; d:/altera/quartus50/libraries/megafunctions/altshift.tdf            ;
+; reg.vhd                          ; yes             ; Other                              ; D:/lm/cpu/reg.vhd                                                   ;
++----------------------------------+-----------------+------------------------------------+---------------------------------------------------------------------+
+
+
++---------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary ;
++-----------------------------------+---------+
+; Resource                          ; Usage   ;
++-----------------------------------+---------+
+; Total logic elements              ; 1160    ;
+; Total combinational functions     ; 886     ;
+;     -- Total 4-input functions    ; 749     ;
+;     -- Total 3-input functions    ; 58      ;
+;     -- Total 2-input functions    ; 60      ;
+;     -- Total 1-input functions    ; 17      ;
+;     -- Total 0-input functions    ; 2       ;
+; Combinational cells for routing   ; 0       ;
+; Total registers                   ; 309     ;
+; Total logic cells in carry chains ; 65      ;
+; I/O pins                          ; 61      ;
+; Maximum fan-out node              ; reset   ;
+; Maximum fan-out                   ; 325     ;
+; Total fan-out                     ; 4683    ;
+; Average fan-out                   ; 3.84    ;
++-----------------------------------+---------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                           ;
++------------------------------------------+-------------+--------------+-------------+------+--------------+--------------+-------------------+------------------+-----------------+-------------------------------------------------------------------------------------------+
+; Compilation Hierarchy Node               ; Logic Cells ; LC Registers ; Memory Bits ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Carry Chain LCs ; Full Hierarchy Name                                                                       ;
++------------------------------------------+-------------+--------------+-------------+------+--------------+--------------+-------------------+------------------+-----------------+-------------------------------------------------------------------------------------------+
+; |cpu                                     ; 1160 (2)    ; 309          ; 0           ; 61   ; 0            ; 851 (2)      ; 274 (0)           ; 35 (0)           ; 65 (0)          ; |cpu                                                                                      ;
+;    |debug_unit:inst|                     ; 197 (197)   ; 0            ; 0           ; 0    ; 0            ; 197 (197)    ; 0 (0)             ; 0 (0)            ; 0 (0)           ; |cpu|debug_unit:inst                                                                      ;
+;    |exe_unit:inst1|                      ; 780 (0)     ; 260          ; 0           ; 0    ; 0            ; 520 (0)      ; 257 (0)           ; 3 (0)            ; 17 (0)          ; |cpu|exe_unit:inst1                                                                       ;
+;       |alu:inst|                         ; 134 (115)   ; 0            ; 0           ; 0    ; 0            ; 134 (115)    ; 0 (0)             ; 0 (0)            ; 17 (0)          ; |cpu|exe_unit:inst1|alu:inst                                                              ;
+;          |lpm_add_sub:ALU_ADDSUB|        ; 19 (0)      ; 0            ; 0           ; 0    ; 0            ; 19 (0)       ; 0 (0)             ; 0 (0)            ; 17 (0)          ; |cpu|exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB                                       ;
+;             |addcore:adder|              ; 19 (0)      ; 0            ; 0           ; 0    ; 0            ; 19 (0)       ; 0 (0)             ; 0 (0)            ; 17 (0)          ; |cpu|exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB|addcore:adder                         ;
+;                |a_csnbuffer:result_node| ; 19 (19)     ; 0            ; 0           ; 0    ; 0            ; 19 (19)      ; 0 (0)             ; 0 (0)            ; 17 (17)         ; |cpu|exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB|addcore:adder|a_csnbuffer:result_node ;
+;       |flagreg:inst1|                    ; 7 (7)       ; 4            ; 0           ; 0    ; 0            ; 3 (3)        ; 1 (1)             ; 3 (3)            ; 0 (0)           ; |cpu|exe_unit:inst1|flagreg:inst1                                                         ;
+;       |reg:inst2|                        ; 639 (639)   ; 256          ; 0           ; 0    ; 0            ; 383 (383)    ; 256 (256)         ; 0 (0)            ; 0 (0)           ; |cpu|exe_unit:inst1|reg:inst2                                                             ;
+;    |id_unit:inst2|                       ; 32 (32)     ; 0            ; 0           ; 0    ; 0            ; 32 (32)      ; 0 (0)             ; 0 (0)            ; 0 (0)           ; |cpu|id_unit:inst2                                                                        ;
+;    |mem_unit:inst3|                      ; 144 (144)   ; 48           ; 0           ; 0    ; 0            ; 96 (96)      ; 16 (16)           ; 32 (32)          ; 48 (48)         ; |cpu|mem_unit:inst3                                                                       ;
+;    |timer:inst4|                         ; 5 (5)       ; 1            ; 0           ; 0    ; 0            ; 4 (4)        ; 1 (1)             ; 0 (0)            ; 0 (0)           ; |cpu|timer:inst4                                                                          ;
++------------------------------------------+-------------+--------------+-------------+------+--------------+--------------+-------------------+------------------+-----------------+-------------------------------------------------------------------------------------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++----------------------------------------------------+
+; User-Specified and Inferred Latches                ;
++-----------------------------------------------+----+
+; Latch Name                                    ;    ;
++-----------------------------------------------+----+
+; mem_unit:inst3|mem_data[15]                   ;    ;
+; mem_unit:inst3|mem_data[14]                   ;    ;
+; mem_unit:inst3|mem_data[13]                   ;    ;
+; mem_unit:inst3|mem_data[12]                   ;    ;
+; mem_unit:inst3|mem_data[11]                   ;    ;
+; mem_unit:inst3|mem_data[10]                   ;    ;
+; mem_unit:inst3|mem_data[9]                    ;    ;
+; mem_unit:inst3|mem_data[8]                    ;    ;
+; mem_unit:inst3|mem_data[7]                    ;    ;
+; mem_unit:inst3|mem_data[6]                    ;    ;
+; mem_unit:inst3|mem_data[5]                    ;    ;
+; mem_unit:inst3|mem_data[4]                    ;    ;
+; mem_unit:inst3|mem_data[3]                    ;    ;
+; mem_unit:inst3|mem_data[2]                    ;    ;
+; mem_unit:inst3|mem_data[1]                    ;    ;
+; mem_unit:inst3|mem_data[0]                    ;    ;
+; Number of user-specified and inferred latches ; 16 ;
++-----------------------------------------------+----+
+Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 309   ;
+; Number of registers using Synchronous Clear  ; 1     ;
+; Number of registers using Synchronous Load   ; 16    ;
+; Number of registers using Asynchronous Clear ; 293   ;
+; Number of registers using Asynchronous Load  ; 16    ;
+; Number of registers using Clock Enable       ; 307   ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------+
+; Inverted Register Statistics                     ;
++----------------------------------------+---------+
+; Inverted Register                      ; Fan out ;
++----------------------------------------+---------+
+; mem_unit:inst3|tmp[14]                 ; 11      ;
+; Total number of inverted registers = 1 ;         ;
++----------------------------------------+---------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                               ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
+; 3:1                ; 14 bits   ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; Yes        ; |cpu|mem_unit:inst3|sp[0]                      ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[15][11] ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[14][12] ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[13][12] ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[12][5]  ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[11][14] ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[10][14] ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[9][15]  ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[8][10]  ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[7][11]  ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[6][6]   ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[5][2]   ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[4][5]   ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[3][1]   ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[2][11]  ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[1][8]   ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|exe_unit:inst1|reg:inst2|reg_bank[0][4]   ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |cpu|mem_unit:inst3|pc[3]                      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |cpu|mem_unit:inst3|sp[9]                      ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |cpu|mem_unit:inst3|add~1                      ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |cpu|id_unit:inst2|addr_sel[1]                 ;
+; 16:1               ; 16 bits   ; 160 LEs       ; 160 LEs              ; 0 LEs                  ; No         ; |cpu|exe_unit:inst1|reg:inst2|sr_out[14]       ;
+; 16:1               ; 16 bits   ; 160 LEs       ; 160 LEs              ; 0 LEs                  ; No         ; |cpu|exe_unit:inst1|reg:inst2|dr_out[2]        ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; No         ; |cpu|exe_unit:inst1|alu:inst|addsub_b[0]       ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |cpu|mem_unit:inst3|addr_bus[0]                ;
+; 20:1               ; 16 bits   ; 208 LEs       ; 192 LEs              ; 16 LEs                 ; No         ; |cpu|debug_unit:inst|debug_out[15]             ;
+; 16:1               ; 14 bits   ; 140 LEs       ; 70 LEs               ; 70 LEs                 ; No         ; |cpu|exe_unit:inst1|alu:inst|alu_o[14]         ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB ;
++------------------------+-------------+------------------------------------------------------+
+; Parameter Name         ; Value       ; Type                                                 ;
++------------------------+-------------+------------------------------------------------------+
+; LPM_WIDTH              ; 16          ; Integer                                              ;
+; LPM_REPRESENTATION     ; SIGNED      ; Untyped                                              ;
+; LPM_DIRECTION          ; ADD         ; Untyped                                              ;
+; ONE_INPUT_IS_CONSTANT  ; NO          ; Untyped                                              ;
+; LPM_PIPELINE           ; 0           ; Untyped                                              ;
+; MAXIMIZE_SPEED         ; 5           ; Untyped                                              ;
+; REGISTERED_AT_END      ; 0           ; Untyped                                              ;
+; OPTIMIZE_FOR_SPEED     ; 5           ; Untyped                                              ;
+; USE_CS_BUFFERS         ; 1           ; Untyped                                              ;
+; CARRY_CHAIN            ; MANUAL      ; Untyped                                              ;
+; CARRY_CHAIN_LENGTH     ; 48          ; CARRY_CHAIN_LENGTH                                   ;
+; DEVICE_FAMILY          ; Cyclone     ; Untyped                                              ;
+; USE_WYS                ; OFF         ; Untyped                                              ;
+; STYLE                  ; FAST        ; Untyped                                              ;
+; CBXI_PARAMETER         ; add_sub_p7g ; Untyped                                              ;
+; AUTO_CARRY_CHAINS      ; ON          ; AUTO_CARRY                                           ;
+; IGNORE_CARRY_BUFFERS   ; OFF         ; IGNORE_CARRY                                         ;
+; AUTO_CASCADE_CHAINS    ; ON          ; AUTO_CASCADE                                         ;
+; IGNORE_CASCADE_BUFFERS ; OFF         ; IGNORE_CASCADE                                       ;
++------------------------+-------------+------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings Tables in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------+
+; Analysis & Synthesis Equations ;
++--------------------------------+
+The equations can be found in D:/lm/cpu/cpu.map.eqn.
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II Analysis & Synthesis
+    Info: Version 5.0 Build 148 04/26/2005 SJ Full Version
+    Info: Processing started: Tue Nov 24 08:32:36 2009
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off cpu -c cpu
+Info: Found 1 design units, including 1 entities, in source file exe_unit.bdf
+    Info: Found entity 1: exe_unit
+Info: Found 2 design units, including 1 entities, in source file timer.vhd
+    Info: Found design unit 1: timer-bhv
+    Info: Found entity 1: timer
+Info: Found 2 design units, including 1 entities, in source file mem_unit.vhd
+    Info: Found design unit 1: mem_unit-bhv
+    Info: Found entity 1: mem_unit
+Info: Found 2 design units, including 1 entities, in source file id_unit.vhd
+    Info: Found design unit 1: id_unit-behav
+    Info: Found entity 1: id_unit
+Info: Found 2 design units, including 1 entities, in source file debug_unit.vhd
+    Info: Found design unit 1: debug_unit-bhv
+    Info: Found entity 1: debug_unit
+Info: Using design file cpu.bdf, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
+    Info: Found entity 1: cpu
+Info: Elaborating entity "cpu" for the top level hierarchy
+Info: Elaborating entity "mem_unit" for hierarchy "mem_unit:inst3"
+Warning: VHDL Process Statement warning at mem_unit.vhd(111): signal or variable "mem_data" may not be assigned a new value in every possible path through the Process Statement. Signal or variable "mem_data" holds its previous value in every path with no new value assignment, which may create a combinational loop in the current design.
+Info: Elaborating entity "timer" for hierarchy "timer:inst4"
+Info: Elaborating entity "id_unit" for hierarchy "id_unit:inst2"
+Info: Elaborating entity "exe_unit" for hierarchy "exe_unit:inst1"
+Info: Using design file flagreg.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
+    Info: Found design unit 1: flagreg-bhv
+    Info: Found entity 1: flagreg
+Info: Elaborating entity "flagreg" for hierarchy "exe_unit:inst1|flagreg:inst1"
+Info: Using design file alu.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
+    Info: Found design unit 1: alu-bhv
+    Info: Found entity 1: alu
+Info: Elaborating entity "alu" for hierarchy "exe_unit:inst1|alu:inst"
+Info: Found 1 design units, including 1 entities, in source file ../../altera/quartus50/libraries/megafunctions/lpm_add_sub.tdf
+    Info: Found entity 1: lpm_add_sub
+Info: Elaborating entity "lpm_add_sub" for hierarchy "exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB"
+Info: Found 1 design units, including 1 entities, in source file ../../altera/quartus50/libraries/megafunctions/addcore.tdf
+    Info: Found entity 1: addcore
+Info: Elaborating entity "addcore" for hierarchy "exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB|addcore:adder"
+Info: Found 1 design units, including 1 entities, in source file ../../altera/quartus50/libraries/megafunctions/a_csnbuffer.tdf
+    Info: Found entity 1: a_csnbuffer
+Info: Elaborating entity "a_csnbuffer" for hierarchy "exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB|addcore:adder|a_csnbuffer:oflow_node"
+Info: Elaborating entity "a_csnbuffer" for hierarchy "exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB|addcore:adder|a_csnbuffer:result_node"
+Info: Found 1 design units, including 1 entities, in source file ../../altera/quartus50/libraries/megafunctions/altshift.tdf
+    Info: Found entity 1: altshift
+Info: Elaborating entity "altshift" for hierarchy "exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB|altshift:result_ext_latency_ffs"
+Info: Elaborating entity "altshift" for hierarchy "exe_unit:inst1|alu:inst|lpm_add_sub:ALU_ADDSUB|altshift:carry_ext_latency_ffs"
+Info: Using design file reg.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
+    Info: Found design unit 1: reg-regbank
+    Info: Found entity 1: reg
+Info: Elaborating entity "reg" for hierarchy "exe_unit:inst1|reg:inst2"
+Info: (10035) Verilog HDL or VHDL information at reg.vhd(20): object "i" declared but not used
+Info: Elaborating entity "debug_unit" for hierarchy "debug_unit:inst"
+Info: Ignored 2 buffer(s)
+    Info: Ignored 2 SOFT buffer(s)
+Info: Registers with preset signals will power-up high
+Info: Implemented 1221 device resources after synthesis - the final resource count might be different
+    Info: Implemented 8 input pins
+    Info: Implemented 37 output pins
+    Info: Implemented 16 bidirectional pins
+    Info: Implemented 1160 logic cells
+Info: Quartus II Analysis & Synthesis was successful. 0 errors, 1 warning
+    Info: Processing ended: Tue Nov 24 08:33:19 2009
+    Info: Elapsed time: 00:00:43
+
+

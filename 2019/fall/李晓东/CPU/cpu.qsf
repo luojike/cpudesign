@@ -1,0 +1,109 @@
+# Copyright (C) 1991-2005 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic       
+# functions, and any output files any of the foregoing           
+# (including device programming or simulation files), and any    
+# associated documentation or information are expressly subject  
+# to the terms and conditions of the Altera Program License      
+# Subscription Agreement, Altera MegaCore Function License       
+# Agreement, or other applicable license agreement, including,   
+# without limitation, that your use is for the sole purpose of   
+# programming logic devices manufactured by Altera and sold by   
+# Altera or its authorized distributors.  Please refer to the    
+# applicable agreement for further details.
+
+
+# The default values for assignments are stored in the file
+#		cpu_assignment_defaults.qdf
+# If this file doesn't exist, and for assignments not listed, see file
+#		assignment_defaults.qdf
+
+# Altera recommends that you do not modify this file. This
+# file is updated automatically by the Quartus II software
+# and any changes you make may be lost or overwritten.
+
+
+# Project-Wide Assignments
+# ========================
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 5.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:19:11  NOVEMBER 03, 2009"
+set_global_assignment -name LAST_QUARTUS_VERSION 5.0
+set_global_assignment -name BDF_FILE exe_unit.bdf
+set_global_assignment -name VHDL_FILE timer.vhd
+set_global_assignment -name VHDL_FILE mem_unit.vhd
+set_global_assignment -name VHDL_FILE id_unit.vhd
+set_global_assignment -name VHDL_FILE debug_unit.vhd
+
+# Pin & Location Assignments
+# ==========================
+set_location_assignment PIN_17 -to reg_sel[5]
+set_location_assignment PIN_16 -to reg_sel[4]
+set_location_assignment PIN_15 -to reg_sel[3]
+set_location_assignment PIN_14 -to reg_sel[2]
+set_location_assignment PIN_13 -to reg_sel[1]
+set_location_assignment PIN_12 -to reg_sel[0]
+set_location_assignment PIN_240 -to reset
+set_location_assignment PIN_29 -to clk
+set_location_assignment PIN_75 -to wr
+set_location_assignment PIN_86 -to c_flag
+set_location_assignment PIN_85 -to z_flag
+set_location_assignment PIN_84 -to o_flag
+set_location_assignment PIN_83 -to s_flag
+set_location_assignment PIN_64 -to addr_bus[15]
+set_location_assignment PIN_63 -to addr_bus[14]
+set_location_assignment PIN_62 -to addr_bus[13]
+set_location_assignment PIN_61 -to addr_bus[12]
+set_location_assignment PIN_60 -to addr_bus[11]
+set_location_assignment PIN_59 -to addr_bus[10]
+set_location_assignment PIN_58 -to addr_bus[9]
+set_location_assignment PIN_57 -to addr_bus[8]
+set_location_assignment PIN_48 -to addr_bus[7]
+set_location_assignment PIN_47 -to addr_bus[6]
+set_location_assignment PIN_46 -to addr_bus[5]
+set_location_assignment PIN_45 -to addr_bus[4]
+set_location_assignment PIN_44 -to addr_bus[3]
+set_location_assignment PIN_43 -to addr_bus[2]
+set_location_assignment PIN_42 -to addr_bus[1]
+set_location_assignment PIN_41 -to addr_bus[0]
+set_location_assignment PIN_237 -to data_bus[15]
+set_location_assignment PIN_236 -to data_bus[14]
+set_location_assignment PIN_235 -to data_bus[13]
+set_location_assignment PIN_234 -to data_bus[12]
+set_location_assignment PIN_226 -to data_bus[11]
+set_location_assignment PIN_225 -to data_bus[10]
+set_location_assignment PIN_224 -to data_bus[9]
+set_location_assignment PIN_233 -to data_bus[8]
+set_location_assignment PIN_217 -to data_bus[7]
+set_location_assignment PIN_216 -to data_bus[6]
+set_location_assignment PIN_215 -to data_bus[5]
+set_location_assignment PIN_214 -to data_bus[4]
+set_location_assignment PIN_203 -to data_bus[3]
+set_location_assignment PIN_202 -to data_bus[2]
+set_location_assignment PIN_201 -to data_bus[1]
+set_location_assignment PIN_200 -to data_bus[0]
+set_location_assignment PIN_181 -to debug_out[15]
+set_location_assignment PIN_180 -to debug_out[14]
+set_location_assignment PIN_179 -to debug_out[13]
+set_location_assignment PIN_178 -to debug_out[12]
+set_location_assignment PIN_177 -to debug_out[11]
+set_location_assignment PIN_175 -to debug_out[10]
+set_location_assignment PIN_174 -to debug_out[9]
+set_location_assignment PIN_173 -to debug_out[8]
+set_location_assignment PIN_165 -to debug_out[7]
+set_location_assignment PIN_164 -to debug_out[6]
+set_location_assignment PIN_163 -to debug_out[5]
+set_location_assignment PIN_162 -to debug_out[4]
+set_location_assignment PIN_161 -to debug_out[3]
+set_location_assignment PIN_160 -to debug_out[2]
+set_location_assignment PIN_159 -to debug_out[1]
+set_location_assignment PIN_158 -to debug_out[0]
+
+# Analysis & Synthesis Assignments
+# ================================
+set_global_assignment -name FAMILY Cyclone
+set_global_assignment -name TOP_LEVEL_ENTITY cpu
+
+# Fitter Assignments
+# ==================
+set_global_assignment -name DEVICE EP1C6Q240C8
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
