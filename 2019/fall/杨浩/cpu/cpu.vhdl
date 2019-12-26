@@ -5,8 +5,8 @@ entity CPU is
 port(
 --rw_address :out std_logic_vector(4 downto 0);
 --ra_address :out std_logic_vector(4 downto 0);
---r-b_address :out std_logic_vector(4 downto 0);
-- ra:out std_logic_vector(31 downto 0);
+--rb_address :out std_logic_vector(4 downto 0);
+--ra:out std_logic_vector(31 downto 0);
 --rb:out std_logic_vector(31 downto 0);
 --aluzero:out std_logic;
 --pc_address: out std_logic_vector(31 downto 0);
@@ -14,12 +14,12 @@ clkzong: in std_logic;
 rst: in std_logic;
 --ALUout:out std_logic_vector(31 downto 0);
 DMdata:out std_logic_vector(31 downto 0);
-- RFwin:out
+--RFwin:out
 std_logic_vector(31 downto 0);
-- ALUinB:out std_logic_vector(31 downto 0);
+--ALUinB:out std_logic_vector(31 downto 0);
 --RegDst1 ,RegWrite 1,ALUSrc 1,MemtoReg 1,MemWritel,SEControll:out std_ logic;
 --NPCControll:out std_logic_vector(1 downto 0);
-- ALUControll:out std_logic_vector(2 downto 0);
+--ALUControll:out std_logic_vector(2 downto 0);
 jdb18:out std_logic_vector(31 downto 0);
 jdb8:out std_logic_vector(31 downto 0);
 jdb1 6:out std_logic_vector(31 downto 0);
@@ -122,7 +122,7 @@ mux3:mux32 PORT MAP(a=>x18,b=>x20,s=>x6,z=>x13);
 dml:DM PORT MAP(addra=>x18(7 downto 0),dina=>x15,wea=>x5,clka=>clkzong,douta=>x20);
 npc2:NPC PORT MAP(input=>x3,ffset=>x19,pc=>x2 ,nNPCControl=>x10,ALUzero=>x17,NPC1=>x1);
 sel:se port map(a=>x3(15 downto 0),s=>x4,y=>x19);
--- ALUout<=x18;
+--ALUout<=x18;
 DMdata<=x20;
 --RFwin<=x13;
 --ALUinB<=x16;
