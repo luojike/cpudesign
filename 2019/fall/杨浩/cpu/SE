@@ -1,0 +1,24 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164. ALL;
+--Uncomment the following library declaration if using
+--arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC STD.ALL; 
+--Uncomment the following library declaration if instantiating
+--any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents .all;
+
+entity SE is
+port(
+a:in std_logic_vector(15 downto 0);
+s:in std_logic;
+y:out std_logic_vector(31 downto 0));
+end SE;
+
+architecture Behavioral of SE is .
+signal z,f:std_logic_vector(31 downto 0);
+begin
+z<=X"0000" &a;
+f<=X"0000"&a when a(15)='0' else X"ffff'&a; .
+y<=z when s='0' else f;
+end Behavioral;
