@@ -1,0 +1,34 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164. ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+--Uncomment the following library declaration if using
+--arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC STD.ALL;
+--Uncomment the following library declaration if instantiating
+--any Xilinx primitives in this code
+--library UNISIM; .
+--use UNISIM.VComponents all;
+entity alu is
+port(ALUA,ALUB:in std_logic_vector(31 downto 0); --操作数
+aluc:in std_logic_vector(2 downto 0);--alu控制: 00 加法，01 减法，10或运算
+alu_ out:out std_logic_vector(31 downto 0);--al输 出
+zero:out std_logic);--零标志位: alu 结果为零zero=1
+end alu;
+
+architecture Behavioral of alu is
+signal ahuR:std_logic_vector(31 downto 0);
+begin
+process(ALUA, ALUB, aluc)
+begin
+	case aluc is
+		when "000"=>aluR<=ALUA+ALUB;
+		when "001"=>aluR<=ALUA-ALUB;
+		when "010"=>aluR<=ALUA or ALUB;
+		when "011"=>aluR<==ALUA and ALUB; .
+		when others =>aluR<=X"00000000";
+	end case;
+	end process;
+	zero<='1'when aluR=X"00000000" else '0';
+	alu_out<==aluR;
+end Behavioral;
