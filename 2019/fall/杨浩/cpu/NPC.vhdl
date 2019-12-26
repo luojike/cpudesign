@@ -28,5 +28,5 @@ beq<=pcl+offset1;
 j<=pc1(31 downto 28 )&input(25 downto 0)&"00";
 	npc1<=pcl when nNPCcontrol="00"
 	else beq(31 downto 0) when nNPCcontrol="10" and ALUZero='1'
-	else j(31 downto 0) when nNPCcontrol= "01'else pc1;
+	else j(31 downto 0) when nNPCcontrol="01'else pc1;
 end Behavioral;
