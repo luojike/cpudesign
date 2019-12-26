@@ -1,5 +1,5 @@
 library IEEE;
-use IEEE.STD_LOGIC_1164. ALL;
+use IEEE.STD_LOGIC_1164.ALL;
 entity mux5 is
 port(
 A,B:in std_logic_vector(4 downto 0);
