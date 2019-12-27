@@ -11,7 +11,7 @@ entity cpu_simple is
 		inst_read: out std_logic;
 		data_addr: out std_logic_vector(31 downto 0);  -- 数据地址
 		data: inout std_logic_vector(31 downto 0);
-		data_rw: out std_logic;
+		data_rw: out std_logic
 	    );
 end entity;
 
