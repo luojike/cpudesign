@@ -1,0 +1,141 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2005 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic       
+functions, and any output files any of the foregoing           
+(including device programming or simulation files), and any    
+associated documentation or information are expressly subject  
+to the terms and conditions of the Altera Program License      
+Subscription Agreement, Altera MegaCore Function License       
+Agreement, or other applicable license agreement, including,   
+without limitation, that your use is for the sole purpose of   
+programming logic devices manufactured by Altera and sold by   
+Altera or its authorized distributors.  Please refer to the    
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 64 64 408 256)
+	(text "exe_unit" (rect 5 0 53 14)(font "Arial" (font_size 8)))
+	(text "inst" (rect 8 176 25 188)(font "Arial" ))
+	(port
+		(pt 80 0)
+		(input)
+		(text "reset" (rect 0 0 29 14)(font "Arial" (font_size 8)))
+		(text "reset" (rect 72 24 86 53)(font "Arial" (font_size 8))(vertical))
+		(line (pt 80 0)(pt 80 16)(line_width 1))
+	)
+	(port
+		(pt 104 0)
+		(input)
+		(text "clk" (rect 0 0 15 14)(font "Arial" (font_size 8)))
+		(text "clk" (rect 96 24 110 39)(font "Arial" (font_size 8))(vertical))
+		(line (pt 104 0)(pt 104 16)(line_width 1))
+	)
+	(port
+		(pt 96 192)
+		(input)
+		(text "fiag_en[1..0]" (rect 0 0 70 14)(font "Arial" (font_size 8)))
+		(text "fiag_en[1..0]" (rect 88 98 102 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 96 192)(pt 96 176)(line_width 3))
+	)
+	(port
+		(pt 64 192)
+		(input)
+		(text "alu_func[3..0]" (rect 0 0 77 14)(font "Arial" (font_size 8)))
+		(text "alu_func[3..0]" (rect 56 91 70 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 64 192)(pt 64 176)(line_width 3))
+	)
+	(port
+		(pt 80 192)
+		(input)
+		(text "reg_en[1..0]" (rect 0 0 68 14)(font "Arial" (font_size 8)))
+		(text "reg_en[1..0]" (rect 72 100 86 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 80 192)(pt 80 176)(line_width 3))
+	)
+	(port
+		(pt 112 192)
+		(input)
+		(text "dr_sel[3..0]" (rect 0 0 63 14)(font "Arial" (font_size 8)))
+		(text "dr_sel[3..0]" (rect 104 105 118 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 112 192)(pt 112 176)(line_width 3))
+	)
+	(port
+		(pt 128 192)
+		(input)
+		(text "sr_sel[3..0]" (rect 0 0 63 14)(font "Arial" (font_size 8)))
+		(text "sr_sel[3..0]" (rect 120 105 134 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 128 192)(pt 128 176)(line_width 3))
+	)
+	(port
+		(pt 0 72)
+		(input)
+		(text "reg_sel[3..0]" (rect 0 0 70 14)(font "Arial" (font_size 8)))
+		(text "reg_sel[3..0]" (rect 21 67 91 81)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 16 72)(line_width 3))
+	)
+	(port
+		(pt 344 56)
+		(input)
+		(text "from_mem[15..0]" (rect -176 0 -82 14)(font "Arial" (font_size 8)))
+		(text "from_mem[15..0]" (rect 226 48 320 62)(font "Arial" (font_size 8)))
+		(line (pt 328 56)(pt 344 56)(line_width 3))
+	)
+	(port
+		(pt 200 192)
+		(output)
+		(text "c_flag" (rect 320 0 355 14)(font "Arial" (font_size 8)))
+		(text "c_flag" (rect 192 133 206 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 200 192)(pt 200 176)(line_width 1))
+	)
+	(port
+		(pt 224 192)
+		(output)
+		(text "s_flag" (rect 320 0 355 14)(font "Arial" (font_size 8)))
+		(text "s_flag" (rect 216 133 230 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 224 192)(pt 224 176)(line_width 1))
+	)
+	(port
+		(pt 248 192)
+		(output)
+		(text "z_flag" (rect 320 0 355 14)(font "Arial" (font_size 8)))
+		(text "z_flag" (rect 240 133 254 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 248 192)(pt 248 176)(line_width 1))
+	)
+	(port
+		(pt 272 192)
+		(output)
+		(text "o_flag" (rect 320 0 355 14)(font "Arial" (font_size 8)))
+		(text "o_flag" (rect 264 133 278 168)(font "Arial" (font_size 8))(vertical))
+		(line (pt 272 192)(pt 272 176)(line_width 1))
+	)
+	(port
+		(pt 344 96)
+		(output)
+		(text "dr[15..0]" (rect 144 0 191 14)(font "Arial" (font_size 8)))
+		(text "dr[15..0]" (rect 276 91 323 105)(font "Arial" (font_size 8)))
+		(line (pt 344 96)(pt 328 96)(line_width 3))
+	)
+	(port
+		(pt 344 112)
+		(output)
+		(text "sr[15..0]" (rect 144 0 191 14)(font "Arial" (font_size 8)))
+		(text "sr[15..0]" (rect 276 107 323 121)(font "Arial" (font_size 8)))
+		(line (pt 344 112)(pt 328 112)(line_width 3))
+	)
+	(port
+		(pt 344 128)
+		(output)
+		(text "reg[15..0]" (rect 144 0 198 14)(font "Arial" (font_size 8)))
+		(text "reg[15..0]" (rect 269 123 323 137)(font "Arial" (font_size 8)))
+		(line (pt 344 128)(pt 328 128)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 328 176)(line_width 1))
+	)
+)
