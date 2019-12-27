@@ -26,13 +26,13 @@
 
 ### 代码
 
-- mem.vhdl
+- mem.vhd
 
 ## CPU
 
 ### 代码
 
-- mycpu.vhdl
+- mycpu.vhd
 
 ### 报告
 
