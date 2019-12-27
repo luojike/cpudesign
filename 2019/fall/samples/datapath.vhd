@@ -11,8 +11,7 @@ entity cpu_simple is
 		inst_read: out std_logic;
 		data_addr: out std_logic_vector(31 downto 0);  -- 数据地址
 		data: inout std_logic_vector(31 downto 0);
-		data_read: out std_logic;
-		data_write: out std_logic
+		data_rw: out std_logic;
 	    );
 end entity;
 
@@ -120,30 +119,30 @@ architecture cpu_simple_behav of cpu_simple is
 		t(31 downto 16) <= (others=>h(15));
 		return t;
 	end;
+
+  	function signext(x: std_logic_vector, n: integer) return std_logic_vector is
+		variable t: std_logic_vector;
+	begin
+		t(n-1 downto x'length) <= x'high;
+		t(x'length-1 downto 0) <= x;
+		return t;
+	end;
   
-  function signext(x: std_logic_vector, n: integer) return std_logic_vector is
-    variable t: std_logic_vector;
-  begin
-    t(n-1 downto x'length) <= x'high;
-    t(x'length-1 downto 0) <= x;
-    return t;
-  end;
-  
-  function unsignext(x: std_logic_vector, n: integer) return std_logic_vector is
-    variable t: std_logic_vector;
-  begin
-    t(n-1 downto x'length) <= '0';
-    t(x'length-1 downto 0) <= x;
-    return t;
-  end;
+	function unsignext(x: std_logic_vector, n: integer) return std_logic_vector is
+		variable t: std_logic_vector;
+	begin
+		t(n-1 downto x'length) <= '0';
+		t(x'length-1 downto 0) <= x;
+		return t;
+	end;
   
 begin
 
         -- PC寄存器的更新
-        pcplus4 <= pc+4;
+        pcplus4 <= std_logic_vector(unsigned(pc) + to_unsigned(4, 32));
       
         next_pc <= pcplus4 when pcsel='0' else
-                   branch_target;
+                   alu_result;
 
 	pc_update: process(clk)
 	begin
@@ -162,13 +161,26 @@ begin
 	ir <= inst;  -- 当前指令
       
         -- 译码
-      	opcode <= ir(6 downto 0);
+	-- 控制存储器地址输入
+	crom_addr <= ir(30) & ir(14 downto 12) & ir(6 downto 2) & br_eq & br_lt;
+	-- 控制存储器数据输出
+	pcsel <= crom_data(14);
+	immsel <= crom_data(13 downto 11);
+	br_un <= crom_data(10);
+	asel <= crom_data(9);
+	bsel <= crom_data(8);
+	alusel <= crom_data(7 downto 4);
+	memrw <= crom_data(3);
+	regwen <= crom_data(2);
+	wbsel <= crom_data(1 downto 0);
+
+	-- opcode <= ir(6 downto 0);
 	rd <= ir(11 downto 7);
 	rs1 <= ir(19 downto 15);
 	rs2 <= ir(24 downto 20);
 
-	funct3 <= ir(14 downto 12);
-	funct7 <= ir(31 downto 25);
+	-- funct3 <= ir(14 downto 12);
+	-- funct7 <= ir(31 downto 25);
 
 	jal_imm20_1 <= ir(31) & ir(19 downto 12) & ir(20) & ir(30 downto 21);
 	jal_offset(20 downto 0) <= jal_imm20_1 & '0';
@@ -185,113 +197,61 @@ begin
 	rs2_data <= regs(to_integer(unsigned(rs2)));
 
         -- 分支比较
-        b_eq <= '1' when rs1_data = rs2_data else '0';
-        b_lt <= '1' when rs1_data < rs2_data else '0';
+        br_eq <= '1' when rs1_data = rs2_data else '0';
+        br_lt <= '1' when (br_un='0' and signed(rs1_data)<signed(rs2_data)) or 
+		  (br_un='1' and unsigned(rs1_data)<unsigned(rs2_data)) 
+		  else '0';
       
         -- 生成立即数
         itype_imm_signed <= signext(itype_imm11_0, 32);
         itype_imm_unsigned <= unsignext(itype_imm11_0, 32);
       
-        itype_imm <= itype_imm_signext when imm_sel = '0' else
+        itype_imm <= itype_imm_signext when immsel = '000' else
                      itype_imm_unsignext;
       
         -- 算术逻辑运算
-        src1 <= rs1_data when src1_sel = '00' else
-                pcplus4;
-        src2 <= rs2_data when src2_sel = '00' else
-                imm;
-	alu_result <= src1+src2 when alu_sel = '000' else
-                      src1-src2 when alu_sel = '001' else
-                      src1+src2;
+        a <= rs1_data when asel = '0' else pc;
+        b <= rs2_data when bsel = '0' else imm;
+
+	alu_result <= std_logic_vector(signed(a) + signed(b)) when alusel='0000' else
+		    std_logic_vector(signed(a) - signed(b)) when alusel='1000' else
+		    a sll to_integer(unsigned(b)) when alusel='0001' else
+		    bool2logic32(signed(a) < signed(b)) when alusel='0010' else
+		    bool2logic32(unsigned(a) < unsigned(b)) when alusel='0011' else
+		    a xor b when alusel='0100' else
+		    a srl to_integer(unsigned(b)) when alusel='0101' else
+		    a sra to_integer(unsigned(b)) when alusel='1101' else
+		    a or b when alusel='0110' else
+		    a and b when alusel='0111' else
+		    X"00000000";  -- default ALU result
 
 	-- 访问数据存储器
-	-- store_addr <= ...
-	data_addr <= load_addr when opcode=itype_load else
-		     store_addr;
-	data_read <= '1' when opcode=itype_load else '0';  -- 当reset无效时发出指令读取信号;
-	-- data_write <= ...
-	load_data <= data when funct3=itype_lw else
-		     signext8to32(data(7 downto 0)) when funct3=itype_lb else
-		     signext16to32(data(15 downto 0)) when funct3=itype_lh else
-		     X"000000" & data(7 downto 0) when funct3=itype_lbu else
-		     X"0000" & data(15 downto 0) when funct3=itype_lhu else
-		     X"00000000";
-	-- data <= ...
+	-- 读入
+	data_addr <= alu_result;
+	data_rw <= memrw;
+	data_load <= data;
+	-- 写出
+	data <= rs2_data when memrw = '1' else X"ZZZZZZZZ";
 
-	-- 写回
-	rd_data <= alu_result when wb_sel = '0' else
-                   data;
+	-- 写回寄存器组
+	rd_data <= pcplus4 when wbsel = '10' else alu_result when wbsel = '01' else
+                   data_load;
 	
-	-- R-type ALU operations
-	rtype_alu_result <= std_logic_vector(signed(rs1_data) + signed(rs2_data)) when funct3 = rtype_addsub and funct7 = rtype_add else
-			    std_logic_vector(signed(rs1_data) - signed(rs2_data)) when funct3 = rtype_addsub and funct7 = rtype_sub else
-			    rs1_data sll to_integer(unsigned(rs2_data)) when funct3 = rtype_sll else
-			    bool2logic32(signed(rs1_data) < signed(rs2_data)) when funct3 = rtype_slt else
-			    bool2logic32(unsigned(rs1_data) < unsigned(rs2_data)) when funct3 = rtype_sltu else
-			    rs1_data xor rs2_data when funct3 = rtype_xor else
-			    rs1_data srl to_integer(unsigned(rs2_data)) when funct3 = rtype_srlsra and funct7 = rtype_srl else
-			    rs1_data sra to_integer(unsigned(rs2_data)) when funct3 = rtype_srlsra and funct7 = rtype_sra else
-			    rs1_data or rs2_data when funct3 = rtype_or else
-			    rs1_data and rs2_data when funct3 = rtype_and else
-			    X"00000000";  -- default ALU result
-
-	rd_data <= rtype_alu_result when opcode = rtype_alu else
-		   unsigned(pc)+4 when opcode=jtype_jal else
-		   utype_imm31_12 & X"000" when opcode = utype_lui else
-		   std_logic_vector(unsigned(utype_imm31_12 & X"000") + unsigned(pc)) when opcode=utype_auipc else
-		   load_data when opcode=itype_load else
-		   -- ......
-		   X"00000000";  -- default rd data
-
-	rd_write <= opcode=rtype_alu or opcode=utype_lui or opcode=utype_auipc or opcode=jtype_jal or opcode=itype_load;
-
-	-- 分支指令
-	branch_target(13 downto 0) <= btype_imm12_1 & '0' & '0';
-	branch_target(31 downto 14) <= ( others => btype_imm12_1(12) );
-
-	branch_taken <= rs1_data = rs2_data when funct3 = btype_beq else
-			rs1_data /= rs2_data when funct3 = btype_bne else
-			signed(rs1_data) < signed(rs2_data) when funct3 = btype_blt else
-			signed(rs1_data) >= signed(rs2_data) when funct3 = btype_bge else
-			unsigned(rs1_data) < unsigned(rs2_data) when funct3 = btype_bltu else
-			unsigned(rs1_data) >= unsigned(rs2_data) when funct3 = btype_bgeu else
-			false;
-
-
-	-- 下一条指令地址
-	next_pc <= branch_target when opcode = btype_branch and branch_taken else
-		   std_logic_vector(unsigned(pc)+unsigned(jal_offset)) when opcode=jtype_jal else
-		   std_logic_vector(unsigned(pc) + 4); -- 需补充其它情况
-
-
-	-- ...... (其它组合逻辑)
-
-
-	-- 时序逻辑部分
-
-
-	-- regs
 	reg_update: process(clk)
 		variable i: integer;
 		variable k: integer;
 	begin
 		i := to_integer(unsigned(rd));
-
 		if(rising_edge(clk)) then
 			if(reset='1') then
 				-- reset all regs to 0 except reg[0]
 				for k in 1 to 31 loop
 					regs(k) <= X"00000000";  -- reset to 0
 				end loop;	
-
-			elsif(rd_write='1' and i /= 0) then
-
+			elsif(regwen='1' and i /= 0) then
 				regs(i) <= rd_data;
-
 			end if;
 		end if;
 	end process reg_update;
-
--- ...... (其它时序逻辑)
 
 end;
