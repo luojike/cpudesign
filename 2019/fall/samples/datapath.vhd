@@ -139,7 +139,7 @@ architecture cpu_simple_behav of cpu_simple is
 begin
 
         -- PC寄存器的更新
-        pcplus4 <= std_logic_vector(unsigned(pc) + to_unsigned(4, 32));
+        pcplus4 <= std_logic_vector(unsigned(pc) + 4);
       
         next_pc <= pcplus4 when pcsel='0' else
                    alu_result;
@@ -182,15 +182,17 @@ begin
 	-- funct3 <= ir(14 downto 12);
 	-- funct7 <= ir(31 downto 25);
 
-	jal_imm20_1 <= ir(31) & ir(19 downto 12) & ir(20) & ir(30 downto 21);
-	jal_offset(20 downto 0) <= jal_imm20_1 & '0';
-	jal_offset(31 downto 21) <= (others=>jal_imm20_1(20));
+	jtype_imm20_1 <= ir(31) & ir(19 downto 12) & ir(20) & ir(30 downto 21);
+	jtype_offset(20 downto 0) <= jal_imm20_1 & '0';
+	jtype_offset(31 downto 21) <= (others=>jal_imm20_1(20));
 
 	utype_imm31_12 <= ir(31 downto 12);
 
 	itype_imm11_0 <= ir(31 downto 20);
 
 	btype_imm12_1 <= ir(31) & ir(7) & ir(30 downto 25) & ir(11 downto 8);
+	
+	stype_imm_11_0 <= ir(31 downto 25) & ir(11 downto 8);
 
         -- 从寄存器组读取操作数
 	rs1_data <= regs(to_integer(unsigned(rs1)));
