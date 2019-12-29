@@ -1,0 +1,42 @@
+ADD r3,r1,r2
+SUB r3,r1,r2
+XOR r3,r1,r2
+OR r3,r1,r2
+AND r3,r1,r2
+SLL r3,r1,r2
+SRL r3,r1,r2
+SRA r3,r1,r2
+SLT r3,r1,r2
+SLTU r3,r1,r2
+
+LB r2,r1,10
+LH r2,r1,10
+LW r2,r1,10
+LBU r2,r1,10
+LHU r2,r1,10
+ADDI r2,r1,10
+SLTI r2,r1,10
+SLTIU r2,r1,10
+XORI r2,r1,10
+ORI r2,r1,10
+ANDI r2,r1,10
+SLLI r2,r1,10
+SRLI r2,r1,10
+SRAI r2,r1,10
+
+SB r1,r2,36
+SH r1,r2,36
+SW r1,r2,36
+
+LUI r1,200
+AUIPC r1,200
+
+BEQ r1,r2,200
+BNE r1,r2,200
+BLT r1,r2,200
+BGE r1,r2,200
+BLTU r1,r2,200
+BGEU r1,r2,200
+
+JAL r1,100
+JALR r2,r1,100
