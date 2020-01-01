@@ -1,6 +1,5 @@
-#include <cstdint>
 #include <iostream>
-
+#include <cstdint> //宏&拓展整数类型
 using namespace std;
 
 // Instructions identified by opcode
@@ -11,24 +10,26 @@ using namespace std;
 
 
 // Branches using BRANCH as the label for common opcode
+// B型
 #define BRANCH 0x63  //分支指令 
 
-#define BEQ 0x0      //分支指令 = 
-#define BNE 0x1		 //分支指令 ≠ 
-#define BLT 0x4      //分支指令 < 
-#define BGE 0x5		 //分支指令 ≥ 
-#define BLTU 0x6	 //分支指令 <无符号数 
-#define BGEU 0x7     //分支指令 ≥无符号数 
+#define BEQ 0x0      	//分支指令 = 
+#define BNE 0x1		//分支指令 ≠ 
+#define BLT 0x4      	//分支指令 < 
+#define BGE 0x5		//分支指令 ≥ 
+#define BLTU 0x6	//分支指令 <无符号数 
+#define BGEU 0x7     	//分支指令 ≥无符号数 
 
 
 // Loads using LOAD as the label for common opcode
+// L型
 #define LOAD 0x03    //加载指令 
 
-#define LB 0x0       //加载Byte 
-#define LH 0x1		 //加载半个字 
-#define LW 0x2       //加载一个字 
-#define LBU 0x4      //加载一个无符号Byte 
-#define LHU 0x5      //加载半个无符号字 
+#define LB 0x0       	//加载Byte 
+#define LH 0x1		//加载半个字 
+#define LW 0x2       	//加载一个字 
+#define LBU 0x4      	//加载一个无符号Byte 
+#define LHU 0x5      	//加载半个无符号字 
 
 
 // Stores using STORE as the label for common opcode
@@ -97,11 +98,12 @@ using namespace std;
 
 
 // Data for memory
-const int WORDSIZE = sizeof(uint32_t);
+const int WORDSIZE = sizeof(uint32_t);//扩展指令
 unsigned int MSize = 4096;
 char* M;
 
-// Functions for memory
+// Functions for memory 
+//分配内存空间
 int allocMem(uint32_t s) {
 	M = new char[s];
 	MSize = s;
