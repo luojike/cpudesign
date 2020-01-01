@@ -47,7 +47,7 @@ void presolve(){//
 }
 	
 void getnum(string s){
-	memset(d,0,sizeof(d))
+	memset(d,0,sizeof(d)); 
 	int j=0;
 	for(int i=0;i<s.length();i++){
 		if(s[i]>='0'&&s[i]<='9'){
@@ -58,6 +58,7 @@ void getnum(string s){
 }
 
 void solveR(int op, int rd, int rs1, int rs2){ // 整数 ADD/SLT/SLTU/AND/OR/XOR/SLL/SRL/SUB/SRA
+    cout<< bitset<32>(op |(rd<<7)|(rs1<<15)|(rs2<<20)) <<endl;
 }
 	
 void solveI(int op, int rd, int rs1, int imm){ //Load,I-type,整数计算 ADDI/SLTI(U)/ANDI/ORI/XORI/SLLI/SRLI/SRAI JALR
@@ -90,16 +91,16 @@ int main(){
 	presolve();
 	string op,s;
 	//将结果输入输出文件 
-	//freopen("out.txt","w",stdout);
-	ofstream outFile("out.dat",ios::out | ios::binary);
+	freopen("out.txt","w",stdout);
+	//ofstream outFile("out.txt",ios::out | ios::binary);
 	while(cin>>op>>s){
 	//进行译码过程(下同) 
 	if(op == "ADD" | op == "SUB" | op == "XOR" | op == "OR" | op == "AND" |
 	op == "SLL" | op == "SRL" | op == "SRA" | op == "SLT" | op == "SLTU"){
 		getnum(s);
 	//输出译码结果(下同) 
-	//solveR(opcode[op],d[0],d[1],d[2]);
-		outFile.write((char*)&solveR(opcode[op],d[0],d[1],d[2]),sizeof(solveR(opcode[op],d[0],d[1],d[2])));
+	    solveR(opcode[op],d[0],d[1],d[2]);
+		//outFile.write((char*)&solveR(opcode[op],d[0],d[1],d[2]),sizeof(solveR(opcode[op],d[0],d[1],d[2])));
 	}
 	else if(op == "ADDI" | op == "SLTI" | op == "SLTIU" | op == "XORI" | op == "JALR" |
 		op == "ORI" | op == "ANDI" | op == "SLLI" | op == "SRLI" | op == "SRAI" | op == "LB" | op == "LH" | op == "LW" | op == "LBU" | op == "LHU"){
@@ -124,7 +125,8 @@ int main(){
 	}
 	}
 	fclose(stdin);
-	outFile.close();
+	fclose(stdout);
+	//outFile.close();
 	//fclose(stdout);
 	return 0;
 }
