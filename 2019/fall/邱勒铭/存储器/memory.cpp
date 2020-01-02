@@ -1,4 +1,3 @@
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -34,6 +33,11 @@ begin
 			if (read='1') then
 				-- assume little-endian
 				databus <= memdata(i+3) & memdata(i+2) & memdata(i+1) & memdata(i);
+			elsif(write='1')then
+					memdata(i+3) <=((databus>>24)&0xff);
+					memdata(i+2) <=(databus>>16)&0xff;
+					memdata(i+1) <=(databus>>8)&0xff;
+					memdata(1) <=databus&0xff;
 			else
 				databus <= "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
 			end if;
