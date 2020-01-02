@@ -36,7 +36,6 @@ architecture behav of cpu is
     	signal Imm20_1J : std_logic_vector(31 downto 0);
     	signal Imm12_1B : std_logic_vector(31 downto 0);
     	signal Imm11_0S : std_logic_vector(31 downto 0);
-
 		signal src1: std_logic_vector(31 downto 0);
 		signal src2: std_logic_vector(31 downto 0);
 		signal subresult: std_logic_vector(31 downto 0);
