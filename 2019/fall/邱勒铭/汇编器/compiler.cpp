@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include<fstream>
 #include<bitset>
@@ -47,7 +46,7 @@ string get_funt3(string str)
         return "001";
     else if(str=="LW"||str=="SW"||str=="SLTI"||str=="SLT")
         return "010";
-    else if(str=="SLTU"||str=="SLTU")
+    else if(str=="SLTU"||str=="SLTIU")
         return "011";
     else if(str=="BLT"||str=="LBU"||str=="XORI"||str=="ORI"||
             str=="XOR")
@@ -82,7 +81,7 @@ string get_opcode(string str)
         return "0100011";
     else if(str=="ADDI"||str=="SLTI"||str=="SLTU"||str=="XORI"||
             str=="ORI"||str=="ANDI"||str=="SLLI"||str=="SRLI"||
-            str=="SRAI")
+            str=="SRAI"||str=="SLTIU")
         return "0010011";
     else if(str=="ADD"||str=="SUB"||str=="SLL"||str=="SLT"||
             str=="SLTU"||str=="XOR"||str=="SRL"||str=="OR"||
@@ -115,12 +114,12 @@ void decode(string str)
     }
     i_str++;
 
-    outfile<<inst_name<<' ';
+    cout<<inst_name<<' ';
 
     funct7=get_funt7(inst_name);
     funct3=get_funt3(inst_name);
     opcode=get_opcode(inst_name);
-    outfile<<"f7: "<<funct7<<" f3: "<<funct3<<" opcode: "<<opcode<<' ';
+    cout<<"f7: "<<funct7<<" f3: "<<funct3<<" opcode: "<<opcode<<' ';
 
     //辨别寄存器和立即数,先是rd，再是rs1，rs2
     //指令的结构：指令名称 xx，xx
@@ -143,7 +142,7 @@ void decode(string str)
                 i_str++;
             }
             int reg_num=change(reg_id);
-            outfile<<bitset<5>(reg_num)<<' ';
+            cout<<bitset<5>(reg_num)<<' ';
 
             //判断寄存器出现的个数，得到指令中寄存器的五位二进制码
             if(num_ele==1) //第一个寄存器是目的寄存器rd
@@ -169,35 +168,35 @@ void decode(string str)
             inst_name=="XORI"||inst_name=="ORI"||inst_name=="ANDI"||
             inst_name=="LB"||inst_name=="LH"||inst_name=="LW"||
             inst_name=="LBU"||inst_name=="LHU")
-                outfile<<"imm="<<bitset<12>(imm)<<' ';
+                cout<<"imm="<<bitset<12>(imm)<<' ';
             else if(inst_name=="SB"||inst_name=="SH"||inst_name=="SW")
             {
                 int temp_front=imm>>5;
-                outfile<<"imm_front: "<<bitset<7>(temp_front)<<' ';
-                outfile<<"imm_back: "<<bitset<5>(imm)<<' ';
+                cout<<"imm_front: "<<bitset<7>(temp_front)<<' ';
+                cout<<"imm_back: "<<bitset<5>(imm)<<' ';
             }
             else if(inst_name=="BEQ"||inst_name=="BNE"||inst_name=="BLT"||
             inst_name=="BGE"||inst_name=="BLTU"||inst_name=="BGEU")
             {
-                outfile<<"imm(12): "<<bitset<1>(imm>>11)<<' ';
-                outfile<<"imm(10:5): "<<bitset<6>(imm>>5)<<' ';
-                outfile<<"imm(4:1): "<<bitset<4>(imm>>1)<<' ';
-                outfile<<"imm(11): "<<bitset<1>(imm>>11)<<' ';
+                cout<<"imm(12): "<<bitset<1>(imm>>11)<<' ';
+                cout<<"imm(10:5): "<<bitset<6>(imm>>5)<<' ';
+                cout<<"imm(4:1): "<<bitset<4>(imm>>1)<<' ';
+                cout<<"imm(11): "<<bitset<1>(imm>>11)<<' ';
             }
             else if(inst_name=="LUI"||inst_name=="AUIPC")
             {
-                outfile<<"imm(31:12): "<<bitset<20>(imm>>20)<<' ';
+                cout<<"imm(31:12): "<<bitset<20>(imm>>20)<<' ';
             }
             else if(inst_name=="JAL")
             {
-                outfile<<"imm(20): "<<bitset<1>(imm>>20)<<' ';
-                outfile<<"imm(10:1): "<<bitset<10>(imm>>1)<<' ';
-                outfile<<"imm(11): "<<bitset<1>(imm>>11)<<' ';
-                outfile<<"imm(19:12): "<<bitset<8>(imm>>12)<<' ';
+                cout<<"imm(20): "<<bitset<1>(imm>>20)<<' ';
+                cout<<"imm(10:1): "<<bitset<10>(imm>>1)<<' ';
+                cout<<"imm(11): "<<bitset<1>(imm>>11)<<' ';
+                cout<<"imm(19:12): "<<bitset<8>(imm>>12)<<' ';
             }
             else if(inst_name=="JALR")
             {
-                outfile<<"imm(11:0): "<<bitset<12>(imm)<<' ';
+                cout<<"imm(11:0): "<<bitset<12>(imm)<<' ';
             }
         }
         if(str[i_str]=='\0')
@@ -205,7 +204,7 @@ void decode(string str)
         i_str++;
         num_ele++;
     }
-    outfile<<"rd: "<<rd<<" rs1: "<<rs1<<" rs2: "<<rs2<<endl;
+    cout<<"rd: "<<rd<<" rs1: "<<rs1<<" rs2: "<<rs2<<endl;
     //return inst_name;
     //2处理寄存器等
     if(inst_name=="ADD"||inst_name=="SUB"||inst_name=="SLL"||
