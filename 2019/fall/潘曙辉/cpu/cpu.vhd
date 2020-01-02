@@ -31,11 +31,11 @@ architecture behav of cpu is
 		signal rs1: std_logic_vector(4 downto 0);
 		signal rs2: std_logic_vector(4 downto 0);
 		signal funct7: std_logic_vector(6 downto 0);
-    	
-    	signal Imm11_0I : std_logic_vector(31 downto 0);
-    	signal Imm20_1J : std_logic_vector(31 downto 0);
-    	signal Imm12_1B : std_logic_vector(31 downto 0);
-    	signal Imm11_0S : std_logic_vector(31 downto 0);
+    	        signal Imm11_0I : std_logic_vector(31 downto 0);
+    	        signal Imm20_1J : std_logic_vector(31 downto 0);
+        	signal Imm12_1B : std_logic_vector(31 downto 0);
+        	signal Imm11_0S : std_logic_vector(31 downto 0);
+
 		signal src1: std_logic_vector(31 downto 0);
 		signal src2: std_logic_vector(31 downto 0);
 		signal subresult: std_logic_vector(31 downto 0);
